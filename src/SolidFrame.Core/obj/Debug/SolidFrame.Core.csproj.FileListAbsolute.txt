@@ -1,4 +1,0 @@
-D:\Dev\Projects\SolidFrame\src\SolidFrame.Core\bin\Debug\SolidFrame.Core.dll
-D:\Dev\Projects\SolidFrame\src\SolidFrame.Core\bin\Debug\SolidFrame.Core.pdb
-D:\Dev\Projects\SolidFrame\src\SolidFrame.Core\obj\Debug\SolidFrame.Core.dll
-D:\Dev\Projects\SolidFrame\src\SolidFrame.Core\obj\Debug\SolidFrame.Core.pdb

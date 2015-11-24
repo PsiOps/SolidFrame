@@ -1,4 +1,0 @@
-D:\Dev\Projects\SolidFrame\src\SolidFrame.Resources\bin\Debug\SolidFrame.Resources.dll
-D:\Dev\Projects\SolidFrame\src\SolidFrame.Resources\bin\Debug\SolidFrame.Resources.pdb
-D:\Dev\Projects\SolidFrame\src\SolidFrame.Resources\obj\Debug\SolidFrame.Resources.dll
-D:\Dev\Projects\SolidFrame\src\SolidFrame.Resources\obj\Debug\SolidFrame.Resources.pdb
