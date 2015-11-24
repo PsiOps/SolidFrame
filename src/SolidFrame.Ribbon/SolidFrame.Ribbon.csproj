@@ -115,8 +115,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interfaces\ICrudGroupController.cs" />
-    <Compile Include="Logics\RibbonService.cs" />
+    <Compile Include="Logics\CrudControlService.cs" />
     <Compile Include="Logics\RibbonTabFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -132,7 +131,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="RibbonModule.cs" />
-    <Compile Include="Types\RibbonServiceDependencies.cs" />
     <Compile Include="Types\RibbonViewModelDependencies.cs" />
     <Compile Include="UI\RibbonTab.cs" />
     <Compile Include="UI\RibbonView.xaml.cs">

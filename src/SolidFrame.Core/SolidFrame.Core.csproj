@@ -43,11 +43,15 @@
     <Compile Include="Interfaces\IAdd.cs" />
     <Compile Include="Interfaces\ICanBeBusy.cs" />
     <Compile Include="Interfaces\IConfigured.cs" />
+    <Compile Include="Interfaces\ICrudControlService.cs" />
+    <Compile Include="Interfaces\ICrudGroupController.cs" />
     <Compile Include="Interfaces\IDocumentCatalog.cs" />
     <Compile Include="Interfaces\IDocumentCategoryCatalog.cs" />
     <Compile Include="Interfaces\IRibbonControl.cs" />
+    <Compile Include="Interfaces\IRibbonControlGroup.cs" />
     <Compile Include="Interfaces\IRibbonControlGroupController.cs" />
-    <Compile Include="Interfaces\IRibbonService.cs" />
+    <Compile Include="Interfaces\IRibbonControlService.cs" />
+    <Compile Include="Interfaces\IRibbonTab.cs" />
     <Compile Include="Interfaces\ITranslationService.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

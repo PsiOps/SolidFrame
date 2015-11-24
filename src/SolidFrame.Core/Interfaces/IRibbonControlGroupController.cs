@@ -4,19 +4,6 @@ namespace SolidFrame.Core.Interfaces
 {
 	public interface IRibbonControlGroupController
 	{
-		void AddToTab(IRibbonTab ribbonTab);
+		ICollection<IRibbonControlGroup> RibbonControlGroups { get; } 
 	}
-
-	public interface IRibbonTab
-	{
-		string Name { get; }
-
-		ICollection<IRibbonControlGroup> RibbonControlGroups { get; }
-	}
-
-	public interface IRibbonControlGroup : ICollection<IRibbonControl>
-	{
-		string Name { get; }
-	}
-
 }

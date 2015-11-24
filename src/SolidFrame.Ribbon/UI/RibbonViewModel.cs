@@ -1,8 +1,6 @@
 ﻿using SolidFrame.Core.Interfaces;
-using SolidFrame.Ribbon.Interfaces;
 using SolidFrame.Ribbon.Types;
 using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace SolidFrame.Ribbon.UI
 {
@@ -11,7 +9,7 @@ namespace SolidFrame.Ribbon.UI
 		ObservableCollection<IRibbonTab> RibbonTabs { get; set; }
 	}
 
-	public class RibbonViewModel : IRibbonViewModel, ICrudGroupController
+	public class RibbonViewModel : IRibbonViewModel
 	{
 		public RibbonViewModel(IRibbonViewModelDependencies dependencies)
 		{
@@ -19,18 +17,14 @@ namespace SolidFrame.Ribbon.UI
 			
 			var crudTab = dependencies.RibbonTabFactory.Create("Crud");
 
-			AddToTab(crudTab);
+			foreach (var ribbonControlGroup in dependencies.CrudGroupController.RibbonControlGroups)
+			{
+				crudTab.RibbonControlGroups.Add(ribbonControlGroup);
+			}
 
 			RibbonTabs.Add(crudTab);
 		}
 
 		public ObservableCollection<IRibbonTab> RibbonTabs { get; set; }
-
-		public IRibbonControl AddButton { get; private set; }
-
-		public void AddToTab(IRibbonTab ribbonTab)
-		{
-			ribbonTab.RibbonControlGroups.Single().Add(AddButton);
-		}
 	}
 }
