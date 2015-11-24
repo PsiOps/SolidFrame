@@ -116,6 +116,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Logics\CrudControlService.cs" />
+    <Compile Include="Types\CrudControlServiceDependencies.cs" />
     <Compile Include="Logics\RibbonTabFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -131,6 +132,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="RibbonModule.cs" />
+    <Compile Include="Types\RibbonControlGroup.cs" />
     <Compile Include="Types\RibbonViewModelDependencies.cs" />
     <Compile Include="UI\RibbonTab.cs" />
     <Compile Include="UI\RibbonView.xaml.cs">

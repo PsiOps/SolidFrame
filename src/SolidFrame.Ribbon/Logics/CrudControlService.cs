@@ -1,10 +1,16 @@
 ﻿using SolidFrame.Core.Interfaces;
+using SolidFrame.Ribbon.Types;
 using System.Collections.Generic;
 
 namespace SolidFrame.Ribbon.Logics
 {
 	public class CrudControlService : ICrudControlService, ICrudGroupController
 	{
+		public CrudControlService(ICrudControlServiceDependencies dependencies)
+		{
+			AddButton = dependencies.RibbonControlFactory.GetRibbonButton();
+		}
+
 		public void Register(IListViewModel listViewModel)
 		{
 			var addListViewModel = listViewModel as IAdd;
@@ -36,6 +42,6 @@ namespace SolidFrame.Ribbon.Logics
 
 		public ICollection<IRibbonControlGroup> RibbonControlGroups { get; private set; }
 
-		public IRibbonControl AddButton { get; private set; }
+		public IRibbonButtonControl AddButton { get; private set; }
 	}
 }
