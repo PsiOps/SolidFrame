@@ -18,7 +18,7 @@ namespace SolidFrame.Translation
 		public void Initialize()
 		{
 			_container.RegisterType<ITranslationServiceDependencies, TranslationServiceDependencies>();
-			_container.RegisterType<ITranslationService, TranslationService>();
+			_container.RegisterType<ITranslationService, TranslationService>(new ContainerControlledLifetimeManager());
 		}
 	}
 }

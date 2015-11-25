@@ -20,7 +20,7 @@ namespace SolidFrame.Explorer
 
 		public void Initialize()
 		{
-			_container.RegisterType<IExplorerViewModel, ExplorerViewModel>();
+			_container.RegisterType<IExplorerViewModel, ExplorerViewModel>(new ContainerControlledLifetimeManager());
 			_container.RegisterType<IExplorerItemFactory, ExplorerItemFactory>();
 			_container.RegisterType<IExplorerViewModelDependencies, ExplorerViewModelDependencies>();
 			_regionManager.RegisterViewWithRegion(Regions.Explorer, typeof(ExplorerView));

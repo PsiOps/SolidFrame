@@ -3,16 +3,25 @@ using NUnit.Framework;
 using SolidFrame.Core.Interfaces;
 using SolidFrame.Ribbon.Logics;
 using SolidFrame.Ribbon.Types;
+using SolidFrame.Ribbon.UI;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace SolidFrame.Ribbon.Test
 {
 	[TestFixture]
 	public class DescribeCrudControlServiceConstruction
 	{
-		private CrudControlService _crudControlService;
-		private Mock<IRibbonButtonControl> _buttonMock; 
+		private CrudGroupController _crudGroupController;
+		private Mock<IRibbonButtonControl> _buttonMock;
+		private Mock<IRibbonControlGroup> _crudRibbonControlGroupMock;
+		private Mock<IRibbonTab> _crudRibbonTabMock;
+		private Mock<ICollection<IRibbonControlGroup>> _crudRibbonTabRibbonControlGroupsMock;
+		private Mock<IRibbonTabFactory> _ribbonTabFactoryMock;
 		private Mock<IRibbonControlFactory> _ribbonControlFactoryMock;
+		private Mock<ICollection<IRibbonTab>> _ribbonViewModelTabsMock;
+		private Mock<IRibbonViewModel> _ribbonViewModelMock;
 
 		[SetUp]
 		public void BeforeEach()
@@ -20,20 +29,71 @@ namespace SolidFrame.Ribbon.Test
 			_buttonMock = new Mock<IRibbonButtonControl>();
 
 			_ribbonControlFactoryMock = new Mock<IRibbonControlFactory>();
-			_ribbonControlFactoryMock.Setup(f => f.GetRibbonButton()).Returns(_buttonMock.Object).Verifiable();
+			_ribbonControlFactoryMock.Setup(f => f.CreateRibbonButton()).Returns(_buttonMock.Object).Verifiable();
+
+			_crudRibbonControlGroupMock = new Mock<IRibbonControlGroup>();
+			_crudRibbonControlGroupMock.SetupAllProperties();
+			_ribbonControlFactoryMock.Setup(f => f.CreateRibbonControlGroup("Crud")).Returns(_crudRibbonControlGroupMock.Object).Verifiable();
+
+			_crudRibbonTabRibbonControlGroupsMock = new Mock<ICollection<IRibbonControlGroup>>();
+			_crudRibbonTabRibbonControlGroupsMock.SetupAllProperties();
+
+			_crudRibbonTabMock = new Mock<IRibbonTab>();
+			_crudRibbonTabMock.Setup(t => t.RibbonControlGroups).Returns(_crudRibbonTabRibbonControlGroupsMock.Object);
+
+			_ribbonTabFactoryMock = new Mock<IRibbonTabFactory>();
+			_ribbonTabFactoryMock.Setup(f => f.Create("Crud")).Returns(_crudRibbonTabMock.Object);
+
+			_ribbonViewModelTabsMock = new Mock<ICollection<IRibbonTab>>();
+			_ribbonViewModelTabsMock.SetupAllProperties();
+
+			_ribbonViewModelMock = new Mock<IRibbonViewModel>();
+			_ribbonViewModelMock.Setup(r => r.RibbonTabs).Returns(_ribbonViewModelTabsMock.Object).Verifiable();
 
 			var dependenciesMock = new Mock<ICrudControlServiceDependencies>();
 			dependenciesMock.SetupGet(d => d.RibbonControlFactory).Returns(_ribbonControlFactoryMock.Object);
+			dependenciesMock.SetupGet(d => d.RibbonTabFactory).Returns(_ribbonTabFactoryMock.Object);
+			dependenciesMock.SetupGet(d => d.RibbonViewModel).Returns(_ribbonViewModelMock.Object);
 
-			_crudControlService = new CrudControlService(dependenciesMock.Object);
+			_crudGroupController = new CrudGroupController(dependenciesMock.Object);
 		}
 
 		[Test]
-		public void It_sets_the_AddButton_property_with_the_RibbonControlFactory_CreateRibbonButton_method_output()
+		public void It_creates_the_AddButton()
 		{
-			_ribbonControlFactoryMock.Verify(f => f.GetRibbonButton(), Times.Once);
+			_ribbonControlFactoryMock.Verify(f => f.CreateRibbonButton(), Times.Once);
 
-			Assert.AreEqual(_buttonMock.Object, _crudControlService.AddButton);
+			Assert.AreEqual(_buttonMock.Object, _crudGroupController.AddButton);
+		}
+
+		[Test]
+		public void It_creates_the_Crud_RibbonTab()
+		{
+			_ribbonTabFactoryMock.Verify(f => f.Create("Crud"), Times.Once);
+		}
+
+		[Test]
+		public void It_creates_the_Crud_RibbonControlGroup()
+		{
+			_ribbonControlFactoryMock.Verify(f => f.CreateRibbonControlGroup("Crud"), Times.Once);
+		}
+
+		[Test]
+		public void It_adds_the_AddButton_to_the_Crud_RibbonControlGroup()
+		{
+			_crudRibbonControlGroupMock.Verify(g => g.Add(_buttonMock.Object), Times.Once);
+		}
+
+		[Test]
+		public void It_adds_the_Crud_RibbonControlGroup_to_the_Crud_RibbonTab_s_RibbonControlGroups()
+		{
+			_crudRibbonTabRibbonControlGroupsMock.Verify(c => c.Add(_crudRibbonControlGroupMock.Object), Times.Once);
+		}
+
+		[Test]
+		public void It_adds_the_Crud_RibbonTab_to_the_RibbonViewModel_Tabs()
+		{
+			_ribbonViewModelTabsMock.Verify(c => c.Add(_crudRibbonTabMock.Object), Times.Once);
 		}
 	}
 
@@ -41,10 +101,14 @@ namespace SolidFrame.Ribbon.Test
 	public class DescribeRegistrationOfAddListViewModel
 	{
 		private Mock<IListViewModel> _listViewModelMock;
-		private CrudControlService _crudControlService;
+		private CrudGroupController _crudGroupController;
 
 		private Mock<IRibbonButtonControl> _buttonMock;
+		private Mock<IRibbonControlGroup> _crudRibbonControlGroupMock;
+		private Mock<IRibbonTab> _crudRibbonTabMock;
+		private Mock<IRibbonTabFactory> _ribbonTabFactoryMock;
 		private Mock<IRibbonControlFactory> _ribbonControlFactoryMock;
+		private Mock<IRibbonViewModel> _ribbonViewModelMock;
 		private Action _buttonExecuteAction;
 		private Func<bool> _buttonCanExecuteFunc;
 
@@ -58,14 +122,29 @@ namespace SolidFrame.Ribbon.Test
 			_buttonMock.SetupSet(b => b.ExecuteAction = It.IsAny<Action>()).Callback<Action>(a => _buttonExecuteAction = a);
 			_buttonMock.SetupSet(b => b.CanExecute = It.IsAny<Func<bool>>()).Callback<Func<bool>>(f => _buttonCanExecuteFunc = f);
 			_buttonMock.Setup(b => b.RaiseCanExecuteChanged()).Verifiable();
-
+			
 			_ribbonControlFactoryMock = new Mock<IRibbonControlFactory>();
-			_ribbonControlFactoryMock.Setup(f => f.GetRibbonButton()).Returns(_buttonMock.Object);
+			_ribbonControlFactoryMock.Setup(f => f.CreateRibbonButton()).Returns(_buttonMock.Object).Verifiable();
+
+			_crudRibbonControlGroupMock = new Mock<IRibbonControlGroup>();
+			_crudRibbonControlGroupMock.SetupAllProperties();
+			_ribbonControlFactoryMock.Setup(f => f.CreateRibbonControlGroup("Crud")).Returns(_crudRibbonControlGroupMock.Object).Verifiable();
+
+			_crudRibbonTabMock = new Mock<IRibbonTab>();
+			_crudRibbonTabMock.Setup(t => t.RibbonControlGroups).Returns(new Collection<IRibbonControlGroup>());
+
+			_ribbonTabFactoryMock = new Mock<IRibbonTabFactory>();
+			_ribbonTabFactoryMock.Setup(f => f.Create("Crud")).Returns(_crudRibbonTabMock.Object);
+
+			_ribbonViewModelMock = new Mock<IRibbonViewModel>();
+			_ribbonViewModelMock.Setup(r => r.RibbonTabs).Returns(new Collection<IRibbonTab>()).Verifiable();
 
 			var dependenciesMock = new Mock<ICrudControlServiceDependencies>();
 			dependenciesMock.SetupGet(d => d.RibbonControlFactory).Returns(_ribbonControlFactoryMock.Object);
+			dependenciesMock.SetupGet(d => d.RibbonTabFactory).Returns(_ribbonTabFactoryMock.Object);
+			dependenciesMock.SetupGet(d => d.RibbonViewModel).Returns(_ribbonViewModelMock.Object);
 
-			_crudControlService = new CrudControlService(dependenciesMock.Object);
+			_crudGroupController = new CrudGroupController(dependenciesMock.Object);
 		}
 
 		[Test]
@@ -75,7 +154,7 @@ namespace SolidFrame.Ribbon.Test
 			_listViewModelMock.As<IAdd>().Setup(l => l.Add()).Verifiable();
 			_listViewModelMock.As<IAdd>().Setup(l => l.CanAdd()).Verifiable();
 
-			_crudControlService.Register(_listViewModelMock.Object);
+			_crudGroupController.Register(_listViewModelMock.Object);
 
 			// It gives Add Action to ViewModel's Add Button Command
 			_listViewModelMock.As<IAdd>().Verify(l => l.Add(), Times.Never);
@@ -96,7 +175,7 @@ namespace SolidFrame.Ribbon.Test
 		[Test]
 		public void It_disables_IRibbonViewModel_s_AddButton_if_IListViewModel_not_IAdd()
 		{
-			_crudControlService.Register(_listViewModelMock.Object);
+			_crudGroupController.Register(_listViewModelMock.Object);
 
 			Assert.IsFalse(_buttonCanExecuteFunc());
 		}
@@ -106,10 +185,14 @@ namespace SolidFrame.Ribbon.Test
 	public class DescribeListViewModelUnregistration
 	{
 		private Mock<IListViewModel> _listViewModelMock;
-		private CrudControlService _crudControlService;
-		private Mock<IRibbonControlFactory> _ribbonControlFactoryMock;
+		private CrudGroupController _crudGroupController;
 
 		private Mock<IRibbonButtonControl> _buttonMock;
+		private Mock<IRibbonControlGroup> _crudRibbonControlGroupMock;
+		private Mock<IRibbonTab> _crudRibbonTabMock;
+		private Mock<IRibbonTabFactory> _ribbonTabFactoryMock;
+		private Mock<IRibbonControlFactory> _ribbonControlFactoryMock;
+		private Mock<IRibbonViewModel> _ribbonViewModelMock;
 		private Action _buttonExecuteAction;
 		private Func<bool> _buttonCanExecuteFunc;
 
@@ -125,17 +208,32 @@ namespace SolidFrame.Ribbon.Test
 			_buttonMock.Setup(b => b.RaiseCanExecuteChanged()).Verifiable();
 
 			_ribbonControlFactoryMock = new Mock<IRibbonControlFactory>();
-			_ribbonControlFactoryMock.Setup(f => f.GetRibbonButton()).Returns(_buttonMock.Object);
+			_ribbonControlFactoryMock.Setup(f => f.CreateRibbonButton()).Returns(_buttonMock.Object).Verifiable();
+
+			_crudRibbonControlGroupMock = new Mock<IRibbonControlGroup>();
+			_crudRibbonControlGroupMock.SetupAllProperties();
+			_ribbonControlFactoryMock.Setup(f => f.CreateRibbonControlGroup("Crud")).Returns(_crudRibbonControlGroupMock.Object).Verifiable();
+
+			_crudRibbonTabMock = new Mock<IRibbonTab>();
+			_crudRibbonTabMock.Setup(t => t.RibbonControlGroups).Returns(new Collection<IRibbonControlGroup>());
+
+			_ribbonTabFactoryMock = new Mock<IRibbonTabFactory>();
+			_ribbonTabFactoryMock.Setup(f => f.Create("Crud")).Returns(_crudRibbonTabMock.Object);
+
+			_ribbonViewModelMock = new Mock<IRibbonViewModel>();
+			_ribbonViewModelMock.Setup(r => r.RibbonTabs).Returns(new Collection<IRibbonTab>()).Verifiable();
 
 			var dependenciesMock = new Mock<ICrudControlServiceDependencies>();
 			dependenciesMock.SetupGet(d => d.RibbonControlFactory).Returns(_ribbonControlFactoryMock.Object);
+			dependenciesMock.SetupGet(d => d.RibbonTabFactory).Returns(_ribbonTabFactoryMock.Object);
+			dependenciesMock.SetupGet(d => d.RibbonViewModel).Returns(_ribbonViewModelMock.Object);
 
-			_crudControlService = new CrudControlService(dependenciesMock.Object);
+			_crudGroupController = new CrudGroupController(dependenciesMock.Object);
 
 			_listViewModelMock.As<IAdd>().Setup(l => l.Add());
 			_listViewModelMock.As<IAdd>().Setup(l => l.CanAdd());
 
-			_crudControlService.Register(_listViewModelMock.Object);
+			_crudGroupController.Register(_listViewModelMock.Object);
 
 			_listViewModelMock.As<IAdd>().Verify(l => l.Add(), Times.Never);
 			_buttonExecuteAction();
@@ -153,7 +251,7 @@ namespace SolidFrame.Ribbon.Test
 		[Test]
 		public void It_sets_AddButton_ExecuteAction_and_CanExecute_to_null_for_IAdd_ListViewModel()
 		{
-			_crudControlService.UnRegister(_listViewModelMock.Object);
+			_crudGroupController.UnRegister(_listViewModelMock.Object);
 
 			Assert.IsNull(_buttonExecuteAction);
 			Assert.IsNull(_buttonCanExecuteFunc);
@@ -162,7 +260,7 @@ namespace SolidFrame.Ribbon.Test
 		[Test]
 		public void It_unregisters_RaiseCanExecuteChanged_from_IAdd_ListViewModel_s_CanAddChanged_event()
 		{
-			_crudControlService.UnRegister(_listViewModelMock.Object);
+			_crudGroupController.UnRegister(_listViewModelMock.Object);
 
 			_buttonMock.Verify(b => b.RaiseCanExecuteChanged(), Times.Once);
 			_listViewModelMock.As<IAdd>().Raise(l => l.CanAddChanged += null);

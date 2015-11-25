@@ -1,6 +1,4 @@
-﻿using SolidFrame.Core.Interfaces;
-
-namespace SolidFrame.Ribbon.Logics
+﻿namespace SolidFrame.Core.Interfaces
 {
 	public interface IRibbonButtonControl : IRibbonControl
 	{

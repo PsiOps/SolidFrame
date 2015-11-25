@@ -1,8 +1,6 @@
-﻿using SolidFrame.Ribbon.Logics;
-
-namespace SolidFrame.Core.Interfaces
+﻿namespace SolidFrame.Core.Interfaces
 {
-	public interface ICrudGroupController : IRibbonControlGroupController
+	public interface ICrudGroupsController : IRibbonControlGroupsController
 	{
 		IRibbonButtonControl AddButton { get; }
 	}

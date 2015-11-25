@@ -20,9 +20,8 @@ namespace SolidFrame.Ribbon
 
 		public void Initialize()
 		{
-			_container.RegisterType<ICrudControlService, CrudControlService>();
-			_container.RegisterType<ICrudGroupController, CrudControlService>();
-			_container.RegisterType<IRibbonViewModel, RibbonViewModel>();
+			_container.RegisterType<ICrudGroupsController, CrudGroupController>(new ContainerControlledLifetimeManager());
+			_container.RegisterType<IRibbonViewModel, RibbonViewModel>(new ContainerControlledLifetimeManager());
 			_regionManager.RegisterViewWithRegion("RibbonRegion", typeof(RibbonView));
 		}
 	}

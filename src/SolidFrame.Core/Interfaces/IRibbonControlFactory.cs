@@ -1,7 +1,8 @@
-﻿namespace SolidFrame.Ribbon.Logics
+﻿namespace SolidFrame.Core.Interfaces
 {
 	public interface IRibbonControlFactory
 	{
-		IRibbonButtonControl GetRibbonButton();
+		IRibbonButtonControl CreateRibbonButton();
+		IRibbonControlGroup CreateRibbonControlGroup(string name);
 	}
 }

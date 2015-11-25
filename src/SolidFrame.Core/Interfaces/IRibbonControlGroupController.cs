@@ -2,8 +2,10 @@
 
 namespace SolidFrame.Core.Interfaces
 {
-	public interface IRibbonControlGroupController
+	public interface IRibbonControlGroupsController
 	{
-		ICollection<IRibbonControlGroup> RibbonControlGroups { get; } 
+		ICollection<IRibbonControlGroup> RibbonControlGroups { get; }
+		void Register(IListViewModel document);
+		void UnRegister(IListViewModel document);
 	}
 }
