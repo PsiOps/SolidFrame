@@ -17,5 +17,7 @@ namespace SolidFrame.Ribbon.UI
 		}
 
 		public ICollection<IRibbonTab> RibbonTabs { get; set; }
+
+
 	}
 }

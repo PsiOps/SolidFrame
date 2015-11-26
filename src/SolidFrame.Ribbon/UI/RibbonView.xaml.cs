@@ -1,11 +1,10 @@
-﻿using System.Windows.Controls;
-
+﻿
 namespace SolidFrame.Ribbon.UI
 {
 	/// <summary>
 	/// Interaction logic for RibbonView.xaml
 	/// </summary>
-	public partial class RibbonView : UserControl
+	public partial class RibbonView
 	{
 		public RibbonView(IRibbonViewModel viewModel)
 		{

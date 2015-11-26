@@ -1,0 +1,29 @@
+﻿<Window x:Class="Example.WPF.Client.ShellView"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:regions="http://prismlibrary.com/"
+		Title="ShellView" Height="900" Width="1200">
+	<Grid x:Name="LayoutRoot">
+		<DockPanel LastChildFill="True" HorizontalAlignment="Stretch" 
+				 Name="dockPanel1" VerticalAlignment="Stretch">
+			<StackPanel Orientation="Horizontal" DockPanel.Dock="Top" 
+					Background="#FFCCD4F8" Height="100">
+				<ContentControl regions:RegionManager.RegionName="RibbonRegion"></ContentControl>
+			</StackPanel>
+			<StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" Background="#FFD9E1EF" Height="100">
+				<ContentControl regions:RegionManager.RegionName="NotificationRegion"></ContentControl>
+			</StackPanel>
+			<ScrollViewer>
+				<StackPanel Orientation="Vertical" DockPanel.Dock="Left" Background="AliceBlue"  Width="200">
+					<ContentControl regions:RegionManager.RegionName="ExplorerRegion"></ContentControl>
+				</StackPanel>
+			</ScrollViewer>
+			<ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+				<StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FFC0DBF2">
+					<ContentControl regions:RegionManager.RegionName="DocumentRegion" 
+						HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></ContentControl>
+				</StackPanel>
+			</ScrollViewer>
+		</DockPanel>
+	</Grid>
+</Window>
