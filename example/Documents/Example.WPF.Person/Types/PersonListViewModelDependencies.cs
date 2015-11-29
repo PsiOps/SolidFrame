@@ -5,18 +5,18 @@ namespace Example.WPF.Person.Types
 	public interface IPersonListViewModelDepedencies
 	{
 		ITranslationService TranslationService { get; }
-		IDocumentCatalog DocumentCatalog { get; }
+		IPersonDocumentConfiguration Configuration { get; }
 	}
 
 	public class PersonListViewModelDepedencies : IPersonListViewModelDepedencies
 	{
-		public PersonListViewModelDepedencies(ITranslationService translationService, IDocumentCatalog documentCatalog)
+		public PersonListViewModelDepedencies(ITranslationService translationService, IPersonDocumentConfiguration configuration)
 		{
 			TranslationService = translationService;
-			DocumentCatalog = documentCatalog;
+			Configuration = configuration;
 		}
 
 		public ITranslationService TranslationService { get; private set; }
-		public IDocumentCatalog DocumentCatalog { get; private set; }
+		public IPersonDocumentConfiguration Configuration { get; private set; }
 	}
 }

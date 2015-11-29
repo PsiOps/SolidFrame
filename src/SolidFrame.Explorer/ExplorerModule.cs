@@ -1,9 +1,11 @@
 ﻿using Microsoft.Practices.Unity;
 using Prism.Modularity;
 using Prism.Regions;
+using SolidFrame.Core.Interfaces;
 using SolidFrame.Explorer.Types;
 using SolidFrame.Explorer.UI;
 using SolidFrame.Resources;
+using System.Collections.Generic;
 
 namespace SolidFrame.Explorer
 {
@@ -20,6 +22,7 @@ namespace SolidFrame.Explorer
 
 		public void Initialize()
 		{
+			_container.RegisterType<IEnumerable<IDocumentConfiguration>, IDocumentConfiguration[]>();
 			_container.RegisterType<IExplorerViewModel, ExplorerViewModel>(new ContainerControlledLifetimeManager());
 			_container.RegisterType<IExplorerItemFactory, ExplorerItemFactory>();
 			_container.RegisterType<IExplorerViewModelDependencies, ExplorerViewModelDependencies>();

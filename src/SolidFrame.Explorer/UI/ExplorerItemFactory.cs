@@ -2,12 +2,13 @@
 using SolidFrame.Core.Types;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using SolidFrame.Core.Interfaces;
 
 namespace SolidFrame.Explorer.UI
 {
 	public interface IExplorerItemFactory
 	{
-		ExplorerItem CreateCategoryItem(IDocumentCategory documentCategory, IEnumerable<IDocument> documents);
+		ExplorerItem CreateCategoryItem(IDocumentCategory documentCategory, IEnumerable<IDocumentConfiguration> documentConfigurations);
 	}
 
 	public class ExplorerItemFactory : IExplorerItemFactory
@@ -19,18 +20,18 @@ namespace SolidFrame.Explorer.UI
 			_regionManager = regionManager;
 		}
 
-		private ExplorerItem CreateDocumentItem(IDocument document)
+		private ExplorerItem CreateDocumentItem(IDocumentConfiguration documentConfiguration)
 		{
-			return new ExplorerItem(document, _regionManager);
+			return new ExplorerItem(documentConfiguration, _regionManager);
 		}
 
-		public ExplorerItem CreateCategoryItem(IDocumentCategory documentCategory, IEnumerable<IDocument> documents)
+		public ExplorerItem CreateCategoryItem(IDocumentCategory documentCategory, IEnumerable<IDocumentConfiguration> documentConfigurations)
 		{
 			var documentItems = new Collection<ExplorerItem>();
 
-			foreach (var document in documents)
+			foreach (var documentConfiguration in documentConfigurations)
 			{
-				documentItems.Add(CreateDocumentItem(document));
+				documentItems.Add(CreateDocumentItem(documentConfiguration));
 			}
 
 			return new ExplorerItem(documentCategory, documentItems);

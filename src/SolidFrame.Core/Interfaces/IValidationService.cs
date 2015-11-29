@@ -31,6 +31,7 @@ namespace SolidFrame.Core.Interfaces
 		Exception
 	}
 
+	// TODO: The condition must become a class capable of comparing stuff according to its name
 	public enum Condition
 	{
 		MustBeLargerThan

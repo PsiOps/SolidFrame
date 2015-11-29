@@ -1,10 +1,10 @@
 ﻿using Moq;
 using NUnit.Framework;
 using Prism.Regions;
+using SolidFrame.Core.Interfaces;
 using SolidFrame.Core.Types;
 using SolidFrame.Explorer.UI;
 using SolidFrame.Resources;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
@@ -26,8 +26,10 @@ namespace SolidFrame.Explorer.Test
 
 			_items  = new Collection<ExplorerItem>
 			{
-				new ExplorerItem(new Document(Guid.NewGuid(), "Test", typeof(object), _documentCategory), regionManagerMock.Object),
-				new ExplorerItem(new Document(Guid.NewGuid(), "Test", typeof(object), _documentCategory), regionManagerMock.Object),
+				//new ExplorerItem(new Mock<IDocumentConfiguration>(Guid.NewGuid(), "Test", typeof(object), _documentCategory), regionManagerMock.Object),
+				new ExplorerItem(new Mock<IDocumentConfiguration>().Object, regionManagerMock.Object),
+				//new ExplorerItem(new Document(Guid.NewGuid(), "Test", typeof(object), _documentCategory), regionManagerMock.Object),
+				new ExplorerItem(new Mock<IDocumentConfiguration>().Object, regionManagerMock.Object),
 			};
 
 			_explorerItem = new ExplorerItem(_documentCategory, _items);
@@ -64,25 +66,28 @@ namespace SolidFrame.Explorer.Test
 	public class DescribeDocumentConstruction
 	{
 		private ExplorerItem _explorerItem;
-		private Document _document;
+		private Mock<IDocumentConfiguration> _documentConfigurationMock;
 		private Mock<IRegionManager> _regionManagerMock;
 			
 		[SetUp]
 		public void BeforeEach()
 		{
-			_document = new Document(Guid.NewGuid(), "Test", typeof(object), new DocumentCategory());
+			_documentConfigurationMock = new Mock<IDocumentConfiguration>();
+
+			_documentConfigurationMock.Setup(c => c.ViewType).Returns(typeof (object));
+			_documentConfigurationMock.Setup(c => c.Name).Returns("Test");
 
 			_regionManagerMock = new Mock<IRegionManager>();
 
 			_regionManagerMock.Setup(rm => rm.RegisterViewWithRegion(Regions.Document, typeof (object)));
 
-			_explorerItem = new ExplorerItem(_document, _regionManagerMock.Object);
+			_explorerItem = new ExplorerItem(_documentConfigurationMock.Object, _regionManagerMock.Object);
 		}
 
 		[Test]
 		public void It_sets_the_name_of_the_document()
 		{
-			Assert.AreEqual(_document.Name, _explorerItem.Name);
+			Assert.AreEqual(_documentConfigurationMock.Object.Name, _explorerItem.Name);
 		}
 
 		[Test]

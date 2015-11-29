@@ -74,9 +74,6 @@
     <Reference Include="SolidFrame.Ribbon">
       <HintPath>..\..\src\SolidFrame.Ribbon\bin\Debug\SolidFrame.Ribbon.dll</HintPath>
     </Reference>
-    <Reference Include="SolidFrame.Translation">
-      <HintPath>..\..\src\SolidFrame.Translation\bin\Debug\SolidFrame.Translation.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -157,6 +154,10 @@
     <ProjectReference Include="..\Example.WPF.Resources\Example.WPF.Resources.csproj">
       <Project>{08C72035-4C07-4B0A-A760-1AE424718162}</Project>
       <Name>Example.WPF.Resources</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FrameworkExtensions\Example.WPF.TranslationService\Example.WPF.TranslationService.csproj">
+      <Project>{E7527E3A-7E96-43D0-8049-7F95FAFBBDDF}</Project>
+      <Name>Example.WPF.TranslationService</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -2,6 +2,7 @@
 using Example.WPF.Person.UI;
 using Microsoft.Practices.Unity;
 using Prism.Modularity;
+using SolidFrame.Core.Interfaces;
 
 namespace Example.WPF.Person
 {
@@ -16,6 +17,8 @@ namespace Example.WPF.Person
 
 		public void Initialize()
 		{
+			_container.RegisterType<IDocumentConfiguration, PersonDocumentConfiguration>(typeof(PersonDocumentConfiguration).FullName);
+			_container.RegisterType<IPersonDocumentConfiguration, PersonDocumentConfiguration>();
 			_container.RegisterType<IPersonListViewModel, PersonListViewModel>();
 			_container.RegisterType<IPersonListViewModelDepedencies, PersonListViewModelDepedencies>();
 		}

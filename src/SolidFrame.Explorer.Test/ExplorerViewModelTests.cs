@@ -5,7 +5,6 @@ using SolidFrame.Core.Interfaces;
 using SolidFrame.Core.Types;
 using SolidFrame.Explorer.Types;
 using SolidFrame.Explorer.UI;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,7 +18,7 @@ namespace SolidFrame.Explorer.Test
 		private Mock<IExplorerItemFactory> _explorerItemFactoryMock;
 		private Mock<IRegionManager> _regionManagerMock;
 		private List<IDocumentCategory> _categories;
-		private List<IDocument> _documents;
+		private List<IDocumentConfiguration> _documentConfigurations;
 
 		[SetUp]
 		public void BeforeEach()
@@ -29,8 +28,8 @@ namespace SolidFrame.Explorer.Test
 			_regionManagerMock = new Mock<IRegionManager>();
 
 			_explorerItemFactoryMock = new Mock<IExplorerItemFactory>();
-			_explorerItemFactoryMock.Setup(f => f.CreateCategoryItem(It.IsAny<IDocumentCategory>(), It.IsAny<IEnumerable<IDocument>>()))
-				.Returns<IDocumentCategory, IEnumerable<IDocument>>((dc, documents) => new ExplorerItem(dc, documents.Select(d => new ExplorerItem(d, _regionManagerMock.Object)))).Verifiable();
+			_explorerItemFactoryMock.Setup(f => f.CreateCategoryItem(It.IsAny<IDocumentCategory>(), It.IsAny<IEnumerable<IDocumentConfiguration>>()))
+				.Returns<IDocumentCategory, IEnumerable<IDocumentConfiguration>>((dc, documents) => new ExplorerItem(dc, documents.Select(d => new ExplorerItem(d, _regionManagerMock.Object)))).Verifiable();
 			_dependenciesMock.SetupGet(d => d.ExplorerItemFactory).Returns(_explorerItemFactoryMock.Object);
 
 			var documentCategory1 = new DocumentCategory();
@@ -43,25 +42,32 @@ namespace SolidFrame.Explorer.Test
 				.Returns(_categories);
 			_dependenciesMock.SetupGet(d => d.DocumentCategoryCatalog).Returns(documentCategoryCatalogMock.Object);
 
-			var category1Document1 = new Document(Guid.NewGuid(), "Test", typeof(object), documentCategory1);
-			var category1Document2 = new Document(Guid.NewGuid(), "Test", typeof(object), documentCategory1);
-			var category2Document1 = new Document(Guid.NewGuid(), "Test", typeof(object), documentCategory2);
-			var category2Document2 = new Document(Guid.NewGuid(), "Test", typeof(object), documentCategory2);
-			var category2Document3 = new Document(Guid.NewGuid(), "Test", typeof(object), documentCategory2);
+			//var category1Document1 = new Document(Guid.NewGuid(), "Test", typeof(object), documentCategory1);
+			var category1Document1Mock = new Mock<IDocumentConfiguration>();
+			category1Document1Mock.Setup(c => c.CategoryId).Returns(documentCategory1.Id);
+			//var category1Document2 = new Document(Guid.NewGuid(), "Test", typeof(object), documentCategory1);
+			var category1Document2Mock = new Mock<IDocumentConfiguration>();
+			category1Document2Mock.Setup(c => c.CategoryId).Returns(documentCategory1.Id);
+			//var category2Document1 = new Document(Guid.NewGuid(), "Test", typeof(object), documentCategory2);
+			var category2Document1Mock = new Mock<IDocumentConfiguration>();
+			category2Document1Mock.Setup(c => c.CategoryId).Returns(documentCategory2.Id);
+			//var category2Document2 = new Document(Guid.NewGuid(), "Test", typeof(object), documentCategory2);
+			var category2Document2Mock = new Mock<IDocumentConfiguration>();
+			category2Document2Mock.Setup(c => c.CategoryId).Returns(documentCategory2.Id);
+			//var category2Document3 = new Document(Guid.NewGuid(), "Test", typeof(object), documentCategory2);
+			var category2Document3Mock = new Mock<IDocumentConfiguration>();
+			category2Document3Mock.Setup(c => c.CategoryId).Returns(documentCategory2.Id);
 
-			_documents = new List<IDocument>
+			_documentConfigurations = new List<IDocumentConfiguration>
 			{
-				category1Document1,
-				category1Document2,
-				category2Document1,
-				category2Document2,
-				category2Document3
+				category1Document1Mock.Object,
+				category1Document2Mock.Object,
+				category2Document1Mock.Object,
+				category2Document2Mock.Object,
+				category2Document3Mock.Object
 			};
 
-			var documentCatalogMock = new Mock<IDocumentCatalog>();
-			documentCatalogMock.SetupGet(dc => dc.List)
-				.Returns(_documents);
-			_dependenciesMock.SetupGet(d => d.DocumentCatalog).Returns(documentCatalogMock.Object);
+			_dependenciesMock.SetupGet(d => d.DocumentConfigurations).Returns(_documentConfigurations);
 
 			_explorerViewModel = new ExplorerViewModel(_dependenciesMock.Object);
 		}
@@ -71,10 +77,11 @@ namespace SolidFrame.Explorer.Test
 		{
 			foreach (var documentCategory in _categories)
 			{
+				var category = documentCategory;
 				var categoryDocuments =
-					_documents.Where(d => d.Category == documentCategory);
+					_documentConfigurations.Where(d => d.CategoryId == category.Id);
 
-				_explorerItemFactoryMock.Verify(f => f.CreateCategoryItem(documentCategory, categoryDocuments));
+				_explorerItemFactoryMock.Verify(f => f.CreateCategoryItem(category, categoryDocuments));
 			}
 		}
 	}

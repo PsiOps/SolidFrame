@@ -19,7 +19,7 @@ namespace SolidFrame.Explorer.UI
 		{
 			var explorerItemFactory = dependencies.ExplorerItemFactory;
 			var documentCategoryCatalog = dependencies.DocumentCategoryCatalog;
-			var documentCatalog = dependencies.DocumentCatalog;
+			var documents = dependencies.DocumentConfigurations;
 
 			ItemCategories = new ObservableCollection<ExplorerItem>();
 
@@ -27,7 +27,7 @@ namespace SolidFrame.Explorer.UI
 			{
 				var category = documentCategory;
 
-				var categoryItem = explorerItemFactory.CreateCategoryItem(documentCategory, documentCatalog.List.Where(d => d.Category == category));
+				var categoryItem = explorerItemFactory.CreateCategoryItem(documentCategory, documents.Where(d => d.CategoryId == category.Id));
 
 				ItemCategories.Add(categoryItem);
 			}

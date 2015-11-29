@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using SolidFrame.Core.Interfaces;
 
 namespace SolidFrame.Explorer.UI
 {
@@ -39,11 +40,11 @@ namespace SolidFrame.Explorer.UI
 			Items = new ObservableCollection<ExplorerItem>(items);
 		}
 
-		public ExplorerItem(IDocument document, IRegionManager regionManager)
+		public ExplorerItem(IDocumentConfiguration documentConfiguration, IRegionManager regionManager)
 		{
 			_regionManager = regionManager;
-			Name = document.Name;
-			_clickAction = () => _regionManager.RegisterViewWithRegion(Regions.Document, document.ViewType);
+			Name = documentConfiguration.Name;
+			_clickAction = () => _regionManager.RegisterViewWithRegion(Regions.Document, documentConfiguration.ViewType);
 			_canExecute = () => true;
 		}
 

@@ -85,8 +85,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientResourcesModule.cs" />
-    <Compile Include="DocumentCatalog.cs" />
     <Compile Include="DocumentCategoryCatalog.cs" />
+    <Compile Include="DocumentIdCatalog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -110,12 +110,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Documents\Example.WPF.Person\Example.WPF.Person.csproj">
-      <Project>{28A1EB9A-DE2E-467F-808B-B8A92EDB7A13}</Project>
-      <Name>Example.WPF.Person</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

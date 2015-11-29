@@ -17,12 +17,12 @@ namespace Example.WPF.Person.UI
 	{
 		public PersonListViewModel(IPersonListViewModelDepedencies dependencies)
 		{
-			var document = dependencies.DocumentCatalog.TaskDocument;
+			var configuration = dependencies.Configuration;
 
-			Id = document.Id;
-			Title = document.Name;
+			Id = configuration.Id;
+			Title = configuration.Name;
 
-			Translations = dependencies.TranslationService.GetTranslations(document);
+			Translations = dependencies.TranslationService.GetTranslations(configuration);
 
 			DataSource = new ObservableCollection<IPersonRowViewModel>
 			{

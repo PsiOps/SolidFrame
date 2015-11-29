@@ -1,5 +1,6 @@
 ﻿using SolidFrame.Core.Interfaces;
 using SolidFrame.Explorer.UI;
+using System.Collections.Generic;
 
 namespace SolidFrame.Explorer.Types
 {
@@ -8,7 +9,7 @@ namespace SolidFrame.Explorer.Types
 		ITranslationService TranslationService { get; }
 		IExplorerItemFactory ExplorerItemFactory { get; }
 		IDocumentCategoryCatalog DocumentCategoryCatalog { get; }
-		IDocumentCatalog DocumentCatalog { get; }
+		IEnumerable<IDocumentConfiguration> DocumentConfigurations { get; } 
 	}
 
 	public class ExplorerViewModelDependencies : IExplorerViewModelDependencies
@@ -16,17 +17,17 @@ namespace SolidFrame.Explorer.Types
 		public ExplorerViewModelDependencies(ITranslationService translationService, 
 			IExplorerItemFactory explorerItemFactory, 
 			IDocumentCategoryCatalog documentCategoryCatalog, 
-			IDocumentCatalog documentCatalog)
+			IEnumerable<IDocumentConfiguration> documentConfigurations)
 		{
 			TranslationService = translationService;
 			ExplorerItemFactory = explorerItemFactory;
 			DocumentCategoryCatalog = documentCategoryCatalog;
-			DocumentCatalog = documentCatalog;
+			DocumentConfigurations = documentConfigurations;
 		}
 
 		public ITranslationService TranslationService { get; private set; }
 		public IExplorerItemFactory ExplorerItemFactory { get; private set; }
 		public IDocumentCategoryCatalog DocumentCategoryCatalog { get; private set; }
-		public IDocumentCatalog DocumentCatalog { get; private set; }
+		public IEnumerable<IDocumentConfiguration> DocumentConfigurations { get; private set; }
 	}
 }

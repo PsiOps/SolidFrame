@@ -15,8 +15,7 @@ namespace Example.WPF.Resources
 
 		public void Initialize()
 		{
-			_container.RegisterType<IDocumentCatalog, DocumentCatalog>();
-			_container.RegisterType<IDocumentCategoryCatalog, DocumentCategoryCatalog>();
+			_container.RegisterType<IDocumentCategoryCatalog, ExampleDocumentCategoryCatalog>();
 		}
 	}
 }

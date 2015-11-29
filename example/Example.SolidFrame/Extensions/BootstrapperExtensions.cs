@@ -1,9 +1,9 @@
 ﻿using Example.WPF.Person;
 using Example.WPF.Resources;
+using Example.WPF.TranslationService;
 using Prism.Modularity;
 using SolidFrame.Explorer;
 using SolidFrame.Ribbon;
-using SolidFrame.Translation;
 
 namespace Example.WPF.Client.Extensions
 {
@@ -12,14 +12,14 @@ namespace Example.WPF.Client.Extensions
 		public static ModuleCatalog AddFrameworkModules(this ModuleCatalog moduleCatalog)
 		{
 			return moduleCatalog
-				.AddModule(typeof(TranslationModule))
 				.AddModule(typeof(RibbonModule))
-				.AddModule(typeof(ExplorerModule), "ClientResourcesModule");
+				.AddModule(typeof(ExplorerModule), "ClientResourcesModule", "PersonModule");
 		}
 
 		public static ModuleCatalog AddFrameworkExtensionModules(this ModuleCatalog moduleCatalog)
 		{
-			return moduleCatalog;
+			return moduleCatalog
+				.AddModule(typeof(TranslationModule));
 		}
 
 		public static ModuleCatalog AddClientModules(this ModuleCatalog moduleCatalog)
