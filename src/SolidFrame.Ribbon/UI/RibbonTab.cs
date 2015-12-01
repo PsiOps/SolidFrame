@@ -1,11 +1,10 @@
 ﻿
-using SolidFrame.Core.Interfaces;
+using SolidFrame.Core.Interfaces.Ribbon;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace SolidFrame.Ribbon.UI
 {
-
 	public class RibbonTab : IRibbonTab
 	{
 		public RibbonTab(string name)

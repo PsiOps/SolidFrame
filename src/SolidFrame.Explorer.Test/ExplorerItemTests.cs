@@ -1,7 +1,7 @@
 ﻿using Moq;
 using NUnit.Framework;
 using Prism.Regions;
-using SolidFrame.Core.Interfaces;
+using SolidFrame.Core.Interfaces.Document;
 using SolidFrame.Core.Types;
 using SolidFrame.Explorer.UI;
 using SolidFrame.Resources;

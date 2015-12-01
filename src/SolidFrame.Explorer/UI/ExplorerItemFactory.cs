@@ -1,14 +1,14 @@
 ﻿using Prism.Regions;
+using SolidFrame.Core.Interfaces.Document;
 using SolidFrame.Core.Types;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using SolidFrame.Core.Interfaces;
 
 namespace SolidFrame.Explorer.UI
 {
 	public interface IExplorerItemFactory
 	{
-		ExplorerItem CreateCategoryItem(IDocumentCategory documentCategory, IEnumerable<IDocumentConfiguration> documentConfigurations);
+		IExplorerItem CreateCategoryItem(IDocumentCategory documentCategory, IEnumerable<IDocumentConfiguration> documentConfigurations);
 	}
 
 	public class ExplorerItemFactory : IExplorerItemFactory
@@ -20,14 +20,14 @@ namespace SolidFrame.Explorer.UI
 			_regionManager = regionManager;
 		}
 
-		private ExplorerItem CreateDocumentItem(IDocumentConfiguration documentConfiguration)
+		private IExplorerItem CreateDocumentItem(IDocumentConfiguration documentConfiguration)
 		{
 			return new ExplorerItem(documentConfiguration, _regionManager);
 		}
 
-		public ExplorerItem CreateCategoryItem(IDocumentCategory documentCategory, IEnumerable<IDocumentConfiguration> documentConfigurations)
+		public IExplorerItem CreateCategoryItem(IDocumentCategory documentCategory, IEnumerable<IDocumentConfiguration> documentConfigurations)
 		{
-			var documentItems = new Collection<ExplorerItem>();
+			var documentItems = new Collection<IExplorerItem>();
 
 			foreach (var documentConfiguration in documentConfigurations)
 			{

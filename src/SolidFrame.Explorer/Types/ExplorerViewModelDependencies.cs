@@ -1,4 +1,5 @@
-﻿using SolidFrame.Core.Interfaces;
+﻿using SolidFrame.Core.Interfaces.Document;
+using SolidFrame.Core.Interfaces.Translation;
 using SolidFrame.Explorer.UI;
 using System.Collections.Generic;
 

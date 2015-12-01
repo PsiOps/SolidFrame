@@ -1,4 +1,5 @@
-﻿using SolidFrame.Core.Interfaces;
+﻿using SolidFrame.Core.Interfaces.Ribbon;
+using SolidFrame.Ribbon.UI;
 
 namespace SolidFrame.Ribbon.Logics
 {
@@ -11,7 +12,7 @@ namespace SolidFrame.Ribbon.Logics
 	{
 		public IRibbonTab Create(string name)
 		{
-			throw new System.NotImplementedException();
+			return new RibbonTab(name);
 		}
 	}
 }

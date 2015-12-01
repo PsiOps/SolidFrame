@@ -40,20 +40,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\ViewModel.cs" />
-    <Compile Include="Interfaces\IAdd.cs" />
-    <Compile Include="Interfaces\ICanBeBusy.cs" />
-    <Compile Include="Interfaces\IConfigured.cs" />
-    <Compile Include="Interfaces\ICrudGroupController.cs" />
-    <Compile Include="Interfaces\IDocumentCategoryCatalog.cs" />
-    <Compile Include="Interfaces\IDocumentConfiguration.cs" />
-    <Compile Include="Interfaces\IRibbonButtonControl.cs" />
-    <Compile Include="Interfaces\IRibbonControl.cs" />
-    <Compile Include="Interfaces\IRibbonControlFactory.cs" />
-    <Compile Include="Interfaces\IRibbonControlGroup.cs" />
-    <Compile Include="Interfaces\IRibbonControlGroupController.cs" />
-    <Compile Include="Interfaces\IRibbonTab.cs" />
-    <Compile Include="Interfaces\ITranslationService.cs" />
-    <Compile Include="Interfaces\IValidationService.cs" />
+    <Compile Include="Interfaces\Crud\IAdd.cs" />
+    <Compile Include="Interfaces\General\ICanBeBusy.cs" />
+    <Compile Include="Interfaces\General\IListViewModel.cs" />
+    <Compile Include="Interfaces\Ribbon\ICrudGroupController.cs" />
+    <Compile Include="Interfaces\Document\IDocumentCategoryCatalog.cs" />
+    <Compile Include="Interfaces\Document\IDocumentConfiguration.cs" />
+    <Compile Include="Interfaces\Ribbon\IRibbonButtonControl.cs" />
+    <Compile Include="Interfaces\Ribbon\IRibbonControl.cs" />
+    <Compile Include="Interfaces\Ribbon\IRibbonControlFactory.cs" />
+    <Compile Include="Interfaces\Ribbon\IRibbonControlGroup.cs" />
+    <Compile Include="Interfaces\Ribbon\IRibbonControlGroupController.cs" />
+    <Compile Include="Interfaces\Ribbon\IRibbonTab.cs" />
+    <Compile Include="Interfaces\Translation\ITranslate.cs" />
+    <Compile Include="Interfaces\Translation\ITranslationService.cs" />
+    <Compile Include="Interfaces\Validation\IValidationService.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Types\CoreEventHandlers.cs" />

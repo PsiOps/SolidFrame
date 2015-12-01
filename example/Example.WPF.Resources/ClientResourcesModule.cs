@@ -1,6 +1,6 @@
 ﻿using Microsoft.Practices.Unity;
 using Prism.Modularity;
-using SolidFrame.Core.Interfaces;
+using SolidFrame.Core.Interfaces.Document;
 
 namespace Example.WPF.Resources
 {

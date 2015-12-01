@@ -1,7 +1,7 @@
 ﻿using Microsoft.Practices.Unity;
 using Prism.Modularity;
 using Prism.Regions;
-using SolidFrame.Core.Interfaces;
+using SolidFrame.Core.Interfaces.Document;
 using SolidFrame.Explorer.Types;
 using SolidFrame.Explorer.UI;
 using SolidFrame.Resources;

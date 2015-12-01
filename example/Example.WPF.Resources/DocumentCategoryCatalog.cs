@@ -1,4 +1,4 @@
-﻿using SolidFrame.Core.Interfaces;
+﻿using SolidFrame.Core.Interfaces.Document;
 using SolidFrame.Core.Types;
 using System;
 using System.Collections.Generic;

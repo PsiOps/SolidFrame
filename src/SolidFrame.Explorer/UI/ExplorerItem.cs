@@ -1,17 +1,25 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using Prism.Regions;
 using SolidFrame.Core.Base;
+using SolidFrame.Core.Interfaces.Document;
 using SolidFrame.Core.Types;
 using SolidFrame.Resources;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using SolidFrame.Core.Interfaces;
 
 namespace SolidFrame.Explorer.UI
 {
-	public class ExplorerItem : ViewModel
+	public interface IExplorerItem
+	{
+		string Name { get; }
+		bool IsExpanded { get; set; }
+		ICollection<IExplorerItem> Items { get; }
+		ICommand ClickCommand { get; }
+	}
+
+	public class ExplorerItem : ViewModel, IExplorerItem
 	{
 		private readonly IRegionManager _regionManager;
 		private readonly Action _clickAction;
@@ -28,16 +36,16 @@ namespace SolidFrame.Explorer.UI
 			}
 		}
 
-		public ObservableCollection<ExplorerItem> Items { get; set; } 
+		public ICollection<IExplorerItem> Items { get; private set; } 
 
-		public ExplorerItem(IDocumentCategory category, IEnumerable<ExplorerItem> items)
+		public ExplorerItem(IDocumentCategory category, IEnumerable<IExplorerItem> items)
 		{
 			Name = category.Name;
 			_clickAction = () => IsExpanded = !IsExpanded;
 			_canExecute = () => true;
 			IsExpanded = true;
 
-			Items = new ObservableCollection<ExplorerItem>(items);
+			Items = new ObservableCollection<IExplorerItem>(items);
 		}
 
 		public ExplorerItem(IDocumentConfiguration documentConfiguration, IRegionManager regionManager)

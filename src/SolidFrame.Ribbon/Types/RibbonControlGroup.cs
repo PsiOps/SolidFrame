@@ -1,4 +1,4 @@
-﻿using SolidFrame.Core.Interfaces;
+﻿using SolidFrame.Core.Interfaces.Ribbon;
 using System.Collections.ObjectModel;
 
 namespace SolidFrame.Ribbon.Types

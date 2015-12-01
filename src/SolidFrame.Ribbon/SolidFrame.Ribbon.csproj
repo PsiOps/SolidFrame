@@ -115,8 +115,11 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Logics\CrudControlService.cs" />
-    <Compile Include="Types\CrudControlServiceDependencies.cs" />
+    <Compile Include="Controls\RibbonButton.cs" />
+    <Compile Include="Logics\CrudGroupController.cs" />
+    <Compile Include="Logics\RibbonControlFactory.cs" />
+    <Compile Include="Logics\RibbonControlTemplateSelector.cs" />
+    <Compile Include="Types\CrudGroupControllerDependencies.cs" />
     <Compile Include="Logics\RibbonTabFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -133,7 +136,6 @@
     </Compile>
     <Compile Include="RibbonModule.cs" />
     <Compile Include="Types\RibbonControlGroup.cs" />
-    <Compile Include="Types\RibbonViewModelDependencies.cs" />
     <Compile Include="UI\RibbonTab.cs" />
     <Compile Include="UI\RibbonView.xaml.cs">
       <DependentUpon>RibbonView.xaml</DependentUpon>
@@ -162,9 +164,7 @@
       <Name>SolidFrame.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controls\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

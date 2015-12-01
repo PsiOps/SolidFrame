@@ -1,6 +1,7 @@
-﻿using SolidFrame.Core.Interfaces;
+﻿using SolidFrame.Core.Interfaces.General;
 using SolidFrame.Explorer.Types;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -8,12 +9,12 @@ namespace SolidFrame.Explorer.UI
 {
 	public interface IExplorerViewModel : IListViewModel
 	{
-		ObservableCollection<ExplorerItem> ItemCategories { get; set; }
+		ICollection<IExplorerItem> ItemCategories { get; set; }
 	}
 
 	public class ExplorerViewModel : IExplorerViewModel
 	{
-		public ObservableCollection<ExplorerItem> ItemCategories { get; set; }
+		public ICollection<IExplorerItem> ItemCategories { get; set; }
 
 		public ExplorerViewModel(IExplorerViewModelDependencies dependencies)
 		{
@@ -21,7 +22,7 @@ namespace SolidFrame.Explorer.UI
 			var documentCategoryCatalog = dependencies.DocumentCategoryCatalog;
 			var documents = dependencies.DocumentConfigurations;
 
-			ItemCategories = new ObservableCollection<ExplorerItem>();
+			ItemCategories = new ObservableCollection<IExplorerItem>();
 
 			foreach (var documentCategory in documentCategoryCatalog.List)
 			{

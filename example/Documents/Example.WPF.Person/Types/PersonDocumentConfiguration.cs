@@ -1,6 +1,6 @@
 ﻿using Example.WPF.Person.UI;
 using Example.WPF.Resources;
-using SolidFrame.Core.Interfaces;
+using SolidFrame.Core.Interfaces.Document;
 using System;
 
 namespace Example.WPF.Person.Types

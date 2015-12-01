@@ -1,5 +1,8 @@
 ﻿using Example.WPF.Person.Types;
-using SolidFrame.Core.Interfaces;
+using SolidFrame.Core.Interfaces.Crud;
+using SolidFrame.Core.Interfaces.General;
+using SolidFrame.Core.Interfaces.Ribbon;
+using SolidFrame.Core.Interfaces.Translation;
 using SolidFrame.Core.Types;
 using System;
 using System.Collections.Generic;
@@ -7,10 +10,9 @@ using System.Collections.ObjectModel;
 
 namespace Example.WPF.Person.UI
 {
-	public interface IPersonListViewModel : IListViewModel, ICanBeBusy, IAdd
+	public interface IPersonListViewModel : IListViewModel, IAdd, ITranslate
 	{
 		ObservableCollection<IPersonRowViewModel> DataSource { get; set; }
-		IDictionary<string, string> Translations { get; }
 	}
 
 	public class PersonListViewModel : IPersonListViewModel
@@ -21,6 +23,8 @@ namespace Example.WPF.Person.UI
 
 			Id = configuration.Id;
 			Title = configuration.Name;
+
+			RegisterToRibbon(dependencies.CrudGroupController);
 
 			Translations = dependencies.TranslationService.GetTranslations(configuration);
 
@@ -33,12 +37,12 @@ namespace Example.WPF.Person.UI
 			};
 		}
 
+		private void RegisterToRibbon(IRibbonControlGroupsController crudGroupController)
+		{
+			crudGroupController.Register(this);
+		}
+
 		public ObservableCollection<IPersonRowViewModel> DataSource { get; set; }
-
-		public IDictionary<string, string> Translations { get; private set; }
-
-		public bool IsBusy { get; private set; }
-		public string IsBusyText { get; private set; }
 
 		public Guid Id { get; private set; }
 		public string Title { get; private set; }
@@ -50,7 +54,7 @@ namespace Example.WPF.Person.UI
 
 		public void Add()
 		{
-			throw new NotImplementedException();
+			DataSource.Add(new PersonRowViewModel { FirstName = "Alan", LastName = "Wake", Id = 5 });
 		}
 
 		private void OnCanAddChanged()
@@ -60,5 +64,7 @@ namespace Example.WPF.Person.UI
 		}
 
 		public event CanCrudChangedHandler CanAddChanged;
+
+		public IDictionary<string, string> Translations { get; set; }
 	}
 }
