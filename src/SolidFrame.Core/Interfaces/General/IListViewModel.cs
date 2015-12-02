@@ -1,10 +1,8 @@
-﻿using System;
-
+﻿
 namespace SolidFrame.Core.Interfaces.General
 {
-	public interface IListViewModel
+	public interface IListViewModel : IHaveId
 	{
-		Guid Id { get; }
 		string Title { get; }
 	}
 }

@@ -1,10 +1,10 @@
-﻿using SolidFrame.Core.Interfaces.Document;
+﻿using System;
 using System.Collections.Generic;
 
 namespace SolidFrame.Core.Interfaces.Translation
 {
 	public interface ITranslationService
 	{
-		IDictionary<string, string> GetTranslations(IDocumentConfiguration documentConfiguration);
+		IDictionary<string, string> GetTranslations(Guid documentId);
 	}
 }

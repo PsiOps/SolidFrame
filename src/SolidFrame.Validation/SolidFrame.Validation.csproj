@@ -98,6 +98,10 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Logics\ConditionEvaluatorFactory.cs" />
+    <Compile Include="Logics\ConditionEvaluators\GreaterThanEvaluator.cs" />
+    <Compile Include="Logics\ValidationRule.cs" />
+    <Compile Include="Logics\ValidationRuleFactory.cs" />
     <Compile Include="Logics\ValidationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -112,6 +116,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Types\ValidationServiceDependencies.cs" />
     <Compile Include="ValidationModule.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -129,7 +134,12 @@
       <Project>{83691013-5614-41EE-9039-45B54B3B57D2}</Project>
       <Name>SolidFrame.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SolidFrame.Resources\SolidFrame.Resources.csproj">
+      <Project>{D9F33591-43DF-4554-B783-8EC9632200AE}</Project>
+      <Name>SolidFrame.Resources</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

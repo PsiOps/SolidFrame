@@ -1,6 +1,8 @@
 ﻿using Microsoft.Practices.Unity;
 using Prism.Modularity;
-using System;
+using SolidFrame.Core.Interfaces.Validation;
+using SolidFrame.Validation.Logics;
+using SolidFrame.Validation.Types;
 
 namespace SolidFrame.Validation
 {
@@ -15,7 +17,10 @@ namespace SolidFrame.Validation
 
 		public void Initialize()
 		{
-			throw new NotImplementedException();
+			_container.RegisterType(typeof(IValidationService<>), typeof(ValidationService<>));
+			_container.RegisterType<IValidationServiceDependencies, ValidationServiceDependencies>();
+			_container.RegisterType<IValidationRuleFactory, ValidationRuleFactory>();
+			_container.RegisterType<IConditionEvaluatorFactory, ConditionEvaluatorFactory>();
 		}
 	}
 }

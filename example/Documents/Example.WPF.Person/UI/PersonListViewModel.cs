@@ -3,14 +3,16 @@ using SolidFrame.Core.Interfaces.Crud;
 using SolidFrame.Core.Interfaces.General;
 using SolidFrame.Core.Interfaces.Ribbon;
 using SolidFrame.Core.Interfaces.Translation;
+using SolidFrame.Core.Interfaces.Validation;
 using SolidFrame.Core.Types;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace Example.WPF.Person.UI
 {
-	public interface IPersonListViewModel : IListViewModel, IAdd, ITranslate
+	public interface IPersonListViewModel : IListViewModel, IAdd, ITranslate, IValidateRows<IPersonRowViewModel>
 	{
 		ObservableCollection<IPersonRowViewModel> DataSource { get; set; }
 	}
@@ -26,7 +28,7 @@ namespace Example.WPF.Person.UI
 
 			RegisterToRibbon(dependencies.CrudGroupController);
 
-			Translations = dependencies.TranslationService.GetTranslations(configuration);
+			Translations = dependencies.TranslationService.GetTranslations(Id);
 
 			DataSource = new ObservableCollection<IPersonRowViewModel>
 			{
@@ -35,6 +37,19 @@ namespace Example.WPF.Person.UI
 				new PersonRowViewModel{FirstName = "Jack", LastName = "Miller", Id = 3},
 				new PersonRowViewModel{FirstName = "Randy", LastName = "Marsh", Id = 4}
 			};
+
+			foreach (var personRowViewModel in DataSource)
+			{
+				personRowViewModel.PropertyChanged += OnRowPropertyChanged;
+			}
+
+			RegisterValidations(dependencies.ValidationService);
+		}
+
+		private void RegisterValidations(IValidationService<IPersonRowViewModel> validationService)
+		{
+			validationService.Register(this);
+			validationService.AddAbsoluteRule(this, r => r.Id, Condition.MustBeGreaterThan, 0, Severity.Error, "Test {0}");
 		}
 
 		private void RegisterToRibbon(IRibbonControlGroupsController crudGroupController)
@@ -54,7 +69,14 @@ namespace Example.WPF.Person.UI
 
 		public void Add()
 		{
-			DataSource.Add(new PersonRowViewModel { FirstName = "Alan", LastName = "Wake", Id = 5 });
+			var row = new PersonRowViewModel {FirstName = "Alan", LastName = "Wake", Id = 0};
+
+			row.PropertyChanged += OnRowPropertyChanged;
+
+			DataSource.Add(row);
+
+			if(RowValidationTrigger != null)
+				RowValidationTrigger(row, null);
 		}
 
 		private void OnCanAddChanged()
@@ -64,6 +86,19 @@ namespace Example.WPF.Person.UI
 		}
 
 		public event CanCrudChangedHandler CanAddChanged;
+
+		private void OnRowPropertyChanged(object sender, PropertyChangedEventArgs args)
+		{
+			if (RowValidationTrigger == null) return;
+
+			var row = sender as IPersonRowViewModel;
+
+			if (row == null) return;
+
+			RowValidationTrigger(row, args.PropertyName);
+		}
+
+		public event ValidationTriggerHandler<IPersonRowViewModel> RowValidationTrigger;
 
 		public IDictionary<string, string> Translations { get; set; }
 	}
