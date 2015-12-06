@@ -1,10 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using SolidFrame.Core.Types;
+using System;
+using System.Collections.Generic;
 
 namespace SolidFrame.Core.Interfaces.Validation
 {
-	public interface IValidationRule<in T>
+	public interface IValidationRule<in TCanBeValidated> where TCanBeValidated : ICanBeValidated
 	{
-		bool Evaluate(T type);
+		Guid Id { get; }
+		string Message { get; }
+		Severity Severity { get; }
 		HashSet<string> Properties { get; }
+
+		bool Evaluate(TCanBeValidated canBeValidated);
 	}
 }

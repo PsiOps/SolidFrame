@@ -51,7 +51,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConditionEvaluators\GreaterThanEvaluatorTests.cs" />
+    <Compile Include="Stubs\CanBeValidatedStub.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ValidationServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -60,6 +62,10 @@
     <ProjectReference Include="..\SolidFrame.Core\SolidFrame.Core.csproj">
       <Project>{83691013-5614-41EE-9039-45B54B3B57D2}</Project>
       <Name>SolidFrame.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SolidFrame.Resources\SolidFrame.Resources.csproj">
+      <Project>{D9F33591-43DF-4554-B783-8EC9632200AE}</Project>
+      <Name>SolidFrame.Resources</Name>
     </ProjectReference>
     <ProjectReference Include="..\SolidFrame.Validation\SolidFrame.Validation.csproj">
       <Project>{028500A4-1F1E-4C10-A3B0-38856D0F329A}</Project>

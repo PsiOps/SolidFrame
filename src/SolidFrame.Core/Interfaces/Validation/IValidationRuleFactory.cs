@@ -1,8 +1,11 @@
 ﻿
+using SolidFrame.Core.Types;
+
 namespace SolidFrame.Core.Interfaces.Validation
 {
 	public interface IValidationRuleFactory
 	{
-		IValidationRule<T> Create<T>(IConditionEvaluator<T> evaluator, string message, params string[] propertyNames);
+		IValidationRule<TCanBeValidated> Create<TCanBeValidated>(IConditionEvaluator<TCanBeValidated> evaluator, Severity severity, string message, params string[] propertyNames) 
+			where TCanBeValidated : ICanBeValidated;
 	}
 }

@@ -1,12 +1,14 @@
 ﻿using SolidFrame.Core.Interfaces.Validation;
+using SolidFrame.Core.Types;
 
 namespace SolidFrame.Validation.Logics
 {
 	public class ValidationRuleFactory : IValidationRuleFactory
 	{
-		public IValidationRule<T> Create<T>(IConditionEvaluator<T> evaluator, string message, params string[] propertyNames)
+		public IValidationRule<TCanBeValidated> Create<TCanBeValidated>(IConditionEvaluator<TCanBeValidated> evaluator, Severity severity, string message, params string[] propertyNames) 
+			where TCanBeValidated : ICanBeValidated
 		{
-			return new ValidationRule<T>(evaluator, message, propertyNames);
+			return new ValidationRule<TCanBeValidated>(evaluator, severity, message, propertyNames);
 		}
 	}
 }

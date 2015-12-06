@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>Normalized Ctor</Title>
+      <Author>PSI</Author>
+      <Description>
+      </Description>
+      <HelpUrl>
+      </HelpUrl>
+      <Shortcut>nsctor</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="false">
+          <ID>classname</ID>
+          <ToolTip>ClassName</ToolTip>
+          <Default>
+          </Default>
+          <Function>ClassName()</Function>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp" Delimiter="$"><![CDATA[public interface I$classname$Dependencies
+{
+    // Enter Dependencies here
+}
+
+public class $classname$Dependencies
+{
+    public $classname$Dependencies(){}
+}
+
+public $classname$(I$classname$Dependencies dependencies)
+{
+
+}]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

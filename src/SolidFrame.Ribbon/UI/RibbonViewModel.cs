@@ -13,7 +13,6 @@ namespace SolidFrame.Ribbon.UI
 
 	public class RibbonViewModel : ViewModel, IRibbonViewModel
 	{
-
 		public RibbonViewModel()
 		{
 			RibbonTabs = new ObservableCollection<IRibbonTab>();

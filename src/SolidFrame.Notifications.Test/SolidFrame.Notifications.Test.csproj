@@ -4,14 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BC4CF6E6-4B6A-46CE-BE17-35841294A9F3}</ProjectGuid>
+    <ProjectGuid>{D938EC80-E791-42D0-BB24-07BB631D5480}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SolidFrame.Ribbon.Test</RootNamespace>
-    <AssemblyName>SolidFrame.Ribbon.Test</AssemblyName>
+    <RootNamespace>SolidFrame.Notifications.Test</RootNamespace>
+    <AssemblyName>SolidFrame.Notifications.Test</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -22,7 +22,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -50,20 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CrudGroupControllerTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SolidFrame.Ribbon\SolidFrame.Ribbon.csproj">
-      <Project>{FD56B994-5401-4D17-80D2-CD67FC78B3B2}</Project>
-      <Name>SolidFrame.Ribbon</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SolidFrame.Core\SolidFrame.Core.csproj">
-      <Project>{83691013-5614-41EE-9039-45B54B3B57D2}</Project>
-      <Name>SolidFrame.Core</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

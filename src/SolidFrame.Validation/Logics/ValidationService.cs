@@ -1,5 +1,5 @@
-﻿using Microsoft.Practices.ObjectBuilder2;
-using SolidFrame.Core.Interfaces.General;
+﻿using SolidFrame.Core.Interfaces.General;
+using SolidFrame.Core.Interfaces.Notifications;
 using SolidFrame.Core.Interfaces.Translation;
 using SolidFrame.Core.Interfaces.Validation;
 using SolidFrame.Core.Types;
@@ -7,32 +7,43 @@ using SolidFrame.Resources.Helpers;
 using SolidFrame.Validation.Types;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 
 namespace SolidFrame.Validation.Logics
 {
-	public class ValidationService<T> : IValidationService<T>
+	public class ValidationService<TCanBeValidated> : IValidationService<TCanBeValidated> where TCanBeValidated : ICanBeValidated
 	{
 		public ValidationService(IValidationServiceDependencies dependencies)
 		{
-			_validationRules = new List<IValidationRule<T>>();
+			_validationRules = new List<IValidationRule<TCanBeValidated>>();
 			_validationRuleFactory = dependencies.ValidationRuleFactory;
 			_conditionEvaluatorFactory = dependencies.ConditionEvaluatorFactory;
 			_propertyNameHelper = dependencies.PropertyNameHelper;
+			_notificationService = dependencies.NotificationService;
 		}
 
-		public void Register(IValidateRows<T> validate)
+		public void Register(IValidate<TCanBeValidated> validate)
 		{
 			validate.RowValidationTrigger += EvaluateRules;
 		}
 
-		private void EvaluateRules(T type, string propertyName)
+		private void EvaluateRules(TCanBeValidated canBeValidated, string propertyName)
 		{
-			_validationRules.Where(vr => propertyName == null || vr.Properties.Contains(propertyName)).ForEach(vr => vr.Evaluate(type));
+			foreach (var validationRule in _validationRules)
+			{
+				if(propertyName != null && !validationRule.Properties.Contains(propertyName)) continue;
+
+				if (validationRule.Evaluate(canBeValidated))
+				{
+					_notificationService.TryRemoveNotification(validationRule.Id, canBeValidated.Id);
+					continue;
+				}
+
+				_notificationService.AddNotification(validationRule.Id, canBeValidated.Id, canBeValidated.ValidationName, validationRule.Message);
+			}
 		}
 
-		public void AddAbsoluteRule(IHaveId haveId, Expression<Func<T, int>> propertyExpression, Condition condition, int value, Severity severity, string message)
+		public void AddAbsoluteRule(IHaveId haveId, Expression<Func<TCanBeValidated, int>> propertyExpression, Condition condition, int value, Severity severity, string message)
 		{
 			var propertyName = _propertyNameHelper.GetPropertyName(propertyExpression);
 
@@ -40,12 +51,12 @@ namespace SolidFrame.Validation.Logics
 
 			var propertyValueGetter = propertyExpression.Compile();
 
-			IConditionEvaluator<T> evaluator = null;
+			IConditionEvaluator<TCanBeValidated> evaluator = null;
 
 			switch (condition)
 			{
 				case Condition.MustBeGreaterThan:
-					evaluator = _conditionEvaluatorFactory.CreateGreaterThanEvaluator(propertyValueGetter, type => value);
+					evaluator = _conditionEvaluatorFactory.CreateGreaterThanEvaluator(propertyValueGetter, canBeValidated => value);
 					break;
 				case Condition.MustEqual:
 					break;
@@ -53,7 +64,7 @@ namespace SolidFrame.Validation.Logics
 					throw new ArgumentOutOfRangeException("condition", condition, null);
 			}
 
-			var rule = _validationRuleFactory.Create(evaluator, formattedMessage, propertyName);
+			var rule = _validationRuleFactory.Create(evaluator, severity, formattedMessage, propertyName);
 
 			_validationRules.Add(rule);
 		}
@@ -71,14 +82,10 @@ namespace SolidFrame.Validation.Logics
 			return string.Format(translations[message], translations[propertyName]);
 		}
 
-		public void AddCustomRule(IValidationRule<T> customRule, Severity type, string message)
-		{
-			throw new NotImplementedException();
-		}
-
-		private readonly ICollection<IValidationRule<T>> _validationRules;
+		private readonly ICollection<IValidationRule<TCanBeValidated>> _validationRules;
 		private readonly IValidationRuleFactory _validationRuleFactory;
 		private readonly IConditionEvaluatorFactory _conditionEvaluatorFactory;
 		private readonly IPropertyNameHelper _propertyNameHelper;
+		private readonly INotificationService _notificationService;
 	}
 }

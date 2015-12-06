@@ -45,6 +45,7 @@
     <Compile Include="Interfaces\General\IHaveId.cs" />
     <Compile Include="Interfaces\General\IListViewModel.cs" />
     <Compile Include="Interfaces\General\IPropertyNameHelper.cs" />
+    <Compile Include="Interfaces\Notifications\INotificationService.cs" />
     <Compile Include="Interfaces\Ribbon\ICrudGroupController.cs" />
     <Compile Include="Interfaces\Document\IDocumentCategoryCatalog.cs" />
     <Compile Include="Interfaces\Document\IDocumentConfiguration.cs" />
@@ -56,6 +57,7 @@
     <Compile Include="Interfaces\Ribbon\IRibbonTab.cs" />
     <Compile Include="Interfaces\Translation\ITranslate.cs" />
     <Compile Include="Interfaces\Translation\ITranslationService.cs" />
+    <Compile Include="Interfaces\Validation\ICanBeValidated.cs" />
     <Compile Include="Interfaces\Validation\IConditionEvaluator.cs" />
     <Compile Include="Interfaces\Validation\IConditionEvaluatorFactory.cs" />
     <Compile Include="Interfaces\Validation\IValidateRows.cs" />

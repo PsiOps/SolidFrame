@@ -2,7 +2,7 @@
 
 namespace SolidFrame.Core.Interfaces.Validation
 {
-	public interface IValidateRows<T>
+	public interface IValidate<T> where T : ICanBeValidated
 	{
 		event ValidationTriggerHandler<T> RowValidationTrigger; 
 	}
