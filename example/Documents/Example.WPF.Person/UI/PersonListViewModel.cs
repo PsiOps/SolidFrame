@@ -12,7 +12,7 @@ using System.ComponentModel;
 
 namespace Example.WPF.Person.UI
 {
-	public interface IPersonListViewModel : IListViewModel, IAdd, ITranslate, IValidateRows<IPersonRowViewModel>
+	public interface IPersonListViewModel : IListViewModel, IAdd, ITranslate, IValidate<IPersonRowViewModel>
 	{
 		ObservableCollection<IPersonRowViewModel> DataSource { get; set; }
 	}
@@ -32,10 +32,10 @@ namespace Example.WPF.Person.UI
 
 			DataSource = new ObservableCollection<IPersonRowViewModel>
 			{
-				new PersonRowViewModel{FirstName = "Bob", LastName = "Smith", Id = 1},
-				new PersonRowViewModel{FirstName = "Andy", LastName = "Turner", Id = 2},
-				new PersonRowViewModel{FirstName = "Jack", LastName = "Miller", Id = 3},
-				new PersonRowViewModel{FirstName = "Randy", LastName = "Marsh", Id = 4}
+				new PersonRowViewModel{FirstName = "Bob", LastName = "Smith", Number = 1},
+				new PersonRowViewModel{FirstName = "Andy", LastName = "Turner", Number = 2},
+				new PersonRowViewModel{FirstName = "Jack", LastName = "Miller", Number = 3},
+				new PersonRowViewModel{FirstName = "Randy", LastName = "Marsh", Number = 4}
 			};
 
 			foreach (var personRowViewModel in DataSource)
@@ -49,7 +49,7 @@ namespace Example.WPF.Person.UI
 		private void RegisterValidations(IValidationService<IPersonRowViewModel> validationService)
 		{
 			validationService.Register(this);
-			validationService.AddAbsoluteRule(this, r => r.Id, Condition.MustBeGreaterThan, 0, Severity.Error, "Test {0}");
+			validationService.AddAbsoluteRule(this, r => r.Number, Condition.MustBeGreaterThan, 0, Severity.Error, "Test {0}");
 		}
 
 		private void RegisterToRibbon(IRibbonControlGroupsController crudGroupController)
@@ -69,7 +69,7 @@ namespace Example.WPF.Person.UI
 
 		public void Add()
 		{
-			var row = new PersonRowViewModel {FirstName = "Alan", LastName = "Wake", Id = 0};
+			var row = new PersonRowViewModel { FirstName = "Alan", LastName = "Wake", Number = 0 };
 
 			row.PropertyChanged += OnRowPropertyChanged;
 
