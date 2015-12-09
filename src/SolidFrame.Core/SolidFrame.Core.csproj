@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\ViewModel.cs" />
+    <Compile Include="Interfaces\Client\IApiResourceConfiguration.cs" />
     <Compile Include="Interfaces\Crud\IAdd.cs" />
     <Compile Include="Interfaces\General\ICanBeBusy.cs" />
     <Compile Include="Interfaces\General\IHaveId.cs" />

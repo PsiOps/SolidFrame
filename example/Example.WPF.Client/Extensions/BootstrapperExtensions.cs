@@ -3,6 +3,7 @@ using Example.WPF.Resources;
 using Example.WPF.Translations;
 using Prism.Modularity;
 using SolidFrame.Explorer;
+using SolidFrame.Notifications;
 using SolidFrame.Resources;
 using SolidFrame.Ribbon;
 using SolidFrame.Validation;
@@ -17,7 +18,8 @@ namespace Example.WPF.Client.Extensions
 				.AddModule(typeof(RibbonModule))
 				.AddModule(typeof(ExplorerModule), "ClientResourcesModule", "PersonModule")
 				.AddModule(typeof(ValidationModule), "CoreResourceModule")
-				.AddModule(typeof(CoreResourceModule));
+				.AddModule(typeof(CoreResourceModule))
+				.AddModule(typeof(NotificationsModule));
 		}
 
 		public static ModuleCatalog AddFrameworkExtensionModules(this ModuleCatalog moduleCatalog)

@@ -49,10 +49,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NotificationServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SolidFrame.Core\SolidFrame.Core.csproj">
+      <Project>{83691013-5614-41EE-9039-45B54B3B57D2}</Project>
+      <Name>SolidFrame.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SolidFrame.Notifications\SolidFrame.Notifications.csproj">
+      <Project>{E00D39CA-64E8-40F9-A0E2-4517DBEF08FD}</Project>
+      <Name>SolidFrame.Notifications</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

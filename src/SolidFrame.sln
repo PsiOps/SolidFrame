@@ -30,6 +30,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolidFrame.Validation.Test"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolidFrame.Notifications.Test", "SolidFrame.Notifications.Test\SolidFrame.Notifications.Test.csproj", "{D938EC80-E791-42D0-BB24-07BB631D5480}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolidFrame.Client", "SolidFrame.Client\SolidFrame.Client.csproj", "{3F9C0630-3B2D-4410-A7E1-D924E5E55A7F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -140,6 +142,16 @@ Global
 		{D938EC80-E791-42D0-BB24-07BB631D5480}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{D938EC80-E791-42D0-BB24-07BB631D5480}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{D938EC80-E791-42D0-BB24-07BB631D5480}.Release|x86.ActiveCfg = Release|Any CPU
+		{3F9C0630-3B2D-4410-A7E1-D924E5E55A7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F9C0630-3B2D-4410-A7E1-D924E5E55A7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F9C0630-3B2D-4410-A7E1-D924E5E55A7F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{3F9C0630-3B2D-4410-A7E1-D924E5E55A7F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{3F9C0630-3B2D-4410-A7E1-D924E5E55A7F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3F9C0630-3B2D-4410-A7E1-D924E5E55A7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F9C0630-3B2D-4410-A7E1-D924E5E55A7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F9C0630-3B2D-4410-A7E1-D924E5E55A7F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{3F9C0630-3B2D-4410-A7E1-D924E5E55A7F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{3F9C0630-3B2D-4410-A7E1-D924E5E55A7F}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

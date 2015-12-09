@@ -6,32 +6,30 @@
 			 xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
 			 mc:Ignorable="d" >
 	<Grid Background="White" >
-		<telerik:RadBusyIndicator IsBusy="{Binding IsBusy, Mode=OneWay}" BusyContent="{Binding IsBusyText}" >
-			<telerik:RadGridView
-				ItemsSource="{Binding DataSource, Mode=TwoWay}"
-				AutoGenerateColumns="False"
-				GridLinesVisibility="Horizontal"
-				ShowGroupPanel="False"
-				SelectionMode="Extended"
-				SelectionUnit="Mixed">
-				<telerik:RadGridView.Columns>
-					<telerik:GridViewDataColumn 
-						DataMemberBinding="{Binding FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-						UniqueName="Name"
-						Header="{Binding Path=DataContext.Translations[FirstName], RelativeSource={RelativeSource AncestorType=UserControl}}">
-					</telerik:GridViewDataColumn>
-					<telerik:GridViewDataColumn 
-						DataMemberBinding="{Binding LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-						UniqueName="Remark"
-						Header="{Binding Path=DataContext.Translations[LastName], RelativeSource={RelativeSource AncestorType=UserControl}}">
-					</telerik:GridViewDataColumn>
-					<telerik:GridViewDataColumn 
-						DataMemberBinding="{Binding Id, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-						UniqueName="Rank"
-						Header="{Binding Path=DataContext.Translations[Id], RelativeSource={RelativeSource AncestorType=UserControl}}">
-					</telerik:GridViewDataColumn>
-				</telerik:RadGridView.Columns>
-			</telerik:RadGridView>
-		</telerik:RadBusyIndicator>
+		<telerik:RadGridView
+			ItemsSource="{Binding DataSource, Mode=TwoWay}"
+			AutoGenerateColumns="False"
+			GridLinesVisibility="Horizontal"
+			ShowGroupPanel="False"
+			SelectionMode="Extended"
+			SelectionUnit="Mixed">
+			<telerik:RadGridView.Columns>
+				<telerik:GridViewDataColumn 
+					DataMemberBinding="{Binding FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+					UniqueName="Name"
+					Header="{Binding Path=DataContext.Translations[FirstName], RelativeSource={RelativeSource AncestorType=UserControl}}">
+				</telerik:GridViewDataColumn>
+				<telerik:GridViewDataColumn 
+					DataMemberBinding="{Binding LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+					UniqueName="Remark"
+					Header="{Binding Path=DataContext.Translations[LastName], RelativeSource={RelativeSource AncestorType=UserControl}}">
+				</telerik:GridViewDataColumn>
+				<telerik:GridViewDataColumn 
+					DataMemberBinding="{Binding Number, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+					UniqueName="Rank"
+					Header="{Binding Path=DataContext.Translations[Number], RelativeSource={RelativeSource AncestorType=UserControl}}">
+				</telerik:GridViewDataColumn>
+			</telerik:RadGridView.Columns>
+		</telerik:RadGridView>
 	</Grid>
 </UserControl>

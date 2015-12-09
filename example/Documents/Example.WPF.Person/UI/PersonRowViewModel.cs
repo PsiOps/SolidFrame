@@ -1,4 +1,5 @@
 ﻿
+using Example.Models;
 using SolidFrame.Core.Base;
 using SolidFrame.Core.Interfaces.Validation;
 using System;
@@ -14,9 +15,11 @@ namespace Example.WPF.Person.UI
 	}
 	public class PersonRowViewModel : ViewModel, IPersonRowViewModel
 	{
-		public PersonRowViewModel()
+		public PersonRowViewModel(IPersonModel personModel)
 		{
-
+			FirstName = personModel.FirstName;
+			LastName = personModel.LastName;
+			Number = personModel.Number;
 		}
 
 		public string FirstName { get; set; }
@@ -24,6 +27,10 @@ namespace Example.WPF.Person.UI
 		public int Number { get; set; }
 		
 		public Guid Id { get; private set; }
-		public string ValidationName { get; private set; }
+
+		public string ValidationName
+		{
+			get { return string.Format("{0} {1}", FirstName, LastName); }
+		}
 	}
 }

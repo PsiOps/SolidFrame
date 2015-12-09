@@ -1,4 +1,7 @@
-﻿using Example.WPF.Person.Types;
+﻿using Example.WPF.Person.Logics;
+using Example.WPF.Person.Types;
+using Example.WPF.Resources.Web;
+using SolidFrame.Core.Base;
 using SolidFrame.Core.Interfaces.Crud;
 using SolidFrame.Core.Interfaces.General;
 using SolidFrame.Core.Interfaces.Ribbon;
@@ -14,13 +17,20 @@ namespace Example.WPF.Person.UI
 {
 	public interface IPersonListViewModel : IListViewModel, IAdd, ITranslate, IValidate<IPersonRowViewModel>
 	{
-		ObservableCollection<IPersonRowViewModel> DataSource { get; set; }
+		ICollection<IPersonRowViewModel> DataSource { get; set; }
 	}
 
-	public class PersonListViewModel : IPersonListViewModel
+	public class PersonListViewModel : ViewModel, IPersonListViewModel
 	{
+		private readonly IPersonRowViewModelFactory _rowViewModelFactory;
+		private readonly IPersonResource _personResource;
+		private ICollection<IPersonRowViewModel> _dataSource;
+
 		public PersonListViewModel(IPersonListViewModelDepedencies dependencies)
 		{
+			_rowViewModelFactory = dependencies.RowViewModelFactory;
+			_personResource = dependencies.PersonResource;
+
 			var configuration = dependencies.Configuration;
 
 			Id = configuration.Id;
@@ -30,26 +40,33 @@ namespace Example.WPF.Person.UI
 
 			Translations = dependencies.TranslationService.GetTranslations(Id);
 
-			DataSource = new ObservableCollection<IPersonRowViewModel>
-			{
-				new PersonRowViewModel{FirstName = "Bob", LastName = "Smith", Number = 1},
-				new PersonRowViewModel{FirstName = "Andy", LastName = "Turner", Number = 2},
-				new PersonRowViewModel{FirstName = "Jack", LastName = "Miller", Number = 3},
-				new PersonRowViewModel{FirstName = "Randy", LastName = "Marsh", Number = 4}
-			};
+			RegisterValidations(dependencies.ValidationService);
 
-			foreach (var personRowViewModel in DataSource)
+			LoadData();
+		}
+
+		private async void LoadData()
+		{
+			var rows = new Collection<IPersonRowViewModel>();
+
+			var models = await _personResource.Get();
+
+			foreach (var personModel in models)
 			{
-				personRowViewModel.PropertyChanged += OnRowPropertyChanged;
+				var row = _rowViewModelFactory.Create(personModel);
+
+				row.PropertyChanged += OnRowPropertyChanged;
+
+				rows.Add(row);
 			}
 
-			RegisterValidations(dependencies.ValidationService);
+			DataSource = new ObservableCollection<IPersonRowViewModel>(rows);
 		}
 
 		private void RegisterValidations(IValidationService<IPersonRowViewModel> validationService)
 		{
 			validationService.Register(this);
-			validationService.AddAbsoluteRule(this, r => r.Number, Condition.MustBeGreaterThan, 0, Severity.Error, "Test {0}");
+			validationService.AddAbsoluteRule(this, r => r.Number, Condition.MustBeGreaterThan, 0, Severity.Error, "{0} must be larger than zero");
 		}
 
 		private void RegisterToRibbon(IRibbonControlGroupsController crudGroupController)
@@ -57,7 +74,15 @@ namespace Example.WPF.Person.UI
 			crudGroupController.Register(this);
 		}
 
-		public ObservableCollection<IPersonRowViewModel> DataSource { get; set; }
+		public ICollection<IPersonRowViewModel> DataSource
+		{
+			get { return _dataSource; }
+			set
+			{
+				_dataSource = value;
+				OnPropertyChanged();
+			}
+		}
 
 		public Guid Id { get; private set; }
 		public string Title { get; private set; }
@@ -69,7 +94,7 @@ namespace Example.WPF.Person.UI
 
 		public void Add()
 		{
-			var row = new PersonRowViewModel { FirstName = "Alan", LastName = "Wake", Number = 0 };
+			var row = _rowViewModelFactory.Create();
 
 			row.PropertyChanged += OnRowPropertyChanged;
 

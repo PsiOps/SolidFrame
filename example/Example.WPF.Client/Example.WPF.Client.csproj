@@ -70,6 +70,9 @@
     <Reference Include="SolidFrame.Explorer">
       <HintPath>..\..\src\SolidFrame.Explorer\bin\Debug\SolidFrame.Explorer.dll</HintPath>
     </Reference>
+    <Reference Include="SolidFrame.Notifications">
+      <HintPath>..\..\src\SolidFrame.Notifications\bin\Debug\SolidFrame.Notifications.dll</HintPath>
+    </Reference>
     <Reference Include="SolidFrame.Resources">
       <HintPath>..\..\src\SolidFrame.Resources\bin\Debug\SolidFrame.Resources.dll</HintPath>
     </Reference>

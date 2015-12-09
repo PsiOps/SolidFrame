@@ -15,8 +15,8 @@ namespace Example.WPF.Translations.Logics
 				{
 					{"FirstName", "Voornaam"},
 					{"LastName", "Achternaam"},
-					{"Id", "Nummer"},
-					{"Test {0}", "Translated Test {0}"}
+					{"Number", "Nummer"},
+					{"{0} must be larger than zero", "{0} moet groter zijn dan nul."}
 				};
 			}
 
