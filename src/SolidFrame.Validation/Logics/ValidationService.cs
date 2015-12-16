@@ -11,39 +11,39 @@ using System.Linq.Expressions;
 
 namespace SolidFrame.Validation.Logics
 {
-	public class ValidationService<TCanBeValidated> : IValidationService<TCanBeValidated> where TCanBeValidated : ICanBeValidated
+	public class ValidationService<TValidatable> : IValidationService<TValidatable> where TValidatable : IValidatable
 	{
 		public ValidationService(IValidationServiceDependencies dependencies)
 		{
-			_validationRules = new List<IValidationRule<TCanBeValidated>>();
+			_validationRules = new List<IValidationRule<TValidatable>>();
 			_validationRuleFactory = dependencies.ValidationRuleFactory;
 			_conditionEvaluatorFactory = dependencies.ConditionEvaluatorFactory;
 			_propertyNameHelper = dependencies.PropertyNameHelper;
 			_notificationService = dependencies.NotificationService;
 		}
 
-		public void Register(IValidate<TCanBeValidated> validate)
+		public void Register(IValidate<TValidatable> validate)
 		{
 			validate.RowValidationTrigger += EvaluateRules;
 		}
 
-		private void EvaluateRules(TCanBeValidated canBeValidated, string propertyName)
+		private void EvaluateRules(TValidatable validatable, string propertyName)
 		{
 			foreach (var validationRule in _validationRules)
 			{
 				if(propertyName != null && !validationRule.Properties.Contains(propertyName)) continue;
 
-				if (validationRule.Evaluate(canBeValidated))
+				if (validationRule.Evaluate(validatable))
 				{
-					_notificationService.TryRemoveNotification(validationRule.Id, canBeValidated.Id);
+					_notificationService.TryRemoveNotification(validationRule.Id, validatable.Id);
 					continue;
 				}
 
-				_notificationService.AddNotification(validationRule.Id, canBeValidated.Id, canBeValidated.ValidationName, validationRule.Message);
+				_notificationService.AddNotification(validationRule.Id, validatable.Id, validatable.ValidationName, validationRule.Message);
 			}
 		}
 
-		public void AddAbsoluteRule(IHaveId haveId, Expression<Func<TCanBeValidated, int>> propertyExpression, Condition condition, int value, Severity severity, string message)
+		public void AddAbsoluteRule(IHaveId haveId, Expression<Func<TValidatable, int>> propertyExpression, Condition condition, int value, Severity severity, string message)
 		{
 			var propertyName = _propertyNameHelper.GetPropertyName(propertyExpression);
 
@@ -51,7 +51,8 @@ namespace SolidFrame.Validation.Logics
 
 			var propertyValueGetter = propertyExpression.Compile();
 
-			IConditionEvaluator<TCanBeValidated> evaluator = null;
+			// Everything below here could be genericer
+			IConditionEvaluator<TValidatable> evaluator = null;
 
 			switch (condition)
 			{
@@ -82,7 +83,7 @@ namespace SolidFrame.Validation.Logics
 			return string.Format(translations[message], translations[propertyName]);
 		}
 
-		private readonly ICollection<IValidationRule<TCanBeValidated>> _validationRules;
+		private readonly ICollection<IValidationRule<TValidatable>> _validationRules;
 		private readonly IValidationRuleFactory _validationRuleFactory;
 		private readonly IConditionEvaluatorFactory _conditionEvaluatorFactory;
 		private readonly IPropertyNameHelper _propertyNameHelper;

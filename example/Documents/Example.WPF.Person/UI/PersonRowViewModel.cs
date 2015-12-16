@@ -7,7 +7,7 @@ using System.ComponentModel;
 
 namespace Example.WPF.Person.UI
 {
-	public interface IPersonRowViewModel : ICanBeValidated, INotifyPropertyChanged
+	public interface IPersonRowViewModel : IValidatable, INotifyPropertyChanged
 	{
 		string FirstName { get; set; }
 		string LastName { get; set; }

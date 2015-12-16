@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace SolidFrame.Core.Interfaces.Validation
 {
-	public interface IValidationService<T> where T : ICanBeValidated
+	public interface IValidationService<T> where T : IValidatable
 	{
 		void Register(IValidate<T> validate);
 

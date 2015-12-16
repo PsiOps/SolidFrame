@@ -6,7 +6,7 @@ namespace SolidFrame.Validation.Logics
 	public class ValidationRuleFactory : IValidationRuleFactory
 	{
 		public IValidationRule<TCanBeValidated> Create<TCanBeValidated>(IConditionEvaluator<TCanBeValidated> evaluator, Severity severity, string message, params string[] propertyNames) 
-			where TCanBeValidated : ICanBeValidated
+			where TCanBeValidated : IValidatable
 		{
 			return new ValidationRule<TCanBeValidated>(evaluator, severity, message, propertyNames);
 		}

@@ -15,6 +15,10 @@ using System.ComponentModel;
 
 namespace Example.WPF.Person.UI
 {
+	// TODO: DirtyTracking and Saving
+	// TODO: IsBusy indicator
+	// TODO: Pivot Document
+
 	public interface IPersonListViewModel : IListViewModel, IAdd, ITranslate, IValidate<IPersonRowViewModel>
 	{
 		ICollection<IPersonRowViewModel> DataSource { get; set; }
@@ -22,6 +26,9 @@ namespace Example.WPF.Person.UI
 
 	public class PersonListViewModel : ViewModel, IPersonListViewModel
 	{
+		public Guid Id { get; private set; }
+		public string Title { get; private set; }
+
 		private readonly IPersonRowViewModelFactory _rowViewModelFactory;
 		private readonly IPersonResource _personResource;
 		private ICollection<IPersonRowViewModel> _dataSource;
@@ -31,10 +38,10 @@ namespace Example.WPF.Person.UI
 			_rowViewModelFactory = dependencies.RowViewModelFactory;
 			_personResource = dependencies.PersonResource;
 
-			var configuration = dependencies.Configuration;
+			var document = dependencies.Document;
 
-			Id = configuration.Id;
-			Title = configuration.Name;
+			Id = document.Id;
+			Title = document.Name;
 
 			RegisterToRibbon(dependencies.CrudGroupController);
 
@@ -43,6 +50,17 @@ namespace Example.WPF.Person.UI
 			RegisterValidations(dependencies.ValidationService);
 
 			LoadData();
+		}
+
+		private void RegisterValidations(IValidationService<IPersonRowViewModel> validationService)
+		{
+			validationService.Register(this);
+			validationService.AddAbsoluteRule(this, r => r.Number, Condition.MustBeGreaterThan, 0, Severity.Error, "{0} must be larger than zero");
+		}
+
+		private void RegisterToRibbon(IRibbonControlGroupsController crudGroupController)
+		{
+			crudGroupController.Register(this);
 		}
 
 		private async void LoadData()
@@ -63,17 +81,6 @@ namespace Example.WPF.Person.UI
 			DataSource = new ObservableCollection<IPersonRowViewModel>(rows);
 		}
 
-		private void RegisterValidations(IValidationService<IPersonRowViewModel> validationService)
-		{
-			validationService.Register(this);
-			validationService.AddAbsoluteRule(this, r => r.Number, Condition.MustBeGreaterThan, 0, Severity.Error, "{0} must be larger than zero");
-		}
-
-		private void RegisterToRibbon(IRibbonControlGroupsController crudGroupController)
-		{
-			crudGroupController.Register(this);
-		}
-
 		public ICollection<IPersonRowViewModel> DataSource
 		{
 			get { return _dataSource; }
@@ -83,9 +90,6 @@ namespace Example.WPF.Person.UI
 				OnPropertyChanged();
 			}
 		}
-
-		public Guid Id { get; private set; }
-		public string Title { get; private set; }
 
 		public bool CanAdd()
 		{

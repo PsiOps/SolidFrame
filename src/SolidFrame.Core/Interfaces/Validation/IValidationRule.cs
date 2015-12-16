@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace SolidFrame.Core.Interfaces.Validation
 {
-	public interface IValidationRule<in TCanBeValidated> where TCanBeValidated : ICanBeValidated
+	public interface IValidationRule<in TCanBeValidated> where TCanBeValidated : IValidatable
 	{
 		Guid Id { get; }
 		string Message { get; }

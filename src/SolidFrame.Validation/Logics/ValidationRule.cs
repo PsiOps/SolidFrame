@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace SolidFrame.Validation.Logics
 {
 	public class ValidationRule<TCanBeValidated> : IValidationRule<TCanBeValidated> 
-		where TCanBeValidated : ICanBeValidated
+		where TCanBeValidated : IValidatable
 	{
 		public ValidationRule(IConditionEvaluator<TCanBeValidated> evaluator, Severity severity, string message, params string[] propertyNames)
 		{

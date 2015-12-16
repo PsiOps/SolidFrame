@@ -42,7 +42,13 @@
     <Compile Include="Base\ViewModel.cs" />
     <Compile Include="Interfaces\Client\IApiResourceConfiguration.cs" />
     <Compile Include="Interfaces\Crud\IAdd.cs" />
-    <Compile Include="Interfaces\General\ICanBeBusy.cs" />
+    <Compile Include="Interfaces\DirtyTracking\ITrackable.cs" />
+    <Compile Include="Interfaces\DirtyTracking\ITrackedCollection.cs" />
+    <Compile Include="Interfaces\DirtyTracking\ITrackedCollectionFactory.cs" />
+    <Compile Include="Interfaces\DirtyTracking\ITracker.cs" />
+    <Compile Include="Interfaces\DirtyTracking\ITrackerFactory.cs" />
+    <Compile Include="Interfaces\General\IRowViewModelFactory.cs" />
+    <Compile Include="Interfaces\General\IStateful.cs" />
     <Compile Include="Interfaces\General\IHaveId.cs" />
     <Compile Include="Interfaces\General\IListViewModel.cs" />
     <Compile Include="Interfaces\General\IPropertyNameHelper.cs" />
@@ -58,10 +64,10 @@
     <Compile Include="Interfaces\Ribbon\IRibbonTab.cs" />
     <Compile Include="Interfaces\Translation\ITranslate.cs" />
     <Compile Include="Interfaces\Translation\ITranslationService.cs" />
-    <Compile Include="Interfaces\Validation\ICanBeValidated.cs" />
+    <Compile Include="Interfaces\Validation\IValidatable.cs" />
     <Compile Include="Interfaces\Validation\IConditionEvaluator.cs" />
     <Compile Include="Interfaces\Validation\IConditionEvaluatorFactory.cs" />
-    <Compile Include="Interfaces\Validation\IValidateRows.cs" />
+    <Compile Include="Interfaces\Validation\IValidate.cs" />
     <Compile Include="Interfaces\Validation\IValidationCondition.cs" />
     <Compile Include="Interfaces\Validation\IValidationRule.cs" />
     <Compile Include="Interfaces\Validation\IValidationRuleFactory.cs" />

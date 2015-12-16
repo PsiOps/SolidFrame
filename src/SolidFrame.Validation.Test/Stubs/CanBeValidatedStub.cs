@@ -1,11 +1,12 @@
 using SolidFrame.Core.Interfaces.Validation;
+using SolidFrame.Core.Types;
 using System;
 
 namespace SolidFrame.Validation.Test.Stubs
 {
-	public class CanBeValidatedStub : ICanBeValidated
+	internal class ValidatableStub : IValidatable
 	{
-		public CanBeValidatedStub(string validationName = "Test")
+		public ValidatableStub(string validationName = "Test")
 		{
 			Id = Guid.NewGuid();
 			ValidationName = validationName;
@@ -17,5 +18,12 @@ namespace SolidFrame.Validation.Test.Stubs
 
 		public Guid Id { get; private set; }
 		public string ValidationName { get; private set; }
+
+		public event HasErrorsChangedHandler HasErrorsChanged;
+
+		public bool HasErrors()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }
