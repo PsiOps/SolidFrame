@@ -83,6 +83,49 @@ namespace SolidFrame.DirtyTracking.Test
 		}
 
 		[Test]
+		public void It_gets_dirty()
+		{
+			var row = _rows.First();
+
+			row.Name = "Changed";
+
+			Assert.IsTrue(_tracker.IsDirty);
+		}
+
+		[Test]
+		public void It_raises_IsDirtyChanged_event_when_first_row_is_made_Dirty()
+		{
+			var eventRaised = false;
+
+			_tracker.IsDirtyChanged += state => eventRaised = true;
+
+			var row = _rows.First();
+
+			row.Name = "Changed";
+
+			Assert.IsTrue(eventRaised);
+		}
+
+		[Test]
+		public void It_does_not_raise_IsDirtyChanged_when_second_row_is_made_Dirty()
+		{
+			bool eventRaised;
+
+			_tracker.IsDirtyChanged += state => eventRaised = true;
+
+			var firstRow = _rows.First();
+			var secondRow = _rows.Skip(1).First();
+
+			firstRow.Name = "Changed";
+
+			eventRaised = false;
+
+			secondRow.Name = "AlsoChanged";
+
+			Assert.IsFalse(eventRaised);
+		}
+
+		[Test]
 		public void It_does_not_retrieve_rows_made_clean()
 		{
 			var row = _rows.First();
@@ -97,6 +140,48 @@ namespace SolidFrame.DirtyTracking.Test
 			row.Name = "test1";
 
 			Assert.AreEqual(0, _tracker.GetDirtyModels().Count());
+		}
+
+		[Test]
+		public void It_does_not_raise_IsDirtyChanged_when_row_is_made_clean_but_Dirty_rows_remain()
+		{
+			bool eventRaised;
+
+			_tracker.IsDirtyChanged += state => eventRaised = true;
+
+			var firstRow = _rows.First();
+			var secondRow = _rows.Skip(1).First();
+
+			firstRow.Name = "Changed";
+			secondRow.Name = "AlsoChanged";
+
+			eventRaised = false;
+
+			firstRow.Name = "test1";
+
+			Assert.IsFalse(eventRaised);
+
+		}
+
+		[Test]
+		public void It_raises_IsDirtyChanged_event_when_last_Dirty_row_is_made_clean()
+		{
+			bool eventRaised;
+
+			_tracker.IsDirtyChanged += state => eventRaised = true;
+
+			var firstRow = _rows.First();
+			var secondRow = _rows.Skip(1).First();
+
+			firstRow.Name = "Changed";
+			secondRow.Name = "AlsoChanged";
+			firstRow.Name = "test1";
+
+			eventRaised = false;
+
+			secondRow.Name = "test2";
+
+			Assert.IsTrue(eventRaised);
 		}
 	}
 

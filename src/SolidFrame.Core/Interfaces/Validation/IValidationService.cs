@@ -13,5 +13,8 @@ namespace SolidFrame.Core.Interfaces.Validation
 		//void AddRelativeRule<TProp>(Expression<Func<TProp>> property1, ValidationCondition condition, Expression<Func<TProp>> property2, Severity severity, string message);
 		//void AddUniqueRule<TProp>(Expression<Func<TProp>> property, Func<ICollection<TProp>> collection, Severity severity, string message);
 		//void AddCustomRule(IValidationRule<T> customRule, Severity severity, string message);
+
+		bool HasErrors { get; }
+		event BooleanStateChangedHandler HasErrorsChanged;
 	}
 }

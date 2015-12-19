@@ -272,5 +272,104 @@ namespace SolidFrame.Validation.Test
 
 			_notificationServiceMock.Verify(s => s.TryRemoveNotification(_validationRuleId, stub.Id));
 		}
+
+		[Test]
+		public void It_updates_HasErrors_property_based_on_prescence_of_rule_violations()
+		{
+			Assert.IsFalse(_validationService.HasErrors);
+
+			const string validationName = "Stub";
+			var stub = new ValidatableStub(validationName);
+			_validateMock.Raise(v => v.RowValidationTrigger += null, stub, "NumberInt");
+
+			Assert.IsTrue(_validationService.HasErrors);
+
+			_validationRuleMock.Setup(r => r.Evaluate(It.IsAny<ValidatableStub>())).Returns(true);
+
+			_validateMock.Raise(v => v.RowValidationTrigger += null, stub, "NumberInt");
+
+			Assert.IsFalse(_validationService.HasErrors);
+		}
+
+		[Test]
+		public void It_raises_HasErrorsChanged_on_first_rule_violation()
+		{
+			var eventRaised = false;
+
+			_validationService.HasErrorsChanged += state => eventRaised = true;
+
+			const string validationName = "Stub";
+			var stub = new ValidatableStub(validationName);
+			_validateMock.Raise(v => v.RowValidationTrigger += null, stub, "NumberInt");
+
+			Assert.IsTrue(eventRaised);
+		}
+
+		[Test]
+		public void It_does_not_raise_HasErrorsChanged_on_second_rule_validation()
+		{
+			bool eventRaised;
+
+			_validationService.HasErrorsChanged += state => eventRaised = true;
+
+			const string validationName = "Stub";
+			var stub1 = new ValidatableStub(validationName);
+			_validateMock.Raise(v => v.RowValidationTrigger += null, stub1, "NumberInt");
+
+			eventRaised = false;
+
+			var stub2 = new ValidatableStub(validationName);
+			_validateMock.Raise(v => v.RowValidationTrigger += null, stub2, "NumberInt");
+
+			Assert.IsFalse(eventRaised);
+		}
+
+		[Test]
+		public void It_does_not_raise_HasErrorsChanged_when_violation_is_resolved_but_violations_remain()
+		{
+			bool eventRaised;
+
+			_validationService.HasErrorsChanged += state => eventRaised = true;
+
+			const string validationName = "Stub";
+			var stub1 = new ValidatableStub(validationName);
+			_validateMock.Raise(v => v.RowValidationTrigger += null, stub1, "NumberInt");
+
+			var stub2 = new ValidatableStub(validationName);
+			_validateMock.Raise(v => v.RowValidationTrigger += null, stub2, "NumberInt");
+
+			eventRaised = false;
+
+			_validationRuleMock.Setup(r => r.Evaluate(It.IsAny<ValidatableStub>())).Returns(true);
+
+			_validateMock.Raise(v => v.RowValidationTrigger += null, stub1, "NumberInt");
+
+			Assert.IsFalse(eventRaised);
+		}
+
+		[Test]
+		public void It_raises_HasErrorsChanged_when_last_violation_is_resolved()
+		{
+			bool eventRaised;
+
+			_validationService.HasErrorsChanged += state => eventRaised = true;
+
+			const string validationName = "Stub";
+			var stub1 = new ValidatableStub(validationName);
+			_validateMock.Raise(v => v.RowValidationTrigger += null, stub1, "NumberInt");
+
+			var stub2 = new ValidatableStub(validationName);
+			_validateMock.Raise(v => v.RowValidationTrigger += null, stub2, "NumberInt");
+
+			_validationRuleMock.Setup(r => r.Evaluate(It.IsAny<ValidatableStub>())).Returns(true);
+
+			_validateMock.Raise(v => v.RowValidationTrigger += null, stub1, "NumberInt");
+
+			eventRaised = false;
+
+			_validateMock.Raise(v => v.RowValidationTrigger += null, stub2, "NumberInt");
+
+			Assert.IsTrue(eventRaised);
+		}
 	}
 }

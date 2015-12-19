@@ -1,13 +1,13 @@
 ﻿
 using Example.Models;
 using SolidFrame.Core.Base;
+using SolidFrame.Core.Interfaces.DirtyTracking;
 using SolidFrame.Core.Interfaces.Validation;
 using System;
-using System.ComponentModel;
 
 namespace Example.WPF.Person.UI
 {
-	public interface IPersonRowViewModel : IValidatable, INotifyPropertyChanged
+	public interface IPersonRowViewModel : IValidatable, ITrackable, IPersonModel, IEquatable<IPersonModel>
 	{
 		string FirstName { get; set; }
 		string LastName { get; set; }
@@ -31,6 +31,11 @@ namespace Example.WPF.Person.UI
 		public string ValidationName
 		{
 			get { return string.Format("{0} {1}", FirstName, LastName); }
+		}
+
+		public bool Equals(IPersonModel other)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

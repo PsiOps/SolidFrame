@@ -7,7 +7,7 @@ namespace SolidFrame.DirtyTracking.Logics
 {
 	public class TrackedCollectionFactory<TModel, TRowViewModel> : ITrackedCollectionFactory<TModel, TRowViewModel>
 		where TRowViewModel : class, ITrackable, TModel, IEquatable<TModel>
-		where TModel : class, IEquatable<TModel>
+		where TModel : class
 	{
 		private readonly ITrackerFactory<TModel, TRowViewModel> _trackerFactory;
 

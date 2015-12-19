@@ -1,8 +1,10 @@
-﻿using Example.WPF.Person.Logics;
+﻿using Example.Models;
+using Example.WPF.Person.Logics;
 using Example.WPF.Person.Types;
 using Example.WPF.Resources.Web;
 using SolidFrame.Core.Base;
 using SolidFrame.Core.Interfaces.Crud;
+using SolidFrame.Core.Interfaces.DirtyTracking;
 using SolidFrame.Core.Interfaces.General;
 using SolidFrame.Core.Interfaces.Ribbon;
 using SolidFrame.Core.Interfaces.Translation;
@@ -10,18 +12,19 @@ using SolidFrame.Core.Interfaces.Validation;
 using SolidFrame.Core.Types;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 
 namespace Example.WPF.Person.UI
 {
-	// TODO: DirtyTracking and Saving
+	// TODO: DirtyTracking.Clean()
+	// TODO: Resource.Put() and ISave
+	// TODO: Resource Error Handling
 	// TODO: IsBusy indicator
 	// TODO: Pivot Document
 
 	public interface IPersonListViewModel : IListViewModel, IAdd, ITranslate, IValidate<IPersonRowViewModel>
 	{
-		ICollection<IPersonRowViewModel> DataSource { get; set; }
+		ITrackedCollection<IPersonModel, IPersonRowViewModel> DataSource { get; set; }
 	}
 
 	public class PersonListViewModel : ViewModel, IPersonListViewModel
@@ -31,12 +34,15 @@ namespace Example.WPF.Person.UI
 
 		private readonly IPersonRowViewModelFactory _rowViewModelFactory;
 		private readonly IPersonResource _personResource;
-		private ICollection<IPersonRowViewModel> _dataSource;
+		private readonly IValidationService<IPersonRowViewModel> _validationService;
+		private readonly ITrackedCollectionFactory<IPersonModel, IPersonRowViewModel> _trackedCollectionFactory;
 
 		public PersonListViewModel(IPersonListViewModelDepedencies dependencies)
 		{
 			_rowViewModelFactory = dependencies.RowViewModelFactory;
 			_personResource = dependencies.PersonResource;
+			_validationService = dependencies.ValidationService;
+			_trackedCollectionFactory = dependencies.TrackedCollectionFactory;
 
 			var document = dependencies.Document;
 
@@ -56,6 +62,8 @@ namespace Example.WPF.Person.UI
 		{
 			validationService.Register(this);
 			validationService.AddAbsoluteRule(this, r => r.Number, Condition.MustBeGreaterThan, 0, Severity.Error, "{0} must be larger than zero");
+
+			validationService.HasErrorsChanged += hasErrors => OnCanSaveChanged();
 		}
 
 		private void RegisterToRibbon(IRibbonControlGroupsController crudGroupController)
@@ -65,23 +73,23 @@ namespace Example.WPF.Person.UI
 
 		private async void LoadData()
 		{
-			var rows = new Collection<IPersonRowViewModel>();
+			var models = await _personResource.Get(); // ToDo: Provide OnErrorCallback in Get method
 
-			var models = await _personResource.Get();
+			if (models == null) return;
 
-			foreach (var personModel in models)
+			DataSource = _trackedCollectionFactory.Create(models);
+
+			DataSource.IsDirtyChanged += isDirty => OnCanSaveChanged();
+
+			foreach (var row in DataSource)
 			{
-				var row = _rowViewModelFactory.Create(personModel);
-
 				row.PropertyChanged += OnRowPropertyChanged;
-
-				rows.Add(row);
 			}
-
-			DataSource = new ObservableCollection<IPersonRowViewModel>(rows);
 		}
 
-		public ICollection<IPersonRowViewModel> DataSource
+		private ITrackedCollection<IPersonModel, IPersonRowViewModel> _dataSource;
+
+		public ITrackedCollection<IPersonModel, IPersonRowViewModel> DataSource
 		{
 			get { return _dataSource; }
 			set
@@ -115,6 +123,26 @@ namespace Example.WPF.Person.UI
 		}
 
 		public event CanCrudChangedHandler CanAddChanged;
+
+		public bool CanSave()
+		{
+			return DataSource.IsDirty && !_validationService.HasErrors;
+		}
+
+		public void Save()
+		{
+			//_personResource.Put(DataSource.GetDirtyModels());
+
+			//DataSource.Clean();
+		}
+
+		private void OnCanSaveChanged()
+		{
+			if (CanSaveChanged != null)
+				CanSaveChanged();
+		}
+
+		public event CanCrudChangedHandler CanSaveChanged;
 
 		private void OnRowPropertyChanged(object sender, PropertyChangedEventArgs args)
 		{

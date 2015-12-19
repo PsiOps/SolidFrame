@@ -1,4 +1,5 @@
 ﻿using SolidFrame.Core.Interfaces.DirtyTracking;
+using SolidFrame.Core.Types;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,7 +9,7 @@ namespace SolidFrame.DirtyTracking.Types
 {
 	public class TrackedCollection<TModel, TRowViewModel> : ObservableCollection<TRowViewModel>, ITrackedCollection<TModel, TRowViewModel>
 		where TRowViewModel : class, ITrackable, TModel, IEquatable<TModel>
-		where TModel : class, IEquatable<TModel>
+		where TModel : class
 	{
 		private readonly ITracker<TModel, TRowViewModel> _tracker;
 
@@ -16,6 +17,8 @@ namespace SolidFrame.DirtyTracking.Types
 			: base(tracker.ConvertAndTrack(models))
 		{
 			_tracker = tracker;
+
+			_tracker.IsDirtyChanged += state => OnIsDirtyChanged();
 		}
 
 		public void AddTracked(TModel model)
@@ -36,5 +39,15 @@ namespace SolidFrame.DirtyTracking.Types
 		{
 			return _tracker.GetDirtyModels();
 		}
+
+		public bool IsDirty { get { return _tracker.IsDirty; } }
+
+		private void OnIsDirtyChanged()
+		{
+			if (IsDirtyChanged != null)
+				IsDirtyChanged(IsDirty);
+		}
+
+		public event BooleanStateChangedHandler IsDirtyChanged;
 	}
 }

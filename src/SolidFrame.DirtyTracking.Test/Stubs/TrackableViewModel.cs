@@ -5,7 +5,7 @@ using System;
 
 namespace SolidFrame.DirtyTracking.Test.Stubs
 {
-	internal interface ITrackableViewModel : ITrackableModel, ITrackable
+	internal interface ITrackableViewModel : ITrackableModel, ITrackable, IEquatable<ITrackableModel>
 	{
 	}
 
@@ -23,7 +23,13 @@ namespace SolidFrame.DirtyTracking.Test.Stubs
 
 		public bool Equals(ITrackableModel other)
 		{
-			throw new NotImplementedException();
+			if (other.Name != Name)
+				return false;
+
+			if (other.Number != Number)
+				return false;
+
+			return true;
 		}
 
 		public Guid Id { get; private set; }

@@ -1,6 +1,8 @@
-﻿using Example.WPF.Person.Logics;
+﻿using Example.Models;
+using Example.WPF.Person.Logics;
 using Example.WPF.Person.UI;
 using Example.WPF.Resources.Web;
+using SolidFrame.Core.Interfaces.DirtyTracking;
 using SolidFrame.Core.Interfaces.Ribbon;
 using SolidFrame.Core.Interfaces.Translation;
 using SolidFrame.Core.Interfaces.Validation;
@@ -15,6 +17,7 @@ namespace Example.WPF.Person.Types
 		IValidationService<IPersonRowViewModel> ValidationService { get; }
 		IPersonResource PersonResource { get; }
 		IPersonRowViewModelFactory RowViewModelFactory { get; }
+		ITrackedCollectionFactory<IPersonModel, IPersonRowViewModel> TrackedCollectionFactory { get; }
 	}
 
 	public class PersonListViewModelDepedencies : IPersonListViewModelDepedencies 
@@ -25,7 +28,8 @@ namespace Example.WPF.Person.Types
 			ICrudGroupController crudGroupController, 
 			IValidationService<IPersonRowViewModel> validationService, 
 			IPersonResource personResource, 
-			IPersonRowViewModelFactory rowViewModelFactory)
+			IPersonRowViewModelFactory rowViewModelFactory, 
+			ITrackedCollectionFactory<IPersonModel, IPersonRowViewModel> trackedCollectionFactory)
 		{
 			TranslationService = translationService;
 			Document = document;
@@ -33,6 +37,7 @@ namespace Example.WPF.Person.Types
 			ValidationService = validationService;
 			PersonResource = personResource;
 			RowViewModelFactory = rowViewModelFactory;
+			TrackedCollectionFactory = trackedCollectionFactory;
 		}
 
 		public ITranslationService TranslationService { get; private set; }
@@ -41,5 +46,6 @@ namespace Example.WPF.Person.Types
 		public IValidationService<IPersonRowViewModel> ValidationService { get; private set; }
 		public IPersonResource PersonResource { get; private set; }
 		public IPersonRowViewModelFactory RowViewModelFactory { get; private set; }
+		public ITrackedCollectionFactory<IPersonModel, IPersonRowViewModel> TrackedCollectionFactory { get; private set; }
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using SolidFrame.Core.Interfaces.DirtyTracking;
 using SolidFrame.Core.Interfaces.General;
+using SolidFrame.Core.Types;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,7 +11,7 @@ namespace SolidFrame.DirtyTracking.Logics
 {
 	public class Tracker<TModel, TRowViewModel> : ITracker<TModel, TRowViewModel> 
 		where TRowViewModel : class, ITrackable, TModel, IEquatable<TModel>
-		where TModel : class, IEquatable<TModel>
+		where TModel : class
 	{
 		private readonly IRowViewModelFactory<TModel, TRowViewModel> _rowViewModelFactory;
 		private readonly IDictionary<Guid, TModel> _originalDictionary; 
@@ -61,6 +62,16 @@ namespace SolidFrame.DirtyTracking.Logics
 			return _dirtyModelsDictionary.Values;
 		}
 
+		public bool IsDirty { get { return _dirtyModelsDictionary.Keys.Any(); } }
+
+		private void OnIsDirtyChanged()
+		{
+			if (IsDirtyChanged != null)
+				IsDirtyChanged(IsDirty);
+		}
+
+		public event BooleanStateChangedHandler IsDirtyChanged;
+
 		private void Track(TRowViewModel row, TModel model)
 		{
 			row.PropertyChanged += TrackPropertyChange;
@@ -82,14 +93,26 @@ namespace SolidFrame.DirtyTracking.Logics
 			if(!_originalDictionary.TryGetValue(key, out model))
 				return;
 
-			if (model.Equals(row))
+			if (row.Equals(model))
 			{
 				RemoveDirtyModel(key);
+
+				RaiseIsDirtyChanged();
+
 				return;
 			}
 
-			if(!_dirtyModelsDictionary.ContainsKey(key))
-				_dirtyModelsDictionary.Add(key, row);
+			if (_dirtyModelsDictionary.ContainsKey(key)) return;
+
+			RaiseIsDirtyChanged();
+
+			_dirtyModelsDictionary.Add(key, row);
+		}
+
+		private void RaiseIsDirtyChanged()
+		{
+			if(!_dirtyModelsDictionary.Any())
+				OnIsDirtyChanged();
 		}
 
 		private void RemoveDirtyModel(Guid key)

@@ -7,6 +7,7 @@ using SolidFrame.Resources.Helpers;
 using SolidFrame.Validation.Types;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace SolidFrame.Validation.Logics
@@ -36,11 +37,25 @@ namespace SolidFrame.Validation.Logics
 				if (validationRule.Evaluate(validatable))
 				{
 					_notificationService.TryRemoveNotification(validationRule.Id, validatable.Id);
+
+					_ruleViolations.Remove(new Tuple<Guid, Guid>(validationRule.Id, validatable.Id));
+
+					RaiseHasErrorsChanged();
 					continue;
 				}
 
 				_notificationService.AddNotification(validationRule.Id, validatable.Id, validatable.ValidationName, validationRule.Message);
+
+				RaiseHasErrorsChanged();
+
+				_ruleViolations.Add(new Tuple<Guid, Guid>(validationRule.Id, validatable.Id));
 			}
+		}
+
+		private void RaiseHasErrorsChanged()
+		{
+			if(!_ruleViolations.Any())
+				OnHasErrorsChanged();
 		}
 
 		public void AddAbsoluteRule(IHaveId haveId, Expression<Func<TValidatable, int>> propertyExpression, Condition condition, int value, Severity severity, string message)
@@ -70,6 +85,16 @@ namespace SolidFrame.Validation.Logics
 			_validationRules.Add(rule);
 		}
 
+		public bool HasErrors { get { return _ruleViolations.Any(); } }
+
+		private void OnHasErrorsChanged()
+		{
+			if (HasErrorsChanged != null)
+				HasErrorsChanged(HasErrors);
+		}
+
+		public event BooleanStateChangedHandler HasErrorsChanged;
+
 		private static string GetFormattedMessage(IHaveId haveId, string propertyName, string message)
 		{
 			// ReSharper disable once SuspiciousTypeConversion.Global
@@ -88,5 +113,7 @@ namespace SolidFrame.Validation.Logics
 		private readonly IConditionEvaluatorFactory _conditionEvaluatorFactory;
 		private readonly IPropertyNameHelper _propertyNameHelper;
 		private readonly INotificationService _notificationService;
+
+		private readonly HashSet<Tuple<Guid, Guid>> _ruleViolations = new HashSet<Tuple<Guid, Guid>>();
 	}
 }
