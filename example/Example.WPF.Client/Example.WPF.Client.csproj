@@ -67,6 +67,9 @@
     <Reference Include="SolidFrame.Core">
       <HintPath>..\..\src\SolidFrame.Core\bin\Debug\SolidFrame.Core.dll</HintPath>
     </Reference>
+    <Reference Include="SolidFrame.DirtyTracking">
+      <HintPath>..\..\src\SolidFrame.DirtyTracking\bin\Debug\SolidFrame.DirtyTracking.dll</HintPath>
+    </Reference>
     <Reference Include="SolidFrame.Explorer">
       <HintPath>..\..\src\SolidFrame.Explorer\bin\Debug\SolidFrame.Explorer.dll</HintPath>
     </Reference>

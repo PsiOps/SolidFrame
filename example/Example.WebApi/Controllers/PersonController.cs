@@ -19,5 +19,11 @@ namespace Example.WebApi.Controllers
 				new PersonModel{FirstName = "Randy", LastName = "Marsh", Number = 4}
 			};
 		}
+
+		[System.Web.Mvc.HttpPut]
+		public void Put(IEnumerable<IPersonModel> persons)
+		{
+			
+		}
 	}
 }

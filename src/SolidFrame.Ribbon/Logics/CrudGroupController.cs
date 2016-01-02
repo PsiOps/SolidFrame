@@ -18,6 +18,7 @@ namespace SolidFrame.Ribbon.Logics
 		private void GetButtons(IRibbonControlFactory ribbonControlFactory)
 		{
 			AddButton = ribbonControlFactory.CreateRibbonButton("Add");
+			SaveButton = ribbonControlFactory.CreateRibbonButton("Save");
 		}
 
 		private void AddControlsToRibbon(ICrudGroupControllerDependencies dependencies)
@@ -26,6 +27,8 @@ namespace SolidFrame.Ribbon.Logics
 			var crudGroup = dependencies.RibbonControlFactory.CreateRibbonControlGroup("Crud");
 
 			crudGroup.Add(AddButton);
+			crudGroup.Add(SaveButton);
+
 			crudTab.RibbonControlGroups.Add(crudGroup);
 
 			dependencies.RibbonViewModel.RibbonTabs.Add(crudTab);
@@ -47,6 +50,19 @@ namespace SolidFrame.Ribbon.Logics
 			{
 				AddButton.CanExecute = () => false;
 			}
+
+			var saveListViewModel = listViewModel as ISave;
+
+			if (saveListViewModel != null)
+			{
+				SaveButton.ExecuteAction = saveListViewModel.Save;
+				SaveButton.CanExecute = saveListViewModel.CanSave;
+				saveListViewModel.CanSaveChanged += SaveButton.RaiseCanExecuteChanged;
+			}
+			else
+			{
+				SaveButton.CanExecute = () => false;
+			}
 		}
 
 		public void UnRegister(IListViewModel listViewModel)
@@ -59,10 +75,20 @@ namespace SolidFrame.Ribbon.Logics
 				AddButton.CanExecute = null;
 				addListViewModel.CanAddChanged -= AddButton.RaiseCanExecuteChanged;
 			}
+
+			var saveListViewModel = listViewModel as ISave;
+
+			if (saveListViewModel != null)
+			{
+				SaveButton.ExecuteAction = null;
+				SaveButton.CanExecute = null;
+				saveListViewModel.CanSaveChanged -= SaveButton.RaiseCanExecuteChanged;
+			}
 		}
 
 		public ICollection<IRibbonControlGroup> RibbonControlGroups { get; private set; }
 
 		public IRibbonButtonControl AddButton { get; private set; }
+		public IRibbonButtonControl SaveButton { get; private set; }
 	}
 }

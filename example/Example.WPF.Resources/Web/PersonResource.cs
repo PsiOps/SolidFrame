@@ -1,5 +1,6 @@
 ﻿using Example.Models;
 using Example.WPF.Resources.Web.Configurations;
+using Newtonsoft.Json;
 using SolidFrame.Client;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -10,6 +11,7 @@ namespace Example.WPF.Resources.Web
 	public interface IPersonResource
 	{
 		Task<IEnumerable<PersonModel>> Get();
+		Task<bool> Put(IEnumerable<IPersonModel> models);
 	}
 
 	public class PersonResource : ApiResourceBase, IPersonResource
@@ -30,6 +32,15 @@ namespace Example.WPF.Resources.Web
 			}
 
 			return persons;
+		}
+
+		public async Task<bool> Put(IEnumerable<IPersonModel> models)
+		{
+			var content = JsonConvert.SerializeObject(models);
+
+			HttpResponseMessage response = await PutResponse(content);
+
+			return response.IsSuccessStatusCode;
 		}
 	}
 }

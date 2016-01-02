@@ -1,4 +1,5 @@
 ﻿using SolidFrame.Core.Interfaces.DirtyTracking;
+using SolidFrame.Core.Interfaces.General;
 using SolidFrame.Core.Types;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ namespace SolidFrame.DirtyTracking.Types
 {
 	public class TrackedCollection<TModel, TRowViewModel> : ObservableCollection<TRowViewModel>, ITrackedCollection<TModel, TRowViewModel>
 		where TRowViewModel : class, ITrackable, TModel, IEquatable<TModel>
-		where TModel : class
+		where TModel : class, IHaveId
 	{
 		private readonly ITracker<TModel, TRowViewModel> _tracker;
 

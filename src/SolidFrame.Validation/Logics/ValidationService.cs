@@ -38,9 +38,9 @@ namespace SolidFrame.Validation.Logics
 				{
 					_notificationService.TryRemoveNotification(validationRule.Id, validatable.Id);
 
-					_ruleViolations.Remove(new Tuple<Guid, Guid>(validationRule.Id, validatable.Id));
+					if (_ruleViolations.Remove(new Tuple<Guid, Guid>(validationRule.Id, validatable.Id)))
+						RaiseHasErrorsChanged();
 
-					RaiseHasErrorsChanged();
 					continue;
 				}
 

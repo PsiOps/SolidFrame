@@ -11,7 +11,7 @@ namespace SolidFrame.DirtyTracking.Logics
 {
 	public class Tracker<TModel, TRowViewModel> : ITracker<TModel, TRowViewModel> 
 		where TRowViewModel : class, ITrackable, TModel, IEquatable<TModel>
-		where TModel : class
+		where TModel : class, IHaveId
 	{
 		private readonly IRowViewModelFactory<TModel, TRowViewModel> _rowViewModelFactory;
 		private readonly IDictionary<Guid, TModel> _originalDictionary; 
@@ -97,21 +97,17 @@ namespace SolidFrame.DirtyTracking.Logics
 			{
 				RemoveDirtyModel(key);
 
-				RaiseIsDirtyChanged();
+				if (!_dirtyModelsDictionary.Any())
+					OnIsDirtyChanged();
 
 				return;
 			}
 
 			if (_dirtyModelsDictionary.ContainsKey(key)) return;
 
-			RaiseIsDirtyChanged();
-
 			_dirtyModelsDictionary.Add(key, row);
-		}
 
-		private void RaiseIsDirtyChanged()
-		{
-			if(!_dirtyModelsDictionary.Any())
+			if (_dirtyModelsDictionary.Count == 1)
 				OnIsDirtyChanged();
 		}
 

@@ -1,6 +1,6 @@
+using SolidFrame.Core.Types;
 using System;
 using System.Collections.Generic;
-using SolidFrame.Core.Types;
 
 namespace SolidFrame.Core.Interfaces.DirtyTracking
 {

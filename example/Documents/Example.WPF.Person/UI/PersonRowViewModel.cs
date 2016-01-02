@@ -15,17 +15,51 @@ namespace Example.WPF.Person.UI
 	}
 	public class PersonRowViewModel : ViewModel, IPersonRowViewModel
 	{
+
 		public PersonRowViewModel(IPersonModel personModel)
 		{
+			Id = personModel.Id;
 			FirstName = personModel.FirstName;
 			LastName = personModel.LastName;
 			Number = personModel.Number;
 		}
 
-		public string FirstName { get; set; }
-		public string LastName { get; set; }
-		public int Number { get; set; }
-		
+		private string _firstName;
+
+		public string FirstName
+		{
+			get { return _firstName; }
+			set
+			{
+				_firstName = value; 
+				OnPropertyChanged();
+			}
+		}
+
+		private string _lastName;
+
+		public string LastName
+		{
+			get { return _lastName; }
+			set
+			{
+				_lastName = value;
+				OnPropertyChanged();
+			}
+		}
+
+		private int _number;
+
+		public int Number
+		{
+			get { return _number; }
+			set
+			{
+				_number = value; 
+				OnPropertyChanged();
+			}
+		}
+
 		public Guid Id { get; private set; }
 
 		public string ValidationName
@@ -35,7 +69,10 @@ namespace Example.WPF.Person.UI
 
 		public bool Equals(IPersonModel other)
 		{
-			throw new NotImplementedException();
+			if (FirstName != other.FirstName) return false;
+			if (LastName != other.LastName) return false;
+			if (Number != other.Number) return false;
+			return true;
 		}
 	}
 }

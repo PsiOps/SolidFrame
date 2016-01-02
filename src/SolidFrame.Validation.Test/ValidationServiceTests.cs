@@ -306,6 +306,22 @@ namespace SolidFrame.Validation.Test
 		}
 
 		[Test]
+		public void It_does_not_raise_HasErrorsChanged_when_rule_complies_and_no_violations_present()
+		{
+			var eventRaised = false;
+
+			_validationService.HasErrorsChanged += state => eventRaised = true;
+
+			_validationRuleMock.Setup(r => r.Evaluate(It.IsAny<ValidatableStub>())).Returns(true);
+
+			const string validationName = "Stub";
+			var stub = new ValidatableStub(validationName);
+			_validateMock.Raise(v => v.RowValidationTrigger += null, stub, "NumberInt");
+
+			Assert.IsFalse(eventRaised);
+		}
+
+		[Test]
 		public void It_does_not_raise_HasErrorsChanged_on_second_rule_validation()
 		{
 			bool eventRaised;

@@ -1,5 +1,4 @@
 ﻿using Example.Models;
-using Example.WPF.Person.Logics;
 using Example.WPF.Person.Types;
 using Example.WPF.Resources.Web;
 using SolidFrame.Core.Base;
@@ -16,13 +15,12 @@ using System.ComponentModel;
 
 namespace Example.WPF.Person.UI
 {
+	// TODO: Ribbon Save button
 	// TODO: DirtyTracking.Clean()
-	// TODO: Resource.Put() and ISave
 	// TODO: Resource Error Handling
 	// TODO: IsBusy indicator
-	// TODO: Pivot Document
 
-	public interface IPersonListViewModel : IListViewModel, IAdd, ITranslate, IValidate<IPersonRowViewModel>
+	public interface IPersonListViewModel : IListViewModel, IAdd, ISave, ITranslate, IValidate<IPersonRowViewModel>
 	{
 		ITrackedCollection<IPersonModel, IPersonRowViewModel> DataSource { get; set; }
 	}
@@ -32,14 +30,12 @@ namespace Example.WPF.Person.UI
 		public Guid Id { get; private set; }
 		public string Title { get; private set; }
 
-		private readonly IPersonRowViewModelFactory _rowViewModelFactory;
 		private readonly IPersonResource _personResource;
 		private readonly IValidationService<IPersonRowViewModel> _validationService;
 		private readonly ITrackedCollectionFactory<IPersonModel, IPersonRowViewModel> _trackedCollectionFactory;
 
 		public PersonListViewModel(IPersonListViewModelDepedencies dependencies)
 		{
-			_rowViewModelFactory = dependencies.RowViewModelFactory;
 			_personResource = dependencies.PersonResource;
 			_validationService = dependencies.ValidationService;
 			_trackedCollectionFactory = dependencies.TrackedCollectionFactory;
@@ -106,14 +102,12 @@ namespace Example.WPF.Person.UI
 
 		public void Add()
 		{
-			var row = _rowViewModelFactory.Create();
+			//var row = DataSource.AddTracked(new PersonModel());
 
-			row.PropertyChanged += OnRowPropertyChanged;
+			//row.PropertyChanged += OnRowPropertyChanged;
 
-			DataSource.Add(row);
-
-			if(RowValidationTrigger != null)
-				RowValidationTrigger(row, null);
+			//if(RowValidationTrigger != null)
+			//	RowValidationTrigger(row, null);
 		}
 
 		private void OnCanAddChanged()
@@ -126,12 +120,14 @@ namespace Example.WPF.Person.UI
 
 		public bool CanSave()
 		{
+			if (DataSource == null) return false;
+
 			return DataSource.IsDirty && !_validationService.HasErrors;
 		}
 
 		public void Save()
 		{
-			//_personResource.Put(DataSource.GetDirtyModels());
+			_personResource.Put(DataSource.GetDirtyModels());
 
 			//DataSource.Clean();
 		}

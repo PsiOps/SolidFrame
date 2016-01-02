@@ -2,6 +2,7 @@
 using Example.WPF.Resources;
 using Example.WPF.Translations;
 using Prism.Modularity;
+using SolidFrame.DirtyTracking;
 using SolidFrame.Explorer;
 using SolidFrame.Notifications;
 using SolidFrame.Resources;
@@ -19,7 +20,8 @@ namespace Example.WPF.Client.Extensions
 				.AddModule(typeof(ExplorerModule), "ClientResourcesModule", "PersonModule")
 				.AddModule(typeof(ValidationModule), "CoreResourceModule")
 				.AddModule(typeof(CoreResourceModule))
-				.AddModule(typeof(NotificationsModule));
+				.AddModule(typeof(NotificationsModule))
+				.AddModule(typeof(DirtyTrackingModule));
 		}
 
 		public static ModuleCatalog AddFrameworkExtensionModules(this ModuleCatalog moduleCatalog)
