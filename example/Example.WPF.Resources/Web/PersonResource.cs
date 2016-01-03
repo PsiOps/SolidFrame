@@ -11,7 +11,7 @@ namespace Example.WPF.Resources.Web
 	public interface IPersonResource
 	{
 		Task<IEnumerable<PersonModel>> Get();
-		Task<bool> Put(IEnumerable<IPersonModel> models);
+		Task<bool> Put(IEnumerable<PersonModel> models);
 	}
 
 	public class PersonResource : ApiResourceBase, IPersonResource
@@ -34,7 +34,7 @@ namespace Example.WPF.Resources.Web
 			return persons;
 		}
 
-		public async Task<bool> Put(IEnumerable<IPersonModel> models)
+		public async Task<bool> Put(IEnumerable<PersonModel> models)
 		{
 			var content = JsonConvert.SerializeObject(models);
 

@@ -22,7 +22,7 @@ namespace Example.WPF.Person.UI
 
 	public interface IPersonListViewModel : IListViewModel, IAdd, ISave, ITranslate, IValidate<IPersonRowViewModel>
 	{
-		ITrackedCollection<IPersonModel, IPersonRowViewModel> DataSource { get; set; }
+		ITrackedCollection<PersonModel, IPersonRowViewModel> DataSource { get; set; }
 	}
 
 	public class PersonListViewModel : ViewModel, IPersonListViewModel
@@ -32,7 +32,7 @@ namespace Example.WPF.Person.UI
 
 		private readonly IPersonResource _personResource;
 		private readonly IValidationService<IPersonRowViewModel> _validationService;
-		private readonly ITrackedCollectionFactory<IPersonModel, IPersonRowViewModel> _trackedCollectionFactory;
+		private readonly ITrackedCollectionFactory<PersonModel, IPersonRowViewModel> _trackedCollectionFactory;
 
 		public PersonListViewModel(IPersonListViewModelDepedencies dependencies)
 		{
@@ -83,9 +83,9 @@ namespace Example.WPF.Person.UI
 			}
 		}
 
-		private ITrackedCollection<IPersonModel, IPersonRowViewModel> _dataSource;
+		private ITrackedCollection<PersonModel, IPersonRowViewModel> _dataSource;
 
-		public ITrackedCollection<IPersonModel, IPersonRowViewModel> DataSource
+		public ITrackedCollection<PersonModel, IPersonRowViewModel> DataSource
 		{
 			get { return _dataSource; }
 			set
@@ -102,12 +102,12 @@ namespace Example.WPF.Person.UI
 
 		public void Add()
 		{
-			//var row = DataSource.AddTracked(new PersonModel());
+			var row = DataSource.AddTracked(new PersonModel());
 
-			//row.PropertyChanged += OnRowPropertyChanged;
+			row.PropertyChanged += OnRowPropertyChanged;
 
-			//if(RowValidationTrigger != null)
-			//	RowValidationTrigger(row, null);
+			if(RowValidationTrigger != null)
+				RowValidationTrigger(row, null);
 		}
 
 		private void OnCanAddChanged()
@@ -129,7 +129,7 @@ namespace Example.WPF.Person.UI
 		{
 			_personResource.Put(DataSource.GetDirtyModels());
 
-			//DataSource.Clean();
+			DataSource.Clean();
 		}
 
 		private void OnCanSaveChanged()

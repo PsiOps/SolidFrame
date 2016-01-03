@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace SolidFrame.DirtyTracking.Logics
 {
 	public class TrackedCollectionFactory<TModel, TRowViewModel> : ITrackedCollectionFactory<TModel, TRowViewModel>
-		where TRowViewModel : class, ITrackable, TModel, IEquatable<TModel>
+		where TRowViewModel : class, ITrackable, IEquatable<TModel>, IRowViewModel<TModel> 
 		where TModel : class, IHaveId
 	{
 		private readonly ITrackerFactory<TModel, TRowViewModel> _trackerFactory;

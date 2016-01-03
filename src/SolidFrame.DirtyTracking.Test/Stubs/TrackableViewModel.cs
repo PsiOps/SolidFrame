@@ -1,12 +1,15 @@
 ﻿
 using SolidFrame.Core.Base;
 using SolidFrame.Core.Interfaces.DirtyTracking;
+using SolidFrame.Core.Interfaces.General;
 using System;
 
 namespace SolidFrame.DirtyTracking.Test.Stubs
 {
-	internal interface ITrackableViewModel : ITrackableModel, ITrackable, IEquatable<ITrackableModel>
+	internal interface ITrackableViewModel : IRowViewModel<TrackableModel>, ITrackable, IEquatable<TrackableModel>
 	{
+		string Name { get; set; }
+		int Number { get; set; }
 	}
 
 	internal class TrackableViewModel : ViewModel, ITrackableViewModel
@@ -14,14 +17,14 @@ namespace SolidFrame.DirtyTracking.Test.Stubs
 		private string _name;
 		private int _number;
 
-		public TrackableViewModel(ITrackableModel model)
+		public TrackableViewModel(TrackableModel model)
 		{
 			Id = model.Id;
 			_name = model.Name;
 			_number = model.Number;
 		}
 
-		public bool Equals(ITrackableModel other)
+		public bool Equals(TrackableModel other)
 		{
 			if (other.Name != Name)
 				return false;
@@ -52,6 +55,11 @@ namespace SolidFrame.DirtyTracking.Test.Stubs
 				_name = value; 
 				OnPropertyChanged();
 			}
+		}
+
+		public TrackableModel ToModel()
+		{
+			return new TrackableModel(Name, Number);
 		}
 	}
 }

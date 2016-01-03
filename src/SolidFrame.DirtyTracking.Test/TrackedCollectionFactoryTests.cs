@@ -10,18 +10,18 @@ namespace SolidFrame.DirtyTracking.Test
 	[TestFixture]
 	public class TrackedCollectionFactoryTests
 	{
-		private TrackedCollectionFactory<ITrackableModel, ITrackableViewModel> _trackedCollectionFactory;
-		private Mock<ITrackerFactory<ITrackableModel, ITrackableViewModel>> _trackerFactoryMock;
-		private Mock<ITracker<ITrackableModel, ITrackableViewModel>> _trackerMock;
+		private TrackedCollectionFactory<TrackableModel, ITrackableViewModel> _trackedCollectionFactory;
+		private Mock<ITrackerFactory<TrackableModel, ITrackableViewModel>> _trackerFactoryMock;
+		private Mock<ITracker<TrackableModel, ITrackableViewModel>> _trackerMock;
 
 		[SetUp]
 		public void BeforeEach()
 		{
-			_trackerMock = new Mock<ITracker<ITrackableModel, ITrackableViewModel>>();
-			_trackerFactoryMock = new Mock<ITrackerFactory<ITrackableModel, ITrackableViewModel>>();
+			_trackerMock = new Mock<ITracker<TrackableModel, ITrackableViewModel>>();
+			_trackerFactoryMock = new Mock<ITrackerFactory<TrackableModel, ITrackableViewModel>>();
 			_trackerFactoryMock.Setup(f => f.Create()).Returns(_trackerMock.Object);
-			_trackedCollectionFactory = new TrackedCollectionFactory<ITrackableModel, ITrackableViewModel>(_trackerFactoryMock.Object);
-			_trackedCollectionFactory.Create(new Collection<ITrackableModel>());
+			_trackedCollectionFactory = new TrackedCollectionFactory<TrackableModel, ITrackableViewModel>(_trackerFactoryMock.Object);
+			_trackedCollectionFactory.Create(new Collection<TrackableModel>());
 		}
 
 		[Test]

@@ -15,7 +15,7 @@ namespace Example.WPF.Person.Types
 		ICrudGroupController CrudGroupController { get; }
 		IValidationService<IPersonRowViewModel> ValidationService { get; }
 		IPersonResource PersonResource { get; }
-		ITrackedCollectionFactory<IPersonModel, IPersonRowViewModel> TrackedCollectionFactory { get; }
+		ITrackedCollectionFactory<PersonModel, IPersonRowViewModel> TrackedCollectionFactory { get; }
 	}
 
 	public class PersonListViewModelDepedencies : IPersonListViewModelDepedencies 
@@ -26,7 +26,7 @@ namespace Example.WPF.Person.Types
 			ICrudGroupController crudGroupController, 
 			IValidationService<IPersonRowViewModel> validationService, 
 			IPersonResource personResource, 
-			ITrackedCollectionFactory<IPersonModel, IPersonRowViewModel> trackedCollectionFactory)
+			ITrackedCollectionFactory<PersonModel, IPersonRowViewModel> trackedCollectionFactory)
 		{
 			TranslationService = translationService;
 			Document = document;
@@ -41,6 +41,6 @@ namespace Example.WPF.Person.Types
 		public ICrudGroupController CrudGroupController { get; private set; }
 		public IValidationService<IPersonRowViewModel> ValidationService { get; private set; }
 		public IPersonResource PersonResource { get; private set; }
-		public ITrackedCollectionFactory<IPersonModel, IPersonRowViewModel> TrackedCollectionFactory { get; private set; }
+		public ITrackedCollectionFactory<PersonModel, IPersonRowViewModel> TrackedCollectionFactory { get; private set; }
 	}
 }

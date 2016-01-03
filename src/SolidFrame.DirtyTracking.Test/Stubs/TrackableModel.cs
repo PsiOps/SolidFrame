@@ -1,15 +1,9 @@
-﻿using SolidFrame.Core.Interfaces.General;
-using System;
+﻿using System;
+using SolidFrame.Core.Interfaces.General;
 
 namespace SolidFrame.DirtyTracking.Test.Stubs
 {
-	internal interface ITrackableModel : IHaveId
-	{
-		int Number { get; set; }
-		string Name { get; set; }
-	}
-
-	internal class TrackableModel : ITrackableModel
+	internal class TrackableModel : IHaveId
 	{
 		public TrackableModel(string name, int number)
 		{

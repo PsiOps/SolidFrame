@@ -13,20 +13,20 @@ namespace SolidFrame.DirtyTracking.Test
 	[TestFixture]
 	public class DescribeTrackedCollectionConstruction
 	{
-		private TrackedCollection<ITrackableModel, ITrackableViewModel> _trackedCollection; 
-		private Mock<ITracker<ITrackableModel, ITrackableViewModel>> _trackerMock;
-		private ITrackableModel _model;
-		private ICollection<ITrackableModel> _models;
+		private TrackedCollection<TrackableModel, ITrackableViewModel> _trackedCollection; 
+		private Mock<ITracker<TrackableModel, ITrackableViewModel>> _trackerMock;
+		private TrackableModel _model;
+		private ICollection<TrackableModel> _models;
 
 		[SetUp]
 		public void BeforeEach()
 		{
-			_trackerMock = new Mock<ITracker<ITrackableModel, ITrackableViewModel>>();
+			_trackerMock = new Mock<ITracker<TrackableModel, ITrackableViewModel>>();
 
 			_model = new TrackableModel("test", 1);
-			_models = new Collection<ITrackableModel> { _model };
+			_models = new Collection<TrackableModel> { _model };
 
-			_trackerMock.Setup(t => t.ConvertAndTrack(_models)).Returns<IEnumerable<ITrackableModel>>(models =>
+			_trackerMock.Setup(t => t.ConvertAndTrack(_models)).Returns<IEnumerable<TrackableModel>>(models =>
 			{
 				var viewModels = new Collection<ITrackableViewModel>();
 
@@ -38,7 +38,7 @@ namespace SolidFrame.DirtyTracking.Test
 				return viewModels;
 			}).Verifiable();
 
-			_trackedCollection = new TrackedCollection<ITrackableModel, ITrackableViewModel>(_models, _trackerMock.Object);
+			_trackedCollection = new TrackedCollection<TrackableModel, ITrackableViewModel>(_models, _trackerMock.Object);
 		}
 
 		[Test]
@@ -52,22 +52,22 @@ namespace SolidFrame.DirtyTracking.Test
 	[TestFixture]
 	public class DescribeTrackedCollectionAddTracked
 	{
-		private TrackedCollection<ITrackableModel, ITrackableViewModel> _trackedCollection;
-		private Mock<ITracker<ITrackableModel, ITrackableViewModel>> _trackerMock;
-		private ITrackableModel _model;
-		private ICollection<ITrackableModel> _models;
+		private TrackedCollection<TrackableModel, ITrackableViewModel> _trackedCollection;
+		private Mock<ITracker<TrackableModel, ITrackableViewModel>> _trackerMock;
+		private TrackableModel _model;
+		private ICollection<TrackableModel> _models;
 
 		[SetUp]
 		public void BeforeEach()
 		{
-			_trackerMock = new Mock<ITracker<ITrackableModel, ITrackableViewModel>>();
+			_trackerMock = new Mock<ITracker<TrackableModel, ITrackableViewModel>>();
 
 			_model = new TrackableModel("test", 1);
-			_models = new Collection<ITrackableModel>();
+			_models = new Collection<TrackableModel>();
 
-			_trackerMock.Setup(t => t.ConvertAndTrack(_model)).Returns<ITrackableModel>(model => new TrackableViewModel(model)).Verifiable();
+			_trackerMock.Setup(t => t.ConvertAndTrack(_model)).Returns<TrackableModel>(model => new TrackableViewModel(model)).Verifiable();
 
-			_trackerMock.Setup(t => t.ConvertAndTrack(_models)).Returns<IEnumerable<ITrackableModel>>(models =>
+			_trackerMock.Setup(t => t.ConvertAndTrack(_models)).Returns<IEnumerable<TrackableModel>>(models =>
 			{
 				var viewModels = new Collection<ITrackableViewModel>();
 
@@ -79,7 +79,7 @@ namespace SolidFrame.DirtyTracking.Test
 				return viewModels;
 			}).Verifiable();
 
-			_trackedCollection = new TrackedCollection<ITrackableModel, ITrackableViewModel>(_models, _trackerMock.Object);
+			_trackedCollection = new TrackedCollection<TrackableModel, ITrackableViewModel>(_models, _trackerMock.Object);
 
 			_trackedCollection.AddTracked(_model);
 		}
@@ -96,23 +96,23 @@ namespace SolidFrame.DirtyTracking.Test
 	[TestFixture]
 	public class DescribeTrackedCollectionRemoveTrackedById
 	{
-		private TrackedCollection<ITrackableModel, ITrackableViewModel> _trackedCollection;
-		private Mock<ITracker<ITrackableModel, ITrackableViewModel>> _trackerMock;
-		private ITrackableModel _model;
-		private ICollection<ITrackableModel> _models;
+		private TrackedCollection<TrackableModel, ITrackableViewModel> _trackedCollection;
+		private Mock<ITracker<TrackableModel, ITrackableViewModel>> _trackerMock;
+		private TrackableModel _model;
+		private ICollection<TrackableModel> _models;
 		private ITrackableViewModel _row;
 
 		[SetUp]
 		public void BeforeEach()
 		{
-			_trackerMock = new Mock<ITracker<ITrackableModel, ITrackableViewModel>>();
+			_trackerMock = new Mock<ITracker<TrackableModel, ITrackableViewModel>>();
 
 			_model = new TrackableModel("test", 1);
-			_models = new Collection<ITrackableModel>{_model};
+			_models = new Collection<TrackableModel>{_model};
 
-			_trackerMock.Setup(t => t.ConvertAndTrack(_model)).Returns<ITrackableModel>(model => new TrackableViewModel(model)).Verifiable();
+			_trackerMock.Setup(t => t.ConvertAndTrack(_model)).Returns<TrackableModel>(model => new TrackableViewModel(model)).Verifiable();
 
-			_trackerMock.Setup(t => t.ConvertAndTrack(_models)).Returns<IEnumerable<ITrackableModel>>(models =>
+			_trackerMock.Setup(t => t.ConvertAndTrack(_models)).Returns<IEnumerable<TrackableModel>>(models =>
 			{
 				var viewModels = new Collection<ITrackableViewModel>();
 
@@ -126,7 +126,7 @@ namespace SolidFrame.DirtyTracking.Test
 
 			_trackerMock.Setup(t => t.UnTrack(It.IsAny<ITrackableViewModel>()));
 
-			_trackedCollection = new TrackedCollection<ITrackableModel, ITrackableViewModel>(_models, _trackerMock.Object);
+			_trackedCollection = new TrackedCollection<TrackableModel, ITrackableViewModel>(_models, _trackerMock.Object);
 
 			_row = _trackedCollection.Single();
 
@@ -142,24 +142,24 @@ namespace SolidFrame.DirtyTracking.Test
 	}
 
 	[TestFixture]
-	public class DescribeTrackedCollectionGetDirtyModelsAndIsDirty
+	public class DescribeTrackedCollectionGetDirtyModelsAndIsDirtyAndClean
 	{
-		private TrackedCollection<ITrackableModel, ITrackableViewModel> _trackedCollection;
-		private Mock<ITracker<ITrackableModel, ITrackableViewModel>> _trackerMock;
-		private ITrackableModel _model;
-		private ICollection<ITrackableModel> _models;
+		private TrackedCollection<TrackableModel, ITrackableViewModel> _trackedCollection;
+		private Mock<ITracker<TrackableModel, ITrackableViewModel>> _trackerMock;
+		private TrackableModel _model;
+		private ICollection<TrackableModel> _models;
 
 		[SetUp]
 		public void BeforeEach()
 		{
-			_trackerMock = new Mock<ITracker<ITrackableModel, ITrackableViewModel>>();
+			_trackerMock = new Mock<ITracker<TrackableModel, ITrackableViewModel>>();
 
 			_model = new TrackableModel("test", 1);
-			_models = new Collection<ITrackableModel>{_model};
+			_models = new Collection<TrackableModel>{_model};
 
-			_trackerMock.Setup(t => t.ConvertAndTrack(_model)).Returns<ITrackableModel>(model => new TrackableViewModel(model)).Verifiable();
+			_trackerMock.Setup(t => t.ConvertAndTrack(_model)).Returns<TrackableModel>(model => new TrackableViewModel(model)).Verifiable();
 
-			_trackerMock.Setup(t => t.ConvertAndTrack(_models)).Returns<IEnumerable<ITrackableModel>>(models =>
+			_trackerMock.Setup(t => t.ConvertAndTrack(_models)).Returns<IEnumerable<TrackableModel>>(models =>
 			{
 				var viewModels = new Collection<ITrackableViewModel>();
 
@@ -174,7 +174,7 @@ namespace SolidFrame.DirtyTracking.Test
 			_trackerMock.Setup(t => t.GetDirtyModels()).Verifiable();
 			_trackerMock.SetupGet(t => t.IsDirty).Verifiable();
 
-			_trackedCollection = new TrackedCollection<ITrackableModel, ITrackableViewModel>(_models, _trackerMock.Object);
+			_trackedCollection = new TrackedCollection<TrackableModel, ITrackableViewModel>(_models, _trackerMock.Object);
 		}
 
 		[Test]
@@ -191,6 +191,14 @@ namespace SolidFrame.DirtyTracking.Test
 			var isDirty = _trackedCollection.IsDirty;
 
 			_trackerMock.Verify(t => t.IsDirty, Times.Once);
+		}
+
+		[Test]
+		public void It_delegates_the_Clean_call_to_the_tracker()
+		{
+			_trackedCollection.Clean();
+
+			_trackerMock.Verify(t => t.Clean(), Times.Once);
 		}
 
 		[Test]

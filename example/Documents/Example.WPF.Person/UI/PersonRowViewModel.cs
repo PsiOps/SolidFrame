@@ -2,12 +2,13 @@
 using Example.Models;
 using SolidFrame.Core.Base;
 using SolidFrame.Core.Interfaces.DirtyTracking;
+using SolidFrame.Core.Interfaces.General;
 using SolidFrame.Core.Interfaces.Validation;
 using System;
 
 namespace Example.WPF.Person.UI
 {
-	public interface IPersonRowViewModel : IValidatable, ITrackable, IPersonModel, IEquatable<IPersonModel>
+	public interface IPersonRowViewModel : IValidatable, ITrackable, IEquatable<PersonModel>, IRowViewModel<PersonModel>
 	{
 		string FirstName { get; set; }
 		string LastName { get; set; }
@@ -16,7 +17,7 @@ namespace Example.WPF.Person.UI
 	public class PersonRowViewModel : ViewModel, IPersonRowViewModel
 	{
 
-		public PersonRowViewModel(IPersonModel personModel)
+		public PersonRowViewModel(PersonModel personModel)
 		{
 			Id = personModel.Id;
 			FirstName = personModel.FirstName;
@@ -67,12 +68,22 @@ namespace Example.WPF.Person.UI
 			get { return string.Format("{0} {1}", FirstName, LastName); }
 		}
 
-		public bool Equals(IPersonModel other)
+		public bool Equals(PersonModel other)
 		{
 			if (FirstName != other.FirstName) return false;
 			if (LastName != other.LastName) return false;
 			if (Number != other.Number) return false;
 			return true;
+		}
+
+		public PersonModel ToModel()
+		{
+			return new PersonModel()
+			{
+				FirstName = FirstName,
+				LastName = LastName,
+				Number = Number
+			};
 		}
 	}
 }

@@ -23,7 +23,7 @@ namespace Example.WPF.Person
 			_container.RegisterType<IDocumentConfiguration, PersonDocumentConfiguration>(typeof(PersonDocumentConfiguration).FullName);
 			_container.RegisterType<IPersonDocumentConfiguration, PersonDocumentConfiguration>();
 			_container.RegisterType<IPersonListViewModel, PersonListViewModel>();
-			_container.RegisterType<IRowViewModelFactory<IPersonModel, IPersonRowViewModel>, PersonRowViewModelFactory>();
+			_container.RegisterType<IRowViewModelFactory<PersonModel, IPersonRowViewModel>, PersonRowViewModelFactory>();
 			_container.RegisterType<IPersonListViewModelDepedencies, PersonListViewModelDepedencies>();
 		}
 	}

@@ -9,19 +9,19 @@ using System.Linq;
 
 namespace SolidFrame.DirtyTracking.Logics
 {
-	public class Tracker<TModel, TRowViewModel> : ITracker<TModel, TRowViewModel> 
-		where TRowViewModel : class, ITrackable, TModel, IEquatable<TModel>
+	public class Tracker<TModel, TRowViewModel> : ITracker<TModel, TRowViewModel>
+		where TRowViewModel : class, ITrackable, IEquatable<TModel>, IRowViewModel<TModel> 
 		where TModel : class, IHaveId
 	{
 		private readonly IRowViewModelFactory<TModel, TRowViewModel> _rowViewModelFactory;
 		private readonly IDictionary<Guid, TModel> _originalDictionary; 
-		private readonly IDictionary<Guid, TModel> _dirtyModelsDictionary; 
+		private readonly IDictionary<Guid, TRowViewModel> _dirtyRowsDictionary; 
 
 		public Tracker(IRowViewModelFactory<TModel, TRowViewModel> rowViewModelFactory)
 		{
 			_rowViewModelFactory = rowViewModelFactory;
 			_originalDictionary = new Dictionary<Guid, TModel>();
-			_dirtyModelsDictionary = new Dictionary<Guid, TModel>();
+			_dirtyRowsDictionary = new Dictionary<Guid, TRowViewModel>();
 		}
 
 		public IEnumerable<TRowViewModel> ConvertAndTrack(IEnumerable<TModel> models)
@@ -51,18 +51,23 @@ namespace SolidFrame.DirtyTracking.Logics
 
 			var key = row.Id;
 
-			if (_dirtyModelsDictionary.ContainsKey(key))
-				_dirtyModelsDictionary.Remove(key);
+			if (_dirtyRowsDictionary.ContainsKey(key))
+				_dirtyRowsDictionary.Remove(key);
 
 			_originalDictionary.Remove(key);
 		}
 
 		public IEnumerable<TModel> GetDirtyModels()
 		{
-			return _dirtyModelsDictionary.Values;
+			return _dirtyRowsDictionary.Values.Select(r => r.ToModel());
 		}
 
-		public bool IsDirty { get { return _dirtyModelsDictionary.Keys.Any(); } }
+		public void Clean()
+		{
+			throw new NotImplementedException();
+		}
+
+		public bool IsDirty { get { return _dirtyRowsDictionary.Keys.Any(); } }
 
 		private void OnIsDirtyChanged()
 		{
@@ -97,24 +102,24 @@ namespace SolidFrame.DirtyTracking.Logics
 			{
 				RemoveDirtyModel(key);
 
-				if (!_dirtyModelsDictionary.Any())
+				if (!_dirtyRowsDictionary.Any())
 					OnIsDirtyChanged();
 
 				return;
 			}
 
-			if (_dirtyModelsDictionary.ContainsKey(key)) return;
+			if (_dirtyRowsDictionary.ContainsKey(key)) return;
 
-			_dirtyModelsDictionary.Add(key, row);
+			_dirtyRowsDictionary.Add(key, row);
 
-			if (_dirtyModelsDictionary.Count == 1)
+			if (_dirtyRowsDictionary.Count == 1)
 				OnIsDirtyChanged();
 		}
 
 		private void RemoveDirtyModel(Guid key)
 		{
-			if (_dirtyModelsDictionary.ContainsKey(key))
-				_dirtyModelsDictionary.Remove(key);
+			if (_dirtyRowsDictionary.ContainsKey(key))
+				_dirtyRowsDictionary.Remove(key);
 		}
 	}
 }

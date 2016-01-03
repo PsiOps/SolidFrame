@@ -14,18 +14,18 @@ namespace SolidFrame.DirtyTracking.Test
 	[TestFixture]
 	public class DescribeConvertAndTrack
 	{
-		private ITracker<ITrackableModel, ITrackableViewModel> _tracker;
-		private Mock<IRowViewModelFactory<ITrackableModel, ITrackableViewModel>> _rowViewModelFactoryMock; 
+		private ITracker<TrackableModel, ITrackableViewModel> _tracker;
+		private Mock<IRowViewModelFactory<TrackableModel, ITrackableViewModel>> _rowViewModelFactoryMock; 
 
 		[SetUp]
 		public void BeforeEach()
 		{
-			_rowViewModelFactoryMock = new Mock<IRowViewModelFactory<ITrackableModel, ITrackableViewModel>>();
-			_rowViewModelFactoryMock.Setup(f => f.Create(It.IsAny<ITrackableModel>())).Returns<ITrackableModel>(m => new TrackableViewModel(m));
+			_rowViewModelFactoryMock = new Mock<IRowViewModelFactory<TrackableModel, ITrackableViewModel>>();
+			_rowViewModelFactoryMock.Setup(f => f.Create(It.IsAny<TrackableModel>())).Returns<TrackableModel>(m => new TrackableViewModel(m));
 
-			_tracker = new Tracker<ITrackableModel, ITrackableViewModel>(_rowViewModelFactoryMock.Object);
+			_tracker = new Tracker<TrackableModel, ITrackableViewModel>(_rowViewModelFactoryMock.Object);
 
-			var models = new Collection<ITrackableModel>
+			var models = new Collection<TrackableModel>
 			{
 				new TrackableModel("test1", 1),
 				new TrackableModel("test2", 2),
@@ -39,26 +39,26 @@ namespace SolidFrame.DirtyTracking.Test
 		[Test]
 		public void It_calls_RowViewModelFactory_Create_for_each_model()
 		{
-			_rowViewModelFactoryMock.Verify(f => f.Create(It.IsAny<ITrackableModel>()), Times.Exactly(4));
+			_rowViewModelFactoryMock.Verify(f => f.Create(It.IsAny<TrackableModel>()), Times.Exactly(4));
 		}
 	}
 
 	[TestFixture]
 	public class DescribePropertyChangeTracking
 	{
-		private ITracker<ITrackableModel, ITrackableViewModel> _tracker;
-		private Mock<IRowViewModelFactory<ITrackableModel, ITrackableViewModel>> _rowViewModelFactoryMock;
+		private ITracker<TrackableModel, ITrackableViewModel> _tracker;
+		private Mock<IRowViewModelFactory<TrackableModel, ITrackableViewModel>> _rowViewModelFactoryMock;
 		private IEnumerable<ITrackableViewModel> _rows;
 
 		[SetUp]
 		public void BeforeEach()
 		{
-			_rowViewModelFactoryMock = new Mock<IRowViewModelFactory<ITrackableModel, ITrackableViewModel>>();
-			_rowViewModelFactoryMock.Setup(f => f.Create(It.IsAny<ITrackableModel>())).Returns<ITrackableModel>(m => new TrackableViewModel(m));
+			_rowViewModelFactoryMock = new Mock<IRowViewModelFactory<TrackableModel, ITrackableViewModel>>();
+			_rowViewModelFactoryMock.Setup(f => f.Create(It.IsAny<TrackableModel>())).Returns<TrackableModel>(m => new TrackableViewModel(m));
 
-			_tracker = new Tracker<ITrackableModel, ITrackableViewModel>(_rowViewModelFactoryMock.Object);
+			_tracker = new Tracker<TrackableModel, ITrackableViewModel>(_rowViewModelFactoryMock.Object);
 
-			var models = new Collection<ITrackableModel>
+			var models = new Collection<TrackableModel>
 			{
 				new TrackableModel("test1", 1),
 				new TrackableModel("test2", 2),
@@ -188,19 +188,19 @@ namespace SolidFrame.DirtyTracking.Test
 	[TestFixture]
 	public class DescribeUnTracking
 	{
-		private ITracker<ITrackableModel, ITrackableViewModel> _tracker;
-		private Mock<IRowViewModelFactory<ITrackableModel, ITrackableViewModel>> _rowViewModelFactoryMock;
+		private ITracker<TrackableModel, ITrackableViewModel> _tracker;
+		private Mock<IRowViewModelFactory<TrackableModel, ITrackableViewModel>> _rowViewModelFactoryMock;
 		private IEnumerable<ITrackableViewModel> _rows;
 
 		[SetUp]
 		public void BeforeEach()
 		{
-			_rowViewModelFactoryMock = new Mock<IRowViewModelFactory<ITrackableModel, ITrackableViewModel>>();
-			_rowViewModelFactoryMock.Setup(f => f.Create(It.IsAny<ITrackableModel>())).Returns<ITrackableModel>(m => new TrackableViewModel(m));
+			_rowViewModelFactoryMock = new Mock<IRowViewModelFactory<TrackableModel, ITrackableViewModel>>();
+			_rowViewModelFactoryMock.Setup(f => f.Create(It.IsAny<TrackableModel>())).Returns<TrackableModel>(m => new TrackableViewModel(m));
 
-			_tracker = new Tracker<ITrackableModel, ITrackableViewModel>(_rowViewModelFactoryMock.Object);
+			_tracker = new Tracker<TrackableModel, ITrackableViewModel>(_rowViewModelFactoryMock.Object);
 
-			var models = new Collection<ITrackableModel>
+			var models = new Collection<TrackableModel>
 			{
 				new TrackableModel("test1", 1),
 				new TrackableModel("test2", 2),
@@ -223,4 +223,45 @@ namespace SolidFrame.DirtyTracking.Test
 			Assert.AreEqual(0, _tracker.GetDirtyModels().Count());
 		}
 	}
+
+
+	[TestFixture]
+	public class Describecleaning
+	{
+		private ITracker<TrackableModel, ITrackableViewModel> _tracker;
+		private Mock<IRowViewModelFactory<TrackableModel, ITrackableViewModel>> _rowViewModelFactoryMock;
+		private IEnumerable<ITrackableViewModel> _rows;
+
+		[SetUp]
+		public void BeforeEach()
+		{
+			_rowViewModelFactoryMock = new Mock<IRowViewModelFactory<TrackableModel, ITrackableViewModel>>();
+			_rowViewModelFactoryMock.Setup(f => f.Create(It.IsAny<TrackableModel>())).Returns<TrackableModel>(m => new TrackableViewModel(m));
+
+			_tracker = new Tracker<TrackableModel, ITrackableViewModel>(_rowViewModelFactoryMock.Object);
+
+			var models = new Collection<TrackableModel>
+			{
+				new TrackableModel("test1", 1),
+				new TrackableModel("test2", 2),
+				new TrackableModel("test3", 3),
+				new TrackableModel("test4", 4)
+			};
+
+			_rows = _tracker.ConvertAndTrack(models);
+		}
+
+		[Test]
+		public void It_syncs_the_models_with_the_current_row_properties()
+		{
+			var row = _rows.First();
+
+			_tracker.UnTrack(row);
+
+			row.Name = "Changed";
+
+			Assert.AreEqual(0, _tracker.GetDirtyModels().Count());
+		}
+	}
+
 }

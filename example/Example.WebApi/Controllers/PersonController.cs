@@ -21,7 +21,7 @@ namespace Example.WebApi.Controllers
 		}
 
 		[System.Web.Mvc.HttpPut]
-		public void Put(IEnumerable<IPersonModel> persons)
+		public void Put(IEnumerable<PersonModel> persons)
 		{
 			
 		}

@@ -3,14 +3,7 @@ using System;
 
 namespace Example.Models
 {
-	public interface IPersonModel : IHaveId
-	{
-		string FirstName { get; set; }
-		string LastName { get; set; }
-		int Number { get; set; }
-	}
-
-	public class PersonModel : IPersonModel
+	public class PersonModel : IHaveId
 	{
 		public string FirstName { get; set; }
 		public string LastName { get; set; }
