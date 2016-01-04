@@ -224,9 +224,8 @@ namespace SolidFrame.DirtyTracking.Test
 		}
 	}
 
-
 	[TestFixture]
-	public class Describecleaning
+	public class DescribeCleaning
 	{
 		private ITracker<TrackableModel, ITrackableViewModel> _tracker;
 		private Mock<IRowViewModelFactory<TrackableModel, ITrackableViewModel>> _rowViewModelFactoryMock;
@@ -252,16 +251,49 @@ namespace SolidFrame.DirtyTracking.Test
 		}
 
 		[Test]
-		public void It_syncs_the_models_with_the_current_row_properties()
+		public void It_is_no_longer_Dirty()
 		{
 			var row = _rows.First();
 
-			_tracker.UnTrack(row);
+			row.Name = "Changed";
+
+			Assert.IsTrue(_tracker.IsDirty);
+
+			_tracker.Clean();
+
+			Assert.IsFalse(_tracker.IsDirty);
+		}
+
+		[Test]
+		public void It_no_longer_returns_DirtyModels()
+		{
+			var row = _rows.First();
 
 			row.Name = "Changed";
 
+			Assert.IsTrue(_tracker.IsDirty);
+
+			_tracker.Clean();
+
 			Assert.AreEqual(0, _tracker.GetDirtyModels().Count());
 		}
+
+		[Test]
+		public void It_raises_IsDirtyChanged_event()
+		{
+			var row = _rows.First();
+
+			row.Name = "Changed";
+
+			var eventRaised = false;
+
+			_tracker.IsDirtyChanged += state => eventRaised = true;
+
+			_tracker.Clean();
+
+			Assert.IsTrue(eventRaised);
+		}
+
 	}
 
 }

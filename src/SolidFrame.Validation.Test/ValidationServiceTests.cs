@@ -71,7 +71,7 @@ namespace SolidFrame.Validation.Test
 
 			_validationService.AddAbsoluteRule(new Mock<IHaveId>().Object, stub => stub.NumberInt, Condition.MustBeGreaterThan, 0, Severity.Error, "Test");
 
-			validateMock.Raise(v => v.RowValidationTrigger += null, new ValidatableStub(), "NumberInt");
+			validateMock.Raise(v => v.ValidationTrigger += null, new ValidatableStub(), "NumberInt");
 			
 			_validationRuleMock.VerifyGet(r => r.Properties);
 		}
@@ -245,7 +245,7 @@ namespace SolidFrame.Validation.Test
 		[Test]
 		public void It_does_not_evaluate_rule_if_trigger_is_not_relevant_based_on_property_name()
 		{
-			_validateMock.Raise(v => v.RowValidationTrigger += null, new ValidatableStub(), "WhollyDifferentProperty");
+			_validateMock.Raise(v => v.ValidationTrigger += null, new ValidatableStub(), "WhollyDifferentProperty");
 
 			_validationRuleMock.Verify(r => r.Evaluate(It.IsAny<ValidatableStub>()), Times.Never);
 		}
@@ -255,7 +255,7 @@ namespace SolidFrame.Validation.Test
 		{
 			const string validationName = "Stub";
 			var stub = new ValidatableStub(validationName);
-			_validateMock.Raise(v => v.RowValidationTrigger += null, stub, "NumberInt");
+			_validateMock.Raise(v => v.ValidationTrigger += null, stub, "NumberInt");
 
 			// Test that AddNotification is called with right args
 			_notificationServiceMock.Verify(s => s.AddNotification(_validationRuleId, stub.Id, validationName, _validationRuleMessage));
@@ -268,7 +268,7 @@ namespace SolidFrame.Validation.Test
 
 			var stub = new ValidatableStub();
 
-			_validateMock.Raise(v => v.RowValidationTrigger += null, stub, "NumberInt");
+			_validateMock.Raise(v => v.ValidationTrigger += null, stub, "NumberInt");
 
 			_notificationServiceMock.Verify(s => s.TryRemoveNotification(_validationRuleId, stub.Id));
 		}
@@ -280,13 +280,13 @@ namespace SolidFrame.Validation.Test
 
 			const string validationName = "Stub";
 			var stub = new ValidatableStub(validationName);
-			_validateMock.Raise(v => v.RowValidationTrigger += null, stub, "NumberInt");
+			_validateMock.Raise(v => v.ValidationTrigger += null, stub, "NumberInt");
 
 			Assert.IsTrue(_validationService.HasErrors);
 
 			_validationRuleMock.Setup(r => r.Evaluate(It.IsAny<ValidatableStub>())).Returns(true);
 
-			_validateMock.Raise(v => v.RowValidationTrigger += null, stub, "NumberInt");
+			_validateMock.Raise(v => v.ValidationTrigger += null, stub, "NumberInt");
 
 			Assert.IsFalse(_validationService.HasErrors);
 		}
@@ -300,7 +300,7 @@ namespace SolidFrame.Validation.Test
 
 			const string validationName = "Stub";
 			var stub = new ValidatableStub(validationName);
-			_validateMock.Raise(v => v.RowValidationTrigger += null, stub, "NumberInt");
+			_validateMock.Raise(v => v.ValidationTrigger += null, stub, "NumberInt");
 
 			Assert.IsTrue(eventRaised);
 		}
@@ -316,7 +316,7 @@ namespace SolidFrame.Validation.Test
 
 			const string validationName = "Stub";
 			var stub = new ValidatableStub(validationName);
-			_validateMock.Raise(v => v.RowValidationTrigger += null, stub, "NumberInt");
+			_validateMock.Raise(v => v.ValidationTrigger += null, stub, "NumberInt");
 
 			Assert.IsFalse(eventRaised);
 		}
@@ -330,12 +330,12 @@ namespace SolidFrame.Validation.Test
 
 			const string validationName = "Stub";
 			var stub1 = new ValidatableStub(validationName);
-			_validateMock.Raise(v => v.RowValidationTrigger += null, stub1, "NumberInt");
+			_validateMock.Raise(v => v.ValidationTrigger += null, stub1, "NumberInt");
 
 			eventRaised = false;
 
 			var stub2 = new ValidatableStub(validationName);
-			_validateMock.Raise(v => v.RowValidationTrigger += null, stub2, "NumberInt");
+			_validateMock.Raise(v => v.ValidationTrigger += null, stub2, "NumberInt");
 
 			Assert.IsFalse(eventRaised);
 		}
@@ -349,16 +349,16 @@ namespace SolidFrame.Validation.Test
 
 			const string validationName = "Stub";
 			var stub1 = new ValidatableStub(validationName);
-			_validateMock.Raise(v => v.RowValidationTrigger += null, stub1, "NumberInt");
+			_validateMock.Raise(v => v.ValidationTrigger += null, stub1, "NumberInt");
 
 			var stub2 = new ValidatableStub(validationName);
-			_validateMock.Raise(v => v.RowValidationTrigger += null, stub2, "NumberInt");
+			_validateMock.Raise(v => v.ValidationTrigger += null, stub2, "NumberInt");
 
 			eventRaised = false;
 
 			_validationRuleMock.Setup(r => r.Evaluate(It.IsAny<ValidatableStub>())).Returns(true);
 
-			_validateMock.Raise(v => v.RowValidationTrigger += null, stub1, "NumberInt");
+			_validateMock.Raise(v => v.ValidationTrigger += null, stub1, "NumberInt");
 
 			Assert.IsFalse(eventRaised);
 		}
@@ -372,18 +372,18 @@ namespace SolidFrame.Validation.Test
 
 			const string validationName = "Stub";
 			var stub1 = new ValidatableStub(validationName);
-			_validateMock.Raise(v => v.RowValidationTrigger += null, stub1, "NumberInt");
+			_validateMock.Raise(v => v.ValidationTrigger += null, stub1, "NumberInt");
 
 			var stub2 = new ValidatableStub(validationName);
-			_validateMock.Raise(v => v.RowValidationTrigger += null, stub2, "NumberInt");
+			_validateMock.Raise(v => v.ValidationTrigger += null, stub2, "NumberInt");
 
 			_validationRuleMock.Setup(r => r.Evaluate(It.IsAny<ValidatableStub>())).Returns(true);
 
-			_validateMock.Raise(v => v.RowValidationTrigger += null, stub1, "NumberInt");
+			_validateMock.Raise(v => v.ValidationTrigger += null, stub1, "NumberInt");
 
 			eventRaised = false;
 
-			_validateMock.Raise(v => v.RowValidationTrigger += null, stub2, "NumberInt");
+			_validateMock.Raise(v => v.ValidationTrigger += null, stub2, "NumberInt");
 
 			Assert.IsTrue(eventRaised);
 		}

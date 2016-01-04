@@ -15,10 +15,11 @@ using System.ComponentModel;
 
 namespace Example.WPF.Person.UI
 {
-	// TODO: Ribbon Save button
-	// TODO: DirtyTracking.Clean()
-	// TODO: Resource Error Handling
+	// TODO: Ribbon Save button Tests
+	// TODO: DataSource.GetModelsToSave() instead of GetDirtyModels();
 	// TODO: IsBusy indicator
+	// TODO: Resource Error Handling
+	// TODO: Dialog service for alerts and such
 
 	public interface IPersonListViewModel : IListViewModel, IAdd, ISave, ITranslate, IValidate<IPersonRowViewModel>
 	{
@@ -106,8 +107,8 @@ namespace Example.WPF.Person.UI
 
 			row.PropertyChanged += OnRowPropertyChanged;
 
-			if(RowValidationTrigger != null)
-				RowValidationTrigger(row, null);
+			if (ValidationTrigger != null)
+				ValidationTrigger(row, null);
 		}
 
 		private void OnCanAddChanged()
@@ -142,16 +143,16 @@ namespace Example.WPF.Person.UI
 
 		private void OnRowPropertyChanged(object sender, PropertyChangedEventArgs args)
 		{
-			if (RowValidationTrigger == null) return;
+			if (ValidationTrigger == null) return;
 
 			var row = sender as IPersonRowViewModel;
 
 			if (row == null) return;
 
-			RowValidationTrigger(row, args.PropertyName);
+			ValidationTrigger(row, args.PropertyName);
 		}
 
-		public event ValidationTriggerHandler<IPersonRowViewModel> RowValidationTrigger;
+		public event ValidationTriggerHandler<IPersonRowViewModel> ValidationTrigger;
 
 		public IDictionary<string, string> Translations { get; set; }
 	}

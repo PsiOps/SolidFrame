@@ -59,7 +59,10 @@ namespace SolidFrame.DirtyTracking.Test.Stubs
 
 		public TrackableModel ToModel()
 		{
-			return new TrackableModel(Name, Number);
+			return new TrackableModel(Name, Number)
+			{
+				Id = Id
+			};
 		}
 	}
 }

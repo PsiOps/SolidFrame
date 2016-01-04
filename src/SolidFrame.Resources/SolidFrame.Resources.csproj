@@ -74,6 +74,11 @@
     <Compile Include="Helpers\PropertyInfoHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Regions.cs" />
+    <Compile Include="Translation\SolidFrameTranslationKeys.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SolidFrameTranslationKeys.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -83,6 +88,12 @@
       <Project>{83691013-5614-41EE-9039-45B54B3B57D2}</Project>
       <Name>SolidFrame.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Translation\SolidFrameTranslationKeys.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SolidFrameTranslationKeys.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

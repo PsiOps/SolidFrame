@@ -64,7 +64,14 @@ namespace SolidFrame.DirtyTracking.Logics
 
 		public void Clean()
 		{
-			throw new NotImplementedException();
+			foreach (var dirtyRow in _dirtyRowsDictionary.Values)
+			{
+				_originalDictionary[dirtyRow.Id] = dirtyRow.ToModel();
+			}
+
+			_dirtyRowsDictionary.Clear();
+
+			OnIsDirtyChanged();
 		}
 
 		public bool IsDirty { get { return _dirtyRowsDictionary.Keys.Any(); } }

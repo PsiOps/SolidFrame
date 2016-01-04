@@ -2,8 +2,8 @@
 
 namespace SolidFrame.Core.Interfaces.Validation
 {
-	public interface IValidate<T> where T : IValidatable
+	public interface IValidate<out T> where T : IValidatable
 	{
-		event ValidationTriggerHandler<T> RowValidationTrigger; 
+		event ValidationTriggerHandler<T> ValidationTrigger; 
 	}
 }

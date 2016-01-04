@@ -25,7 +25,7 @@ namespace SolidFrame.Validation.Logics
 
 		public void Register(IValidate<TValidatable> validate)
 		{
-			validate.RowValidationTrigger += EvaluateRules;
+			validate.ValidationTrigger += EvaluateRules;
 		}
 
 		private void EvaluateRules(TValidatable validatable, string propertyName)

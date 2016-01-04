@@ -17,14 +17,14 @@ namespace SolidFrame.Ribbon.Logics
 
 		private void GetButtons(IRibbonControlFactory ribbonControlFactory)
 		{
-			AddButton = ribbonControlFactory.CreateRibbonButton("Add");
-			SaveButton = ribbonControlFactory.CreateRibbonButton("Save");
+			AddButton = ribbonControlFactory.CreateRibbonButton("TK_Add");
+			SaveButton = ribbonControlFactory.CreateRibbonButton("TK_Save");
 		}
 
 		private void AddControlsToRibbon(ICrudGroupControllerDependencies dependencies)
 		{
-			var crudTab = dependencies.RibbonTabFactory.Create("Crud");
-			var crudGroup = dependencies.RibbonControlFactory.CreateRibbonControlGroup("Crud");
+			var crudTab = dependencies.RibbonTabFactory.Create("TK_Crud");
+			var crudGroup = dependencies.RibbonControlFactory.CreateRibbonControlGroup("TK_Crud");
 
 			crudGroup.Add(AddButton);
 			crudGroup.Add(SaveButton);

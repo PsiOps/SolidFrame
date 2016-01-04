@@ -1,5 +1,5 @@
-﻿using System;
-using SolidFrame.Core.Interfaces.General;
+﻿using SolidFrame.Core.Interfaces.General;
+using System;
 
 namespace SolidFrame.DirtyTracking.Test.Stubs
 {
@@ -12,7 +12,7 @@ namespace SolidFrame.DirtyTracking.Test.Stubs
 			Number = number;
 		}
 
-		public Guid Id { get; private set; }
+		public Guid Id { get; set; }
 		public int Number { get; set; }
 		public string Name { get; set; }
 	}
