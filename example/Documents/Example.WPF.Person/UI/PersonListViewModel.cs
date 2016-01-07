@@ -15,7 +15,6 @@ using System.ComponentModel;
 
 namespace Example.WPF.Person.UI
 {
-	// TODO: Ribbon Save button Tests
 	// TODO: DataSource.GetModelsToSave() instead of GetDirtyModels();
 	// TODO: IsBusy indicator
 	// TODO: Resource Error Handling
