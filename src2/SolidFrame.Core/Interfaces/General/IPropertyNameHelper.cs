@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace SolidFrame.Resources.Helpers
+namespace SolidFrame.Core.Interfaces.General
 {
 	public interface IPropertyNameHelper
 	{

@@ -35,10 +35,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="ExplorerModule.cs" />
+    <Compile Include="Logics\ExplorerService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Types\ExplorerItem.cs" />
     <Compile Include="Types\ExplorerViewModelDependencies.cs" />
-    <Compile Include="UI\ExplorerItem.cs" />
-    <Compile Include="UI\ExplorerItemFactory.cs" />
+    <Compile Include="UI\ExplorerItemViewModel.cs" />
+    <Compile Include="Logics\ExplorerItemFactory.cs" />
     <Compile Include="UI\ExplorerViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

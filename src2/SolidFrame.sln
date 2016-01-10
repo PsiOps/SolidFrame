@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolidFrame.Client", "SolidF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolidFrame.Explorer", "SolidFrame.Explorer\SolidFrame.Explorer.csproj", "{3A60D2F4-366A-46D9-9D24-DD8EDAD3F372}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolidFrame.Explorer.Test", "SolidFrame.Explorer.Test\SolidFrame.Explorer.Test.csproj", "{7ED8D077-C733-4635-B49A-1067C4F33842}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{3A60D2F4-366A-46D9-9D24-DD8EDAD3F372}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A60D2F4-366A-46D9-9D24-DD8EDAD3F372}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A60D2F4-366A-46D9-9D24-DD8EDAD3F372}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7ED8D077-C733-4635-B49A-1067C4F33842}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7ED8D077-C733-4635-B49A-1067C4F33842}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7ED8D077-C733-4635-B49A-1067C4F33842}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7ED8D077-C733-4635-B49A-1067C4F33842}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

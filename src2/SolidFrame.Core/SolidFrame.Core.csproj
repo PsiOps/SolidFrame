@@ -48,6 +48,8 @@
     <Compile Include="Interfaces\DirtyTracking\ITrackerFactory.cs" />
     <Compile Include="Interfaces\Document\IDocumentCategoryCatalog.cs" />
     <Compile Include="Interfaces\Document\IDocumentConfiguration.cs" />
+    <Compile Include="Interfaces\Explorer\IExplorerItem.cs" />
+    <Compile Include="Interfaces\Explorer\IExplorerService.cs" />
     <Compile Include="Interfaces\General\IHaveId.cs" />
     <Compile Include="Interfaces\General\IListViewModel.cs" />
     <Compile Include="Interfaces\General\IPropertyNameHelper.cs" />

@@ -3,6 +3,7 @@ using SolidFrame.Core.Interfaces.Document;
 using SolidFrame.Explorer.Types;
 using SolidFrame.Explorer.UI;
 using System.Collections.Generic;
+using SolidFrame.Explorer.Logics;
 
 namespace SolidFrame.Explorer
 {
@@ -12,8 +13,8 @@ namespace SolidFrame.Explorer
 		{
 			container.RegisterType<IEnumerable<IDocumentConfiguration>, IDocumentConfiguration[]>();
 			container.RegisterType<IExplorerViewModel, ExplorerViewModel>(new ContainerControlledLifetimeManager());
-			container.RegisterType<IExplorerItemFactory, ExplorerItemFactory>();
-			container.RegisterType<IExplorerViewModelDependencies, ExplorerViewModelDependencies>();
+			container.RegisterType<IExplorerItemViewModelFactory, ExplorerItemViewModelFactory>();
+			container.RegisterType<IExplorerServiceDependencies, ExplorerServiceDependencies>();
 		}
 	}
 }

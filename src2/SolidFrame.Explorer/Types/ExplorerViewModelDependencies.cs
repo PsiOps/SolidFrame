@@ -1,34 +1,29 @@
-﻿using SolidFrame.Core.Interfaces.Document;
-using SolidFrame.Core.Interfaces.Translation;
+﻿using SolidFrame.Core.Interfaces.Translation;
+using SolidFrame.Explorer.Logics;
 using SolidFrame.Explorer.UI;
-using System.Collections.Generic;
 
 namespace SolidFrame.Explorer.Types
 {
-	public interface IExplorerViewModelDependencies
+	public interface IExplorerServiceDependencies
 	{
+		IExplorerViewModel ExplorerViewModel { get; }
 		ITranslationService TranslationService { get; }
-		IExplorerItemFactory ExplorerItemFactory { get; }
-		IDocumentCategoryCatalog DocumentCategoryCatalog { get; }
-		IEnumerable<IDocumentConfiguration> DocumentConfigurations { get; } 
+		IExplorerItemViewModelFactory ExplorerItemViewModelFactory { get; }
 	}
 
-	public class ExplorerViewModelDependencies : IExplorerViewModelDependencies
+	public class ExplorerServiceDependencies : IExplorerServiceDependencies
 	{
-		public ExplorerViewModelDependencies(ITranslationService translationService, 
-			IExplorerItemFactory explorerItemFactory, 
-			IDocumentCategoryCatalog documentCategoryCatalog, 
-			IEnumerable<IDocumentConfiguration> documentConfigurations)
+		public ExplorerServiceDependencies(ITranslationService translationService, 
+			IExplorerItemViewModelFactory explorerItemViewModelFactory, 
+			IExplorerViewModel explorerViewModel)
 		{
 			TranslationService = translationService;
-			ExplorerItemFactory = explorerItemFactory;
-			DocumentCategoryCatalog = documentCategoryCatalog;
-			DocumentConfigurations = documentConfigurations;
+			ExplorerItemViewModelFactory = explorerItemViewModelFactory;
+			ExplorerViewModel = explorerViewModel;
 		}
 
+		public IExplorerViewModel ExplorerViewModel { get; private set; }
 		public ITranslationService TranslationService { get; private set; }
-		public IExplorerItemFactory ExplorerItemFactory { get; private set; }
-		public IDocumentCategoryCatalog DocumentCategoryCatalog { get; private set; }
-		public IEnumerable<IDocumentConfiguration> DocumentConfigurations { get; private set; }
+		public IExplorerItemViewModelFactory ExplorerItemViewModelFactory { get; private set; }
 	}
 }
