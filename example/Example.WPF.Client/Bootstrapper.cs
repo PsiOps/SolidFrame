@@ -2,6 +2,12 @@
 using Microsoft.Practices.Unity;
 using Prism.Modularity;
 using Prism.Unity;
+using SolidFrame.Core.Interfaces.Explorer;
+using SolidFrame.DirtyTracking;
+using SolidFrame.Explorer;
+using SolidFrame.Notifications;
+using SolidFrame.Ribbon;
+using SolidFrame.Validation;
 using System.Windows;
 
 namespace Example.WPF.Client
@@ -20,6 +26,19 @@ namespace Example.WPF.Client
 				.AddClientModules();
 		}
 
+		protected override void ConfigureContainer()
+		{
+			base.ConfigureContainer();
+
+			Container.BootstrapDirtyTracking();
+			Container.BootstrapExplorer();
+			Container.BootstrapNotifications();
+			Container.BootstrapRibbon();
+			Container.BootstrapValidation();
+
+			Container.BootstrapClient();
+		}
+
 		protected override DependencyObject CreateShell()
 		{
 			return Container.Resolve<ShellView>();
@@ -28,8 +47,18 @@ namespace Example.WPF.Client
 		protected override void InitializeModules()
 		{
 			base.InitializeModules();
+
+			LoadExplorer();
+
 			Application.Current.MainWindow = (ShellView)Shell;
 			Application.Current.MainWindow.Show();
+		}
+
+		private void LoadExplorer()
+		{
+			var explorerItems = Container.Resolve<IExampleExplorerItems>();
+
+			Container.Resolve<IExplorerService>().AddExplorerItem(explorerItems.TopNode);
 		}
 	}
 }

@@ -7,7 +7,7 @@ namespace SolidFrame.Validation
 {
 	public static class ValidationModule
 	{
-		public static void RegisterValidationTypes(this IUnityContainer container)
+		public static void BootstrapValidation(this IUnityContainer container)
 		{
 			container.RegisterType(typeof(IValidationService<>), typeof(ValidationService<>));
 			container.RegisterType<IValidationServiceDependencies, ValidationServiceDependencies>();

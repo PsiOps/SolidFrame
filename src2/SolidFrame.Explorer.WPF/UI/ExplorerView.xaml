@@ -24,7 +24,7 @@
 		</HierarchicalDataTemplate>
 
 		<HierarchicalDataTemplate x:Key="ExplorerCategoryTemplate" 
-				ItemsSource="{Binding Items}"
+				ItemsSource="{Binding ChildItems}"
 				ItemTemplate="{StaticResource ExplorerItemTemplate}">
 			<telerik:RadTreeViewItem 
 				Command="{Binding ClickCommand}" 
@@ -48,7 +48,7 @@
 		</Border>
 		<telerik:RadTreeView
 			Grid.Row="1"
-			ItemsSource="{Binding ItemCategories}"
+			ItemsSource="{Binding ExplorerItemViewModels}"
 			ItemTemplate="{StaticResource ExplorerCategoryTemplate}"
 			Background="AliceBlue"
 			SelectedItem="{Binding SelectedItem, Mode=TwoWay}"

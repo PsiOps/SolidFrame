@@ -2,7 +2,6 @@
 using Example.WPF.Resources.Web.Configurations;
 using Microsoft.Practices.Unity;
 using Prism.Modularity;
-using SolidFrame.Core.Interfaces.Document;
 
 namespace Example.WPF.Resources
 {
@@ -17,7 +16,6 @@ namespace Example.WPF.Resources
 
 		public void Initialize()
 		{
-			_container.RegisterType<IDocumentCategoryCatalog, ExampleDocumentCategoryCatalog>();
 			_container.RegisterType<IPersonResourceConfiguration, PersonResourceConfiguration>();
 			_container.RegisterType<IPersonResource, PersonResource>();
 		}

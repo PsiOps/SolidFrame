@@ -8,7 +8,7 @@ namespace SolidFrame.Notifications
 {
 	public static class NotificationsModule
 	{
-		public static void RegisterNotificationTypes(this IUnityContainer container)
+		public static void BootstrapNotifications(this IUnityContainer container)
 		{
 			container.RegisterType<INotificationListViewModel, NotificationListViewModel>(new ContainerControlledLifetimeManager());
 			container.RegisterType<INotificationService, NotificationService>(new ContainerControlledLifetimeManager());

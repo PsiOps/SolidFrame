@@ -13,7 +13,7 @@ namespace SolidFrame.Explorer.Logics
 	{
 		public IExplorerItemViewModel Create(IExplorerItem explorerItem, IEnumerable<IExplorerItemViewModel> childItemViewModels)
 		{
-			throw new System.NotImplementedException();
+			return new ExplorerItemViewModel(explorerItem, childItemViewModels);
 		}
 	}
 }

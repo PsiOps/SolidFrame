@@ -65,25 +65,35 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="SolidFrame.Core">
-      <HintPath>..\..\src\SolidFrame.Core\bin\Debug\SolidFrame.Core.dll</HintPath>
+      <HintPath>..\..\src2\SolidFrame.Core\bin\Debug\SolidFrame.Core.dll</HintPath>
     </Reference>
     <Reference Include="SolidFrame.DirtyTracking">
-      <HintPath>..\..\src\SolidFrame.DirtyTracking\bin\Debug\SolidFrame.DirtyTracking.dll</HintPath>
+      <HintPath>..\..\src2\SolidFrame.DirtyTracking\bin\Debug\SolidFrame.DirtyTracking.dll</HintPath>
     </Reference>
     <Reference Include="SolidFrame.Explorer">
-      <HintPath>..\..\src\SolidFrame.Explorer\bin\Debug\SolidFrame.Explorer.dll</HintPath>
+      <HintPath>..\..\src2\SolidFrame.Explorer\bin\Debug\SolidFrame.Explorer.dll</HintPath>
+    </Reference>
+    <Reference Include="SolidFrame.Explorer.WPF">
+      <HintPath>..\..\src2\SolidFrame.Explorer.WPF\bin\Debug\SolidFrame.Explorer.WPF.dll</HintPath>
     </Reference>
     <Reference Include="SolidFrame.Notifications">
-      <HintPath>..\..\src\SolidFrame.Notifications\bin\Debug\SolidFrame.Notifications.dll</HintPath>
+      <HintPath>..\..\src2\SolidFrame.Notifications\bin\Debug\SolidFrame.Notifications.dll</HintPath>
     </Reference>
-    <Reference Include="SolidFrame.Resources">
-      <HintPath>..\..\src\SolidFrame.Resources\bin\Debug\SolidFrame.Resources.dll</HintPath>
+    <Reference Include="SolidFrame.Notifications.WPF">
+      <HintPath>..\..\src2\SolidFrame.Notifications.WPF\bin\Debug\SolidFrame.Notifications.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="SolidFrame.Resources, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\src2\SolidFrame.Validation\bin\Debug\SolidFrame.Resources.dll</HintPath>
     </Reference>
     <Reference Include="SolidFrame.Ribbon">
-      <HintPath>..\..\src\SolidFrame.Ribbon\bin\Debug\SolidFrame.Ribbon.dll</HintPath>
+      <HintPath>..\..\src2\SolidFrame.Ribbon\bin\Debug\SolidFrame.Ribbon.dll</HintPath>
+    </Reference>
+    <Reference Include="SolidFrame.Ribbon.WPF">
+      <HintPath>..\..\src2\SolidFrame.Ribbon.WPF\bin\Debug\SolidFrame.Ribbon.WPF.dll</HintPath>
     </Reference>
     <Reference Include="SolidFrame.Validation">
-      <HintPath>..\..\src\SolidFrame.Validation\bin\Debug\SolidFrame.Validation.dll</HintPath>
+      <HintPath>..\..\src2\SolidFrame.Validation\bin\Debug\SolidFrame.Validation.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -118,6 +128,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="ClientModule.cs" />
+    <Compile Include="ExampleExplorerItems.cs" />
     <Compile Include="Extensions\BootstrapperExtensions.cs" />
     <Compile Include="ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>

@@ -72,10 +72,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="SolidFrame.Client">
-      <HintPath>..\..\src\SolidFrame.Client\bin\Debug\SolidFrame.Client.dll</HintPath>
+      <HintPath>..\..\src2\SolidFrame.Client\bin\Debug\SolidFrame.Client.dll</HintPath>
     </Reference>
     <Reference Include="SolidFrame.Core">
-      <HintPath>..\..\src\SolidFrame.Explorer\bin\Debug\SolidFrame.Core.dll</HintPath>
+      <HintPath>..\..\src2\SolidFrame.Core\bin\Debug\SolidFrame.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -99,7 +99,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientResourcesModule.cs" />
-    <Compile Include="DocumentCategoryCatalog.cs" />
     <Compile Include="DocumentIdCatalog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

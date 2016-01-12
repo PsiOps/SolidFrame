@@ -14,6 +14,5 @@ namespace Example.WPF.Person.Types
 		public Guid Id { get {return DocumentIdCatalog.PersonDocumentId;} }
 		public string Name { get { return "Person"; } }
 		public Type ViewType { get { return typeof (PersonView); } }
-		public Guid CategoryId { get { return ExampleDocumentCategoryCatalog.CategoryOne.Id; } }
 	}
 }

@@ -7,6 +7,5 @@ namespace SolidFrame.Core.Interfaces.Document
 		Guid Id { get; }
 		string Name { get; }
 		Type ViewType { get; }
-		Guid CategoryId { get; }
 	}
 }

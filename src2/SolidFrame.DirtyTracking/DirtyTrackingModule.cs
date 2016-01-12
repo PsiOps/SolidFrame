@@ -6,7 +6,7 @@ namespace SolidFrame.DirtyTracking
 {
 	public static class DirtyTrackingModule
 	{
-		public static void RegisterDirtyTrackingTypes(this IUnityContainer container)
+		public static void BootstrapDirtyTracking(this IUnityContainer container)
 		{
 			container.RegisterType(typeof(ITrackedCollectionFactory<,>), typeof(TrackedCollectionFactory<,>));
 			container.RegisterType(typeof(ITrackerFactory<,>), typeof(TrackerFactory<,>));

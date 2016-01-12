@@ -2,12 +2,9 @@
 using Example.WPF.Resources;
 using Example.WPF.Translations;
 using Prism.Modularity;
-using SolidFrame.DirtyTracking;
-using SolidFrame.Explorer;
-using SolidFrame.Notifications;
-using SolidFrame.Resources;
-using SolidFrame.Ribbon;
-using SolidFrame.Validation;
+using SolidFrame.Explorer.WPF;
+using SolidFrame.Notifications.WPF;
+using SolidFrame.Ribbon.WPF;
 
 namespace Example.WPF.Client.Extensions
 {
@@ -16,12 +13,10 @@ namespace Example.WPF.Client.Extensions
 		public static ModuleCatalog AddFrameworkModules(this ModuleCatalog moduleCatalog)
 		{
 			return moduleCatalog
-				.AddModule(typeof(RibbonModule))
-				.AddModule(typeof(ExplorerModule), "ClientResourcesModule", "PersonModule")
-				.AddModule(typeof(ValidationModule), "CoreResourceModule")
-				.AddModule(typeof(CoreResourceModule))
-				.AddModule(typeof(NotificationsModule))
-				.AddModule(typeof(DirtyTrackingModule));
+				.AddModule(typeof (RibbonModule))
+				.AddModule(typeof (NotificationsModule))
+				.AddModule(typeof (ExplorerModule), dependsOn: "TranslationModule")
+				;
 		}
 
 		public static ModuleCatalog AddFrameworkExtensionModules(this ModuleCatalog moduleCatalog)

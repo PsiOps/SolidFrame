@@ -43,7 +43,7 @@
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="SolidFrame.Core">
-      <HintPath>..\..\src\SolidFrame.Client\bin\Debug\SolidFrame.Core.dll</HintPath>
+      <HintPath>..\..\src2\SolidFrame.Core\bin\Debug\SolidFrame.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

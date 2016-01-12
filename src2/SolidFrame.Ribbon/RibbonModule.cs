@@ -6,22 +6,15 @@ using SolidFrame.Ribbon.UI;
 
 namespace SolidFrame.Ribbon
 {
-	public class RibbonModule
+	public static class RibbonModule
 	{
-		private readonly IUnityContainer _container;
-
-		public RibbonModule(IUnityContainer container)
+		public static void BootstrapRibbon(this IUnityContainer container)
 		{
-			_container = container;
-		}
-
-		public void Initialize()
-		{
-			_container.RegisterType<IRibbonTabFactory, RibbonTabFactory>();
-			_container.RegisterType<IRibbonControlFactory, RibbonControlFactory>();
-			_container.RegisterType<ICrudGroupControllerDependencies, CrudGroupControllerDependencies>();
-			_container.RegisterType<ICrudGroupController, CrudGroupController>(new ContainerControlledLifetimeManager());
-			_container.RegisterType<IRibbonViewModel, RibbonViewModel>(new ContainerControlledLifetimeManager());
+			container.RegisterType<IRibbonTabFactory, RibbonTabFactory>();
+			container.RegisterType<IRibbonControlFactory, RibbonControlFactory>();
+			container.RegisterType<ICrudGroupControllerDependencies, CrudGroupControllerDependencies>();
+			container.RegisterType<ICrudGroupController, CrudGroupController>(new ContainerControlledLifetimeManager());
+			container.RegisterType<IRibbonViewModel, RibbonViewModel>(new ContainerControlledLifetimeManager());
 		}
 	}
 }
